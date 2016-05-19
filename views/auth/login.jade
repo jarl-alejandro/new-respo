@@ -1,0 +1,18 @@
+extends ../base
+block content
+  article.center-vertical
+    div(class="form-wrapper card")
+      h2.center-text Iniciar sesión
+      form(action="/login", method="POST")
+        div(class="form-group")
+          input(type="email", name="email", required placeholder="Ingresa tu email")
+
+        div(class="form-group")
+          input(type="password", name="password", required placeholder="Ingresa tu contraseña")
+        div(class="login")
+          input(type="submit" value="Iniciar sesión" class="register-btn")
+        if info && info != ""
+            p.info #{ info }
+        p.loginMessage-signup
+          small ¿Aún no estás registrado?
+            a(href="/signup") Abre tu cuenta aquí.

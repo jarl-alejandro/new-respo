@@ -1,0 +1,115 @@
+// toolbar
+
+.paper-shadow
+  box-shadow 0 2px 5px 0 rgba(0, 0, 0, 0.26)
+
+//header
+.header
+  height 4.5em
+  padding .5em
+  background cyan_oscuro
+  position fixed
+  top 0
+  width 100%
+  z-index 1
+
+.logo
+  width 60px
+  float left
+  border-right 2px solid color_amber
+  img
+    width 52px
+
+.titular
+  margin 10px 60px 0 70px !important
+
+.title
+  font-weight bolder
+  font-style italic
+  margin-right .3em
+
+.filtro
+  p
+    margin 5px 50px 0 70px
+    color white
+    font-size 14px
+    font-style italic
+    font-weight bold
+    text-decoration none
+
+.titulo
+  font-size 18px
+  font-weight normal
+  margin 0
+  padding 0
+
+.usuario
+  position absolute
+  right 20px
+  top 10px
+
+.avatar
+  margin 0 1.1em 0 0
+  position relative
+  z-index 2
+
+  img
+    width 60px
+    height 60px
+    border-radius 50%
+    position absolute
+    right 5px
+.nickname
+    margin 1.2em 6em 0 0
+    font-weight bolder
+    color white
+
+//menu
+.menu
+  position fixed
+  height 100%
+  background gris_oscuro
+  width 65px
+  top 3em
+  transition all ease .5s
+  box-shadow -1px 1px 1.5px rgba(0,0,0,0.9),0px 1px 8px rgba(0,0,0,0.9)
+
+.top-menu
+  margin-top 60px !important
+
+.list-menu
+  padding 0 .4em
+  list-style none
+  a
+    color white
+    text-decoration none
+
+.item-menu
+  margin-top 10px
+  position relative
+  &:hover
+    .title-menu
+      display inline-block
+      padding 3px 10px
+      background rgba(0, 0, 0, 0.68)
+      border-radius 2px
+      left 2.5em
+      position absolute
+      top .5em
+      z-index 1000000000
+      width 11em
+      height 2em
+      display flex
+      justify-content center
+      align-items center
+      font-size 2em
+      margin 0
+
+.title-menu
+  font-size 14px
+  display none
+  text-align center
+
+.icon-size
+  font-size 2.5em
+  margin-bottom 1em

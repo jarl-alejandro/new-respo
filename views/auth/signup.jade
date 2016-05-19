@@ -1,0 +1,23 @@
+extends ../base
+block content
+  article.wrapper
+    div(class="form-wrapper card")
+      h2.center-text Registrate
+      form(action="/signup", method="POST", enctype="multipart/form-data")
+        div(class="form-group")
+          input(type="text", name="name", required placeholder="Ingresa tu nombre")
+        div(class="form-group")
+          input(type="email", name="email", required placeholder="Ingresa tu email")
+        div(class="form-group")
+          input(type="password", id="passworduser" name="password", required placeholder="Ingresa tu contraseña")
+        div(class="form-group")
+          input(type="text", name="ubicacion", required placeholder="Ingresa tu ubicacion")
+        div(class="image-btn")
+          p(class="textoFile") Subir imagen
+          input(type="file" name="avatar" required)
+        div
+          input(type="submit" value="Registrate" class="register-btn" id="registerUser")
+          p.info.none.msg-register
+         p.loginMessage-signup
+          small ¿Ya estás registrado?
+            a(href="/login") Entra desde aquí.

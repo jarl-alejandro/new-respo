@@ -1,0 +1,66 @@
+    <form id="form1" runat="server">
+    <link rel="stylesheet" href="../dist/css/buscamina.css">
+        <div id="precontenedor" class="precontenedor">
+            <div id="contenedor" class="contenedor">
+                <div class="superiorjuego">
+                    <div class="superiorjuego_interno">                    
+                        <p id="facil">Facil</p>
+                    </div>
+                    <div class="superiorjuego_interno">                    
+                        <p id="medio">Medio</p>
+                    </div>
+                    <div class="superiorjuego_interno">
+                        <p id="dificil">Dificil</p>
+                    </div>                
+                </div>
+                
+                <div class="fondo">
+                    <div id="canvas"></div>              
+                    <div id="bordeinferior" class="bordeinferior">
+                        <div id="panelIzquierdo" class="panelizquierdo">
+                        <div id="reloj" class="reloj"></div>                   
+                        <label id="lblcontador" class="contador"></label>
+                        </div>
+                        <div id="panelDerecho" class="panelderecho">
+                            <label id="lblcontadorMinas" class="contador"></label>
+                            <div id="logomina" class="logomina"></div>
+                        </div>
+                    </div>
+                    <div id="textoInferior" class="textoinferior">
+                        <div class="texto">Tecla Z + click para poner</div>
+                        <div class="imagenbandera"></div>                
+                    </div>
+
+                    <div class="nuevojuego">
+                        <p id="newgame">Nuevo Juego</p>
+                    </div>
+                </div>               
+            </div>                                    
+        </div>      
+        
+        <div class="modal">
+            <div class="bordesuperior"></div>
+            <div class="bordeizquierdo"></div>
+            <div class="superior" id="superior"></div>
+            <input type="button" onclick="modalCerrar()" class="cerrarmodal" />            
+            <div class="bordederecho"></div>
+            <div class="contenido">                
+                <div id="modaltitulo" class="titulo"></div>
+                <div id="modaltiempo" class="texto"></div>
+                <div id="modalpuntaje" class="texto"></div>
+                <div id="modalnuevojuego" class="texto"></div>
+            </div>
+            <div class="bordeinferiormodal"></div>            
+        </div>
+        <div class="modaltransparencia"></div>
+
+        
+        <div>
+            <audio id="explosion" preload="load">
+               <source src="../dist/Sounds/explosionlarga.mp3"></source> 
+               <source src="../dist/Sounds/explosionlarga.wav"></source>
+            </audio>
+        </div>        
+        <div id="load" class="load"></div>        
+        <div id="texto"></div>
+    </form>

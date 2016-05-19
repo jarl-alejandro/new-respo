@@ -1,0 +1,71 @@
+extends ../base
+block content
+  div.menu
+    ul.list-menu
+      if user.type == "Colegio"
+          include ../templates/menu.jade
+      else
+          li(class="item-menu top-menu ")
+            a(href="/course/#{ course._id }")
+              div(class="icon-home icon-size")
+              span.title-menu Inicio
+          li(class="item-menu")
+            a(href="/signout")
+              div(class="icon-exit icon-size")
+              span.title-menu Cerrar sesión
+
+  section.LayoutCurso
+    section(class="bitacora-box-course")
+        div(id="aviso")
+        div(class="card bitacora-title")
+          h2.no-margin Bitacoras
+         each bitacora in bitacoras
+            if bitacora.publish == true
+                article(class="card bitacora")
+                  table(class="table")
+                    tr
+                      td Titulo de la clase:
+                      td #{ bitacora.nameClass }
+                    tr
+                      td Descripcion:
+                      td #{ bitacora.description }
+                    tr
+                      td Hora de inicio:
+                      td #{ bitacora.dateStart }
+                    tr
+                      td Hora finalizada:
+                      td #{ bitacora.dateEnd }
+                    tr
+                      td Profesor:
+                      td #{ bitacora.teacher.name }
+                    tr
+                      td Materia:
+                      td #{ bitacora.subject.subject }
+    section.AsideCurso
+        aside(class="card course-group")
+            h2(class="title-group") Grupo curso
+            ul
+              li 
+                span(class="icon-library cyan_oscuro")
+                span.padding-left #{ course.course.name } #{ course.parallel.name }
+              li 
+                span(class="icon-office cyan_oscuro")
+                span.padding-left #{ course.school.name }
+              li 
+                  span(class="icon-books cyan_oscuro")
+                  span.padding-left #{ materias }
+        aside(class="card course-group")
+            h2(class="title-group") Acciones
+            button(data-id="#{ course._id }" id="lista__estudinate-btn") Lista de Estudaintes
+            if user.type == "Student"
+                button(data-id="#{ user._id }" id="mis__notas-btn") Mis Notas
+    section(class="card", id="lista-estudiantes")
+        h2(class="no-margin center-text") Listado de Estudiantes del #{ course.course.name } #{ course.parallel.name }
+        article(class="ListadoEstudiantesLayout")
+        div.lista-estudiantes__actions
+            button(class="cerrar_listado") Cerrar
+    section(class="card", id="notas-paper")
+        h2(class="no-margin center-text") Mis Notas
+        article(class="BoletinLayout")
+        div.notas-paper__actions
+            button(class="cerrar-notas") Cerrar

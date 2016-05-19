@@ -1,0 +1,374 @@
+#card__leccion
+    background #FFFBEC
+    box-shadow 0px 1px 1.5px rgba(0, 0, 0, 0.5)
+    position absolute
+    top 1em
+    left 11%
+    width 40em
+    z-index 100000
+    display none
+
+#closeLeccion
+    float right
+    color #F0F0F0
+    background rojo_porque
+    box-shadow sombra
+    border 0
+    border-radius 2px
+    padding .2em 1em
+    &:hover
+        background rojo_porque_agua
+    i
+        font-size .8em
+        margin-right .4em
+    span
+        font-weight bold
+
+.ActionsSendLeccion
+    display flex
+    justify-content center
+    margin .5em 0
+
+#BotonEnviar-leccion
+    background rojo_porque
+    color #F0F0F0
+    font-weight bold
+    border 0
+    box-shadow sombra
+    border-radius 2px
+    padding .4em
+    transition all ease 1s
+    i
+        margin-right .4em
+    &:hover
+        background rojo_porque_agua
+.Leccion__title
+    color text-paper
+    text-align center
+    margin 0
+
+.actionsLeccionCard
+    display flex
+    justify-content flex-end
+    margin 0 1em 1em 0
+
+#crear__pregunta
+    position relative
+    background blue_gray
+    color #F0F0F0
+    box-shadow sombra
+    border 0
+    width 50px
+    height 50px
+    border-radius 50%
+    transition all ease 1s
+    span
+        display block
+        width 0em
+        overflow hidden
+        transition all ease 1s
+        position absolute
+        background #444444
+        font-weight bold
+        border-radius 2px
+        padding .5em 0em
+        top .6em
+        left 3.5em
+    &:hover
+        background rgba(54, 71, 79, 0.71)
+        .create__pregunta-name
+            width 10em
+
+#ListaEstudiantesLeccion
+    background #FAF8EF
+    box-shadow 0px 1px 1.5px  rgba(black, .3)
+    width 38em
+    position absolute
+    left 11.4em
+    display none
+    z-index 100000
+
+.ListaEstudiantesLeccionHeader
+    h3
+        text-align center
+        color #776E65
+.ListaEstudiantesLeccionBody-list
+    list-style none
+    li
+        figure
+            margin 0
+            display inline-block
+            vertical-align middle
+            padding 0 .5em
+        span
+                font-weight bold
+                font-size 1.2em
+                text-shadow 0px 1px 1.5px rgba(black, 0.5)
+                color #444
+
+#ShowLeccionDar
+  position absolute
+  bottom 3em
+  left 30em
+
+.LeccionPaper
+  background amarillo-paper
+  box-shadow 0px 1px 1.5px rgba(0,0,0,0.5)
+  position absolute
+  top 7em
+  left 5.5em
+  width 49em
+  display none
+.LeccionPaperHeader
+    padding 0px 0px 15px
+    h3
+        text-align center
+        color text-paper
+        font-size 1.7em
+        margin 5px 0px 18px
+        padding 0px 0px 5px
+    .LeccionPaperHeader-alumno
+        display flex
+        justify-content space-around
+.pregunta_leccion_text
+    color text-paper
+    font-weight bold
+.respuesta_leccion
+    width 95% !important
+    margin 0 11px
+.curso-parallel
+.name-last
+    color text-paper
+    font-weight bold
+
+.LeccionCalificar
+    background amarillo-paper
+    position absolute
+    z-index 100000
+    left 5em
+    display none
+
+.card__preguntas-create
+    width 23em
+    display none
+    box-shadow 0px 1px 1.5px rgba(0, 0, 0, 0.5)
+    position absolute
+    top 10em
+    left 18em
+    z-index 100000
+    background rgba(249, 247, 247, 0.99)
+    padding .8em
+    border-radius 2px
+.question__lecccion
+    border-bottom 1px solid #9E9E9E
+    margin-right 1em
+
+#add__leccion
+    background blue_gray
+    border 0
+    box-shadow sombra
+    color #F0F0F0
+    padding .4em
+    border-radius 2px
+    &:hover
+        background blue_gray_agua
+    i
+        font-size .8em
+        margin-right .4em
+    span
+        font-weight bold
+
+.leccion__completar
+.leccion__simple
+.leccion__compuesta
+.grupo__new-simples
+.grupo__new-compuestas
+    div
+        display flex
+        flex-wrap wrap
+        justify-content flex-end
+
+#LeccionPregunta-completar-add
+#LeccionPregunta-simple-add
+#LeccionBotonAdd-multiple
+#add__respuestas-simples
+#add__respuestas-compuestas
+    background blue_gray
+    color #F0F0F0
+    border 0
+    box-shadow sombra
+    border-radius 2px
+    margin-top 1em
+    padding .4em 1em
+    transition all ease 1s
+    span
+        font-weight bold
+    i
+        font-size .8em
+        margin-right .4em
+    &:hover
+        background blue_gray_agua
+
+.grupo__new-compuestas
+.grupo__new-simples
+    width 29em
+    position absolute
+    top 11em
+    left 15em
+    z-index 1000000
+    padding 1em
+    box-shadow sombra
+    border-radius 2px
+    background rgba(249, 247, 247, 0.99)
+.de_completar
+.seleccion__simple
+.Seleccion__multimple
+    font-weight bold
+    text-transform uppercase
+    font-size 1.1em
+    margin 1em 0 1em 1.4em
+    color text-paper
+    font-family initial
+
+.count__leccion
+.count_multiple
+    color text-paper
+    font-weight bold
+    margin 0 5px
+    &:after
+        content "."
+.lista_opciones
+.lista_opcion_multiple
+    margin 0 !important
+    list-style none
+.eliminar__completo
+.eliminar__simple
+.eliminar__opcion-simple
+.eliminar_multiple
+.eliminar_multiple_opcion
+    color text-paper
+    cursor pointer
+    position relative
+    transition all ease 1s
+    &:hover
+        span
+            width 6em
+    span
+        width 0em
+        overflow hidden
+        text-align center
+        color #F0F0F0
+        background #444444
+        font-weight bold
+        border-radius 2px
+        box-shadow sombra
+        padding .3em 0
+        position absolute
+        top -6px
+        left 1.5em
+        z-index 1000
+        transition all ease 1s
+
+.add_option_simple
+.add_option_multiple
+    color text-paper
+    background transparent
+    border 0
+    cursor pointer
+    position relative
+    transition all ease 1s
+    &:hover
+        .agregar__simple-span
+        .add_multiple_opt
+            width 6em
+    .agregar__simple-span
+    .add_multiple_opt
+        width 0em
+        overflow hidden
+        text-align center
+        color #F0F0F0
+        background #444444
+        font-weight bold
+        border-radius 2px
+        box-shadow sombra
+        padding .3em 0
+        position absolute
+        top -6px
+        left 1.5em
+        transition all ease 1s
+
+// Inputs
+.input__leccion
+  position relative
+  width 72%
+  background 0 0
+  padding 7px 0 10px
+  font-size 15px
+  line-height 1.4
+  font-weight 500
+  border 1px solid rgba(0, 0, 0, 0.08)
+  border-width 0 0 1px
+  box-shadow none
+  z-index 1
+  transition all ease .3s !important
+
+.input__leccion
+  &:focus
+    outline 0
+    border-bottom 2px solid rojo_porque
+    transition all ease .3s
+    line-height 0
+    font-weight 300
+    font-size 12px
+    line-height 24px
+    margin 0
+
+.input__leccion::after
+  content ""
+  position absolute
+  width 0
+  height 2px
+  bottom 0
+  left 50%
+  z-index 1000
+  background rgba(black, 0.08)
+  transition all .3s ease
+
+// Checks radio buttons customs
+.form-checks
+    p
+        margin-left 1em
+    input[type="radio"]
+    input[type="checkbox"]
+        display none
+        &:checked + label
+            padding 5px 15px
+            background rojo_porque
+            border-radius 2px
+            color #fff
+            &:before
+                display none
+    input[type="checkbox"] + label
+        &:before
+            border-radius 3px
+    label
+        color #0074D9
+        cursor pointer
+        display inline-block
+        position relative
+        padding 5px 15px 11px 51px
+        font-size 1em
+        border-radius 5px
+        transition all ease .3s
+        &:hover
+            background rgba(0, 116, 217, 0.1)
+        &:before
+            content ""
+            display inline-block
+            width 17px
+            height 17px
+            border-radius 50%
+            background none
+            border 3px solid #0074D9
+            position absolute
+            left 15%

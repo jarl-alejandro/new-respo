@@ -1,0 +1,15 @@
+extends ../base
+block content
+    div.menu
+        include ../templates/menu.jade
+    section.body
+        article(class="center-container")
+          div(class="form-wrapper card")
+            h2(class="text-center") Editar nueva curso
+            form(action="/curso/#{  curso._id }/editar/", method="POST")
+              div(class="form-group")
+                input(type="text" name="name", placeholder="Editar curso", required, maxlength="140", value="#{ curso.name }")
+              if info && info != ""
+                  p.info #{ info }
+              div(class="login")
+                input(type="submit" value="Guardar curso" class="register-btn")

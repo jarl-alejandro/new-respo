@@ -1,0 +1,99 @@
+@charset "utf-8";
+/* CSS Document */
+body{	
+	width:100%;
+	height:100%;
+	margin:0px;
+	padding:0px;
+	background-color:#464646;
+}
+.alinearHorizontal{
+	vertical-align:top;
+	display:inline-block;
+}
+.centrarDiv{
+	margin:0px auto;
+}
+.centrarTexto{
+	text-align:center;
+}
+.cursorPointer{
+	cursor:pointer;
+}
+.borderRadius-5{
+	border-radius:5px;
+}
+.borderBox{
+	box-sizing:border-box;
+}
+.letraNegrita{
+	font-weight:bold;
+}
+.contenedorImagen{
+	width:30%;
+	height:300px;
+	margin-left:20%;
+	margin-top:7%;
+	min-width:200px;
+}
+.contenedorImagen img{
+	width:100%;
+	height:100%;
+}
+.contenedorPalabra{
+	width:30%;
+	height:300px;
+	background-color:white;
+	margin-top:7%;
+	min-width:200px;
+}
+.palabraSecreta{
+	width:80%;
+	height:50px;
+	margin-top:7%;
+}
+.letra{
+	width:30px;
+	height:25px;
+	font-size:16pt;
+}
+.botonJugar{
+	margin-top:2%;
+	width:135px;
+	height:35px;
+	padding:2%;
+	background-color:#47C762;
+}
+.contenedorNoIntentos{
+	width:100%;
+	margin-top:5%;
+}
+.tituloNoIntentos,.noIntentos{
+	font-weight:bold;
+	font-size:14pt;
+}
+.noIntentos{
+	font-size:20pt;
+	width:50px;
+	height:45px;
+	border:solid 1px black;
+	padding-top:1%;
+	border-radius:50px;
+	background-color:#2A4FB1;
+	color:white;
+}
+.contenedorLetras{
+	width:80%;
+	height:193px;
+	margin-top:3%;
+  background: #444444;
+  padding: .5em;
+}
+.botonLetra{
+	width:50px;
+	height:45px;
+	background-color:white;
+	margin-left:3%;
+	margin-bottom:3%;
+	padding-top:1.5%;
+}

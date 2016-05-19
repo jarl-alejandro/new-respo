@@ -1,0 +1,193 @@
+extends ../base
+block content
+  div.menu
+    if user.type == "Teacher"
+      ul.list-menu
+        li(class="item-menu top-menu ")
+          a(href="/teacher")
+            div(class="icon-home icon-size")
+            span.title-menu Inicio
+
+        li(class="item-menu")
+          a(href="/create/class")
+            div(class="icon-pen icon-size")
+            span.title-menu nueva clase
+
+        li(class="item-menu")
+          a(href="/signout")
+            div(class="icon-exit icon-size")
+            span.title-menu Cerrar sesión
+    else
+      ul(class="list-menu" style="margin-top:5em")
+        li(class="item-menu")
+          a(href="/signout")
+            div(class="icon-exit icon-size")
+            span.title-menu Cerrar sesión
+  div(class="card title-lesson")
+    h2 Clase de #{ lessons.nameClass }
+    input(type="hidden" value="#{ lessons.subject._id }" id="materia")
+    input(type="hidden" value="#{ lessons.teacher._id }" id="profesor")    
+  section#webrtc
+    video(id="remoteView", controls, autoplay)
+    video(id="selfView",  controls, muted, autoplay)
+    
+  section(class="contentClass")
+      section
+        article.card-play
+          h3.title-play
+          div.cronometro
+            span(id="minutos") 0
+            span :
+            span(id="segundos") 0
+          div.botonTAI
+            button#aic Grabar
+            button#agc Grabar
+          div.wrap-juego
+        article#card__leccion
+            button(id="closeLeccion")
+              i.icon-cross
+              span Cerrar
+            h2.Leccion__title Lección de #{ lessons.nameClass }
+            div.ActionsSendLeccion
+                button(id="BotonEnviar-leccion")
+                    i.icon-rocket
+                    span Enviar Lección
+            div(class="container__pregunta-leccion")
+            div.actionsLeccionCard
+                button#crear__pregunta
+                    i.icon-pencil
+                    span.create__pregunta-name Nueva Pregunta
+        article#aic_listado
+          button(id="close_note")
+            i.icon-cross
+            span Cerrar
+          h3.list_type AIC
+          ul(class="estud_califi")
+            li.no-width Nombre
+            li(class="no-width" style="margin-left:4em") Tiempo
+            li(class="no-width" style="margin-right:3em") Nota
+          div#content-listas
+         article#deber_listado
+          button#cerrar-deber 
+            i.icon-cross
+            span Cerrar
+          h3 TAI
+          ul(class="estud_califi")
+            li Nombre
+            li Imagen
+            li Nota
+          div#listado_est_tai
+        input(type="hidden" value="#{ lessons.course._id }" id="curso")
+        input(type="hidden" value="#{ lessons._id }" id="clase_id")
+        button#startClass Empezar Clase
+        if user.type == "Teacher"
+          div(class="btn-end")
+            a(href="/post/class/#{ lessons._id }") Terminar la clase
+          button.Opciones Opciones
+        else
+          article.estudiantes-vdchat
+            img(id="play")
+      section(class="chat" id="chat")
+  section(class="card__preguntas-create")
+    article(class="type_question-container")
+      select(class="question__lecccion")
+        option(value="") Seleciona el tipo de pregunta..
+        option(value="1") Completar
+        option(value="2") De Seleccion Simple
+        option(value="3") De Seleccion Multiple
+      button(id="add__leccion") 
+        i.icon-plus
+        span Aceptar
+    article(class="leccion__completar" style="display:none")
+      div(class="form-group")
+        input(type="text"  id="pregunta__completar" placeholder="Ingresa la pregunta")
+        button(id="LeccionPregunta-completar-add") 
+            i.icon-plus
+            span Agregar
+    article(class="leccion__simple" style="display:none")
+      div(class="form-group")
+        input(type="text" id="pregunta__simple" placeholder="Ingresa tu pregunta")
+        button(id="LeccionPregunta-simple-add")
+            i.icon-plus
+            span Agregar
+    article(class="leccion__compuesta" style="display:none")
+      div(class="form-group")
+        input(type="text" id="pregunta__compuesta" placeholder="Ingresa tu pregunta")
+        button(id="LeccionBotonAdd-multiple")
+            i.icon-plus
+            span Agregar
+      ul(id="lista__respuestas-compuesta")
+      
+  div(class="grupo__new-simples" style="display:none;")
+    div(class="form-group")
+        input(type="text" id="posibles_respues" placeholder="Ingresa las posibles respuestas")
+        button(id="add__respuestas-simples")
+            i.icon-plus
+            span Agregar
+  div(class="grupo__new-compuestas" style="display:none;")
+    div(class="form-group")
+        input(type="text" id="posibles__respuesta-compuesta" placeholder="Ingresa las posibles respuestas")
+        button(id="add__respuestas-compuestas")
+            i.icon-plus
+            span Agregar
+  section.LeccionPaper
+    header.LeccionPaperHeader
+      h3 Lección #{ lessons.nameClass }
+      div.LeccionPaperHeader-alumno
+        div
+            input(type="hidden"  id="leccion_id")
+            input(type="hidden" value="#{ user._id }" id="estudiante_id")
+            label.name-last Nombre y Apellido
+            input(type="text" value="#{ user.name }" class="input__leccion")
+        div
+            label.curso-parallel Curso y Paralelo
+            input(type="text" value="#{ lessons.course.course } #{ lessons.course.parallel }" class="input__leccion")
+    article.LeccionPapperBody
+    button#TerminarLeccionBoton Terminar Leccion
+  section#ListaEstudiantesLeccion
+    header.ListaEstudiantesLeccionHeader
+        h3 Lecciones de la clase #{ lessons.nameClass }
+    article.ListaEstudiantesLeccionBody
+        ul.ListaEstudiantesLeccionBody-list
+  section.LeccionCalificar
+    header.LeccionCalificarHeader
+        label Nombre
+        input(type="text" id="LeccionCalificarHeader-alumno")
+        label Nota
+        input(type="text" id="LeccionCalificarHeader-nota")
+    article.LeccionCalificarBody
+    div.actions
+        button(id="action-calificar" data-id="") Calificar
+        button#action-cerrar Cerrar
+  article.card--opciones
+    header.HeaderOpciones
+        ul.HeaderOpciones-menu
+            li(class="HeaderOpciones-menu__item" id="OpcionesActividades") Actividades
+            li(class="HeaderOpciones-menu__item" id="OpcionesDeberes") Deberes
+            li(class="HeaderOpciones-menu__item" id="OpcionesLecciones") Lecciones
+    article.BodyOpciones
+        div(class="ActividadesOpcion active-opcion")
+            div(class="ahorcado")
+              p ahorcado
+            div(class="tretis")
+              p tretis
+            div(class="pizarra")
+              p pizarra
+            div(class="buscamina")
+              p buscamina
+        div.DeberesOpcion
+            div(class="calificar-aic") 
+              p AIC
+            div(class="tai-cal") 
+              p SUBIR TAI
+            div(class="tai-ver") 
+              p TAI
+            div(class="agc-ver")
+              p AGC
+        div.LeccionesOpcion
+            div(class="new-leccion")
+              p Crear leccion
+            div(class="see_leccion")
+              p Ver leccion
+    div.Opciones-actions
+        button(class="cerrar-opciones") Cerrar

@@ -1,0 +1,29 @@
+extends ../base
+block content
+  div.menu
+      include ../templates/menu.jade
+    
+  section.body
+    article(class="")
+      div(class="form-wrapper card")
+        h2(class="text-center" style="border-bottom:1px solid; margin-top:2em") Agregar curso
+        form(action="/save/course", method="POST")
+          div(class="form-group caja")
+            select(name="course", required)
+                each curso in cursos
+                    option(value="#{ curso._id }") #{ curso.name }
+          div(class="form-group caja")
+            select(name="parallel", required)
+                each paralelo in paralelos
+                    option(value="#{  paralelo._id }") #{ paralelo.name }
+          if info_curso && info_curso != ""
+            p.info #{ info_curso }
+          div()
+            each subject in subjects
+              label(for="#{ subject.subject }") #{ subject.subject }
+              input(type="checkbox" name="subjects" value="#{ subject.subject }" id="#{ subject.subject }")
+              br
+          if info_materias && info_materias != ""
+            p.info #{ info_materias }
+          div(class="margin-top")
+            input(type="submit" value="Agregar curso" class="register-btn")

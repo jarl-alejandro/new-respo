@@ -1,0 +1,25 @@
+extends ../base
+block content
+  div.menu
+    include ../templates/menu.jade
+
+  section(class="body" style="height: 100% !important;")
+    article(class="")
+      div(class="form-wrapper card")
+        h2(class="text-center") Editar profesor
+        form(action="/profesor/editar/#{ profesor._id }", method="POST", enctype="multipart/form-data")
+          div(class="form-group")
+            input(type="text" name="name", placeholder="Ingresar el nombre", required value="#{ profesor.name }")
+          div(class="form-group")
+            input(type="email", name="email", placeholder="Ingresa el email", required, value="#{ profesor.email }")
+            if info_email && info_email != ""
+                p.info #{ info_email }
+          div()
+            each subject in subjects
+              label(for="#{ subject.subject }") #{ subject.subject }
+              input(type="checkbox" name="subjects" value="#{ subject.subject }" id="#{ subject.subject }")
+              br
+          if info_materias && info_materias != ""
+            p.info #{ info_materias }
+          div(class="margin-top")
+            input(type="submit" value="Guardar profesor" class="register-btn botonValidate")

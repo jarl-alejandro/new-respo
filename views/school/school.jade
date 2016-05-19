@@ -1,0 +1,63 @@
+extends ../base
+block content
+  div.menu
+    include ../templates/menu.jade
+
+  section(class="body" style="margin-left: 17%;margin-top: 7em;height: 0")
+    article(class="card totalStudent" style="z-index: -1")
+      h2 Total de estudiantes de #{ user.name }: #{ students }
+
+    article(class="box layout-sub-mat")
+      article(class="card subjects")
+        h2(class="title-subjects") 
+            span Materias
+            button(id="MateriaBtn" onclick="materia_reporte()") Imprimier
+        ul(style="padding:0")
+          each subject in subjects
+            li(class="list-materias", id="#{ subject._id }")
+              span(class="icon-books")
+              p #{ subject.subject }
+              a(href="/materia/editar/#{ subject._id }" class="edit-materia") Editar
+              button(data-id="#{ subject._id }" class="eliminar-subject delete-materia") Eliminar
+
+      article(class="card courses")
+        h2(class="title-course") Cursos
+        ul(style="padding:0")
+          each course in courses
+            li(class="list-materias" id="#{ course._id }")
+              span(class="icon-library")
+              p #{ course.course.name } #{ course.parallel.name }
+              a(href="/course/#{ course._id }" class="btn-ir") Ir
+              a(href="/curso/editar/#{ course._id }" class="editar edit-materia") Editar
+              button(data-id="#{ course._id }" class="eliminar-curso delete-materia") Eliminar
+
+    article(class="card teacher" style="z-index: -1;padding-bottom: .5em;")
+      h2(class="title-teacher") Profesores
+      ul
+        each teacher in teachers
+          li(class="list-materias" id="#{ teacher._id }")
+            figure(class="avatarTeacher" style="margin:0")
+              img(src="#{ teacher.avatar }", alt="#{ teacher.name }")
+            p #{ teacher.name }
+            a(href="/profesor/editar/#{ teacher._id }" class="editar edit-materia") Editar
+            button(data-id="#{ teacher._id }" class="eliminar-profesor delete-materia") Eliminar
+    
+    div.MateriasPDF.none
+        header(style="background: #0097A7")
+            h2(style="display: inline-block;vertical-align: top;text-align: center;") Fe y Alegria
+        table
+            thead
+                tr
+                    th Materia
+            tbody
+                tr
+                    td Sociales
+                tr
+                    td Lenguaje
+                tr
+                    td Matematicas
+block scripts
+    script(src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous")
+    script(src="/dist/js/html2canvas.min.js")
+    script(type="text/javascript", src="/dist/js/jspdf.min.js")
+    script(type="text/javascript", src="/dist/js/reportes.js")

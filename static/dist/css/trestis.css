@@ -1,0 +1,191 @@
+/* 
+    Document   : Estilos
+    Created on : 16-ene-2013, 3:29:55
+    Author     : William
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+div.contenedor
+{
+    width: 420px;
+    height: 460px;
+    *margin: 0 auto;
+}
+
+div.contenedorcanvas
+{
+    width: 200px;
+    height: 420px;
+    float: left;
+    background: url('Images/fondocanvas.png');
+    
+    border: 3px solid #667799;    
+}
+
+div.contenedorderecha
+{
+    width: 200px;
+    height: 300px;
+    float: left;
+    font-size: 16px;      
+        
+    font-family: "Terminal";
+    font-weight: bold;
+}
+
+div.contenedorderecha .figura
+{    
+    width: 160px;
+    height: 60px;
+    border: 3px solid #667799;
+    margin-left: 12px;
+    background-color: #DDEEFF;
+}
+
+div.contenedorderecha .figura .canvas
+{
+    margin-top: 10px;
+}
+
+div.contenedorderecha .score
+{
+    width: 160px;
+    height: 40px;
+    margin-left: 12px;
+    margin-top: 8px;
+    border: 3px solid #667799;
+    background-color: #DDEEFF;
+}
+
+div.contenedorderecha .score .izq
+{
+    float: left;
+    width: 75px;
+    height: 40px;    
+    margin-left: 5px;
+    line-height: 37px;
+}
+
+div.contenedorderecha .score .der
+{
+    float: left;
+    width: 75px;
+    height: 40px;
+    text-align: right;
+    margin-right: 5px;
+    line-height: 37px;
+}
+
+div.contenedorderecha .lines
+{
+    width: 160px;
+    height: 40px;
+    margin-left: 12px;
+    border-left: 3px solid #667799;
+    border-right: 3px solid #667799;
+    border-bottom: 3px solid #667799;
+    background-color: #DDEEFF;
+}
+
+div.contenedorderecha .lines .izq
+{
+    float: left;
+    width: 75px;
+    height: 40px;
+    font-weight: bold;
+    margin-left: 5px;
+    line-height: 37px;
+}
+
+div.contenedorderecha .lines .der
+{
+    float: left;
+    width: 75px;
+    height: 40px; 
+    text-align: right;
+    margin-right: 5px;
+    line-height: 37px;
+}
+
+div.contenedorderecha .level
+{
+    width: 160px;
+    height: 40px;
+    margin-left: 12px;
+    border-left: 3px solid #667799;
+    border-right: 3px solid #667799;
+    border-bottom: 3px solid #667799;
+    background-color: #DDEEFF;
+}
+
+div.contenedorderecha .level .izq
+{
+    float: left;
+    width: 75px;
+    height: 40px; 
+    font-weight: bold;
+    margin-left: 5px;
+    line-height: 37px;
+}
+
+div.contenedorderecha .level .der
+{
+    float: left;
+    width: 75px;
+    height: 40px;
+    text-align: right;
+    margin-right: 5px;
+    line-height: 37px;
+}
+
+div.contenedorderecha .sonido
+{
+    width: 160px;
+    height: 40px;
+    background-color: #DDEEFF;
+    border: 3px solid #667799;
+    margin-left: 12px;
+    margin-top: 8px;
+}
+
+div.contenedorderecha .sonido .izq
+{
+    float: left;
+    width: 35px;
+    height: 35px;    
+    margin-left: 5px;    
+    cursor: pointer    
+}
+
+div.contenedorderecha .sonido .izq img
+{
+    width: 35px;
+    height: 35px;
+}
+
+div.contenedorderecha .sonido .der
+{
+    float: left;
+    width: 75px;
+    height: 40px;    
+    margin-right: 5px;
+    
+}
+
+div.contenedorderecha .jugar
+{
+    width: 160px;
+    height: 40px;
+    background-color: #DDEEFF;
+    border: 3px solid #667799;
+    margin-left: 12px;
+    margin-top: 8px;
+    text-align: center;
+    line-height: 37px;    
+}
+
+div.contenedorderecha .jugar a
+{
+    cursor: pointer;
+}

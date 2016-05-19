@@ -1,0 +1,17 @@
+extends ../base
+block content
+  h1 Schoool
+  ul
+    li #{ user.name }
+    li #{ user.email }
+    li #{ user.password }
+    li #{ user.type }
+    li #{ user.ubicacion }
+  h1 estudiantes
+  ul
+    each student in students
+     li #{ student.name } - #{ student.school.email }
+  p
+    a(href="/add/students") Agregar estudiante
+
+  a(href="/signout") Cerrar sesión

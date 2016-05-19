@@ -1,0 +1,21 @@
+<div class="item" id="item-question">
+  <div class="top-details">
+    <div class="user">
+      <span class="avatar-discussion">
+        <img src="{{ question.user.avatar }}" alt="{{ question.user.name }}" height="20" width="20">
+      </span>
+      <a class="author-discussion">{{ question.user.name }}</a>
+    </div>
+    <span class="date">{{ question.now }}</span>
+  </div>
+  <div class="discussion-text">
+    <p class="btn-q">{{ question.question }}</p>
+  </div>
+  <div class="bottom-details">
+    <div class="action">
+      <a class="icon-smile2 like">0</a>
+      <a class="icon-crying2 no-like">0</a>
+    </div>
+  </div>
+</div>
+

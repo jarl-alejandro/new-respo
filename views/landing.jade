@@ -1,0 +1,43 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Unidad Educativa Especial Fe y Alegria
+    link(rel="stylesheet", href="/dist/css/landing.css")
+    link(rel="shortcut icon", href="/dist/img/fe-y-alegria.gif")
+    link(href='http://fonts.googleapis.com/css?family=Roboto:400italic,400' rel='stylesheet' type='text/css')
+  body
+    section(class="full-height relative")
+        header
+            h1(class="title") Unidad Educativa Especial Fe y Alegria
+            h3.slogan Movimiento de Educación Popular Integral y Promoción Social
+        div.landing-video
+            video(autoplay="autoplay", loop="true", preload="auto")
+                source(type="video/mp4", src="/dist/video/Productive-Morning.mp4")
+        div.laptop
+        div.actions
+            a(href="/login" class="roboto iniciar-btn" style="left:30vw;padding:1em 2em") Iniciar Sessión
+            a(href="/signup" class="roboto registrate-btn" style="left:50vw;padding:1em 3em") Registrate
+        figure.mono-image
+            img(src="/dist/img/mono.png")
+    section(class="PorqueSection relative")
+        h3(class="PorqueSection-title center-text") ¿Porque?
+        article.PorqueSection-razones
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        article.PorqueSection-numero
+            p 1
+            p 2
+            p 3
+    section(class="Team")
+        h3(class="Team-tittle") Equipo
+        figure(class="Team-img")
+            img(src="/dist/img/developer.jpg")
+        div(class="Team-about")
+            p.name Jorge Lema
+            p.cargo Programador
+    footer
+        div.info-about
+            p.info-about-app School Book
+            p 🔨 with ❤ in Ecuador

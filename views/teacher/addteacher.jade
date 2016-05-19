@@ -1,0 +1,35 @@
+extends ../base
+block content
+  div.menu
+    include ../templates/menu.jade
+
+  section.body
+    article(class="")
+      div(class="form-wrapper card")
+        h2(class="text-center") Agregar profesor
+        form(action="/teacher", method="POST", enctype="multipart/form-data")
+          div(class="form-group")
+            input(type="text", name="cedula", placeholder="Ingresa su numero de cedula", required, maxlength="10", class="cedula")
+            if info_cedula && info_cedula != ""
+                p.info #{ info_cedula }
+          div(class="form-group")
+            input(type="text" name="name", placeholder="Ingresar el nombre", required)
+            if info_name && info_name != ""
+                p.info #{ info_name }
+          div(class="form-group")
+            input(type="email", name="email", placeholder="Ingresa el email", required)
+            if info_email && info_email != ""
+                p.info #{ info_email }
+          div(class="image-btn")
+            p(class="textoFile") Subir imagen
+            input(type="file" name="avatar", class="file-image")
+          p(style="display:none", class="name-file")
+          div()
+            each subject in subjects
+              label(for="#{ subject.subject }") #{ subject.subject }
+              input(type="checkbox" name="subjects" value="#{ subject.subject }" id="#{ subject.subject }")
+              br
+          if info_materias && info_materias != ""
+            p.info #{ info_materias }
+          div(class="margin-top")
+            input(type="submit" value="Agregar profesor" class="register-btn botonValidate")

@@ -1,0 +1,158 @@
+@import "nib"
+@import "normalize.styl"
+@import "color.styl"
+
+@font-face {
+  font-family: 'Pacifico';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Pacifico Regular'), local('Pacifico-Regular'), url(../fonts/pacifico.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+body
+    font-size 16px
+    font-family 'Roboto', sans-serif
+footer
+    height 12vh
+    color #F0F0F0
+    background #232222
+    margin-top 1em
+    text-align center
+.info-about
+    p
+        margin 0
+    .info-about-app
+        padding-top 1em
+header
+    color white
+    width 40%
+    height 100%
+    display flex
+    flex-wrap wrap
+    .title
+        margin 0
+        width 100%
+        font-size 1.7em
+        padding .5em 0em 0em .6em
+        text-shadow 0px 1px 1.5px rgba(black,0.5)
+        align-self flex-start
+        color #F44336
+    .slogan
+        margin 0
+        text-shadow 0px 1px 1.5px rgba(black,0.5)
+        color #F44336
+        font-size 5em
+        align-items center
+        padding-left .2em
+
+.center-text
+    text-align center
+.pacifico
+  font-family 'Pacifico', cursive
+.full-height
+    height 100vh
+.relative
+    position relative
+
+.laptop
+    background url("../img/laptop.png") center bottom no-repeat
+    position absolute
+    bottom 0
+    width 93%
+    background-size 40% auto
+    height 18em
+
+.landing-video
+    background #16A085
+    background-position center
+    background-size cover
+    height 100vh
+    width 100%
+    overflow hidden
+    position absolute
+    top 0
+    z-index -1
+    video
+        width 100%
+
+.PorqueSection
+    height 42vh
+    color #F0F0F0
+    background #D2527F
+.PorqueSection-title
+    margin 0
+    font-size 5em
+    padding-top .4em
+.PorqueSection-razones
+    display flex
+    justify-content space-around
+    width 100%
+    p
+        width 30%
+.PorqueSection-numero
+    display flex
+    justify-content space-around
+    p
+        width 80px
+        height 80px
+        background #F0F0F0
+        color #36474F
+        display flex
+        justify-content center
+        align-items center
+        border-radius 50%
+        font-weight bold
+        font-size 2em
+        margin 25px 0 15px 0
+.Team
+    height 70vh
+    background blue_gray
+    color #F0F0F0
+.Team-tittle
+    text-align center
+    font-size 4em
+    margin .4em 0 0 0
+    padding-top 20px
+.Team-img
+    margin 1.5em 0 0 0
+    display flex
+    justify-content center
+    img
+        width 250px
+        height 250px
+        border-radius 50%
+        box-shadow 0px 1px 1.5px rgba(black ,0.9)
+        transition all ease 1s
+        cursor pointer
+        &:hover
+            transform rotate(360deg)
+.Team-about
+    display block
+    text-align center
+    margin-top .5em
+    .name
+        font-weight bold
+        font-size 2em
+        margin 0
+    .cargo
+        margin 0
+.mono-image
+    position absolute
+    top 3em
+    right 0
+    margin 0
+.iniciar-btn
+.registrate-btn
+    position absolute
+    top 50vh
+    cursor pointer
+    color whitesmoke
+    background #2D3D48
+    text-decoration none
+    border-radius 2px
+    box-shadow 0px 1px 1.5px rgba(0,0,0,0.4)
+    font-weight bold
+    padding 1em
+    &:hover
+        background rgba(174, 184, 191, 0.82)

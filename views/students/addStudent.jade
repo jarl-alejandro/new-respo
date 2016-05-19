@@ -1,0 +1,32 @@
+extends ../base
+block content
+  div.menu
+    include ../templates/menu.jade
+  
+  section.body
+    article(class="")
+      div(class="form-wrapper card")
+        h2(class="text-center") Agregar estudiante
+        form(action="/students", method="POST", enctype="multipart/form-data")
+          div(class="form-group")
+            input(type="text", name="cedula", placeholder="Ingresa tu numero de cedula", required, maxlength="10", class="cedula")
+            if info_cedula && info_cedula != ""
+                p.info #{ info_cedula }
+          div(class="form-group")
+            input(type="text" name="name", placeholder="Ingresa tu nombre", required)
+            if info_name && info_name != ""
+                p.info #{ info_name }
+          div(class="form-group")
+            input(type="email", name="email", placeholder="Ingresa tu email", required)
+            if info_email && info_email != ""
+                p.info #{ info_email }
+          div(class="image-btn")
+            p(class="textoFile") Subir imagen
+            input(type="file" name="avatar", class="file-image")
+          p(class="name-file" style="display:none")
+          div(class="form-group caja")
+            select(name="course", required)
+              each course in courses
+                option(value="#{ course._id }") #{ course.course.name } #{ course.parallel.name }
+          div(class="login")
+            input(type="submit" value="Registrar estudiante" class="register-btn botonValidate")

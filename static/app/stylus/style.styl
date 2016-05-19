@@ -1,0 +1,181 @@
+@import "nib"
+@import "normalize.styl"
+@import "color.styl"
+@import "toolbar.styl"
+@import "login.styl"
+@import "signup.styl"
+@import "school.styl"
+@import "teacher.styl"
+@import "course.styl"
+@import "class.styl"
+@import "chat.styl"
+@import "icon.styl"
+@import "leccion.styl"
+
+.info
+    color #ff4842
+    font-weight bold
+.none
+  display none
+.body
+    height 100vh
+.center-container
+    height 100%
+    display flex
+    align-items center
+.relative
+  position relative
+
+.contentClass
+    width 100%
+    display flex
+    justify-content space-between
+    position absolute
+    top 6em
+.margin-bottom
+  margin-bottom 1em
+
+.text-center
+  text-align center
+
+.center
+  position absolute
+  left 15em
+.no-margin
+  margin 0
+
+.margin-top
+  margin-top 2em
+
+input[type="checkbox"]
+  float right
+  appearance none
+  background #C3C3C3
+  border 4px solid rgba(195, 195, 195, 0.78)
+  border-radius 4px
+  outline-style none
+  height 17px
+  width 17px
+  transition all ease 1s
+  box-shadow sombra
+  &:checked
+    background cyan_oscuro
+
+input[type="radio"]
+  appearance none
+  background #C3C3C3
+  border 4px solid rgba(195, 195, 195, 0.78)
+  border-radius 50%
+  outline-style none
+  height 17px
+  width 17px
+  transition all ease 1s
+  box-shadow sombra
+  &:checked
+    background cyan_oscuro
+
+select
+   background transparent
+   border none
+   font-size 14px
+   height 30px
+   padding 5px
+   width 250px
+  &:focus
+    outline-style none
+
+.caja
+  margin 20px auto 40px auto
+  border 1px solid #d9d9d9
+  height 30px
+  overflow hidden
+  width 150px
+  position relative
+
+.caja::after
+  content "\025be"
+  display table-cell
+  width 30px
+  height 30px
+  padding-top 7px
+  text-align center
+  background-color #d9d9d9
+  position absolute
+  top 0
+  left 7.5em
+  right 0px
+  pointer-events none
+
+.image-btn
+  position relative
+  margin 30px
+  padding 0px
+  width 150px
+  background-color  #2499e3
+  border-radius 5px
+  box-shadow 0px 3px 0px #1a71a9
+  //top 10em
+  &:hover
+    background rgba(#2499e3, .9)
+
+  .textoFile
+    padding 7px
+    text-align center
+    color white
+
+  input[type="file"]
+    position absolute
+    top 0px
+    left 0px
+    right 0px
+    bottom 0px
+    width 100%
+    height 100%
+    opacity 0
+    cursor pointer
+
+.image-btn
+.textoFile
+    cursor pointer
+.name-file
+    margin -1em 0 1em 0
+    text-align center
+.list-materias
+    display flex
+    justify-content space-around
+    align-items center
+    margin 0 0 4px 0
+    p
+        margin 0
+        width 13em
+        overflow hidden
+        text-overflow ellipsis
+
+.edit-materia
+    background #607D8B
+    color whitesmoke !important
+    text-decoration none
+    font-weight bold
+    box-shadow 0px 1px 1.5px rgba(black, 0.5)
+    padding .2em 1em
+    border-radius 1px
+    &:hover
+        background rgba(174, 184, 191, 0.82)
+
+.delete-materia
+    background rojo_porque
+    border 0
+    border-radius 1px
+    color whitesmoke !important
+    text-decoration none
+    font-weight bold
+    box-shadow 0px 1px 1.5px rgba(black, 0.5)
+    padding .2em 1em
+    &:hover
+        background rgba(210, 82, 127, 0.55)
+.center-vertical
+    display flex
+    align-items center
+    height 100vh
+.center-text
+    text-align center

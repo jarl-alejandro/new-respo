@@ -1,0 +1,40 @@
+extends ../base
+block content
+  div.menu
+    ul.list-menu
+      li(class="item-menu top-menu ")
+        a(href="/teacher")
+          div(class="icon-home icon-size")
+          span.title-menu Inicio
+
+      li(class="item-menu")
+        a(href="/create/class")
+          div(class="icon-pen icon-size")
+          span.title-menu Nueva clase
+
+      li(class="item-menu")
+        a(href="/signout")
+          div(class="icon-exit icon-size")
+          span.title-menu Cerrar sesión
+  section
+    article(class="")
+      div(class="form-wrapper card")
+        h2.center-text Crear nueva clase
+        form(action="/create/class", method="POST", enctype="multipart/form-data")
+          div(class="form-group")
+            input(type="text" name="nameClass", placeholder="Ingresa el titulo de la clase" required)
+          div(class="form-group")
+            textarea(name="description", placeholder="Ingresa la descripcion de la clase" class="descripcion" required)
+          div(class="form-group")
+                input(type="date", name="dateStart" class="fecha__class margin-rigth", required)
+                input(type="time", name="timeStart", class="fecha__class", required)
+          div(class="form-group subjectSelect")
+            select(name="subject" required)
+              each subject in subjects
+                option(value="#{ subject._id }") #{ subject.subject }
+          div(class="form-group subjectSelect")
+            select(name="courses" required)
+              each course in courses
+                option(value="#{ course._id }") #{ course.course.name } #{ course.parallel.name }
+          div(class="margin-top")
+            input(type="submit" value="Crear clase" class="register-btn")

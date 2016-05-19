@@ -1,0 +1,379 @@
+#remoteView
+    display block
+    width 56%
+    height 9%
+    position relative
+    top 2em
+#selfView
+    margin 0em
+    display block
+    width 22%
+#startClass
+    position absolute
+    top 33em
+    left 24em
+#webrtc
+    margin-left 7em
+.fecha__class
+    width 45% !important
+    display inline-block
+
+.margin-rigth
+    margin-right 1em
+
+.bottom-details
+  margin-bottom 1.4em
+
+.descripcion
+  width 329px
+  height 57px
+  resize none
+  background 0 0
+  padding 7px 0 10px
+  font-size 12px
+  line-height 1.4
+  font-weight 500
+  border 1px solid rgba(0, 0, 0, 0.08)
+  border-width 0 0 1px
+  box-shadow none
+  z-index 1
+  &:focus
+    outline 0
+    border-bottom 2px solid cyan_oscuro
+    transition all 0.5s ease
+    line-height 0
+    font-weight 300
+    font-size 16px
+    line-height 24px
+    margin 0
+
+.subjectSelect
+  margin 20px auto 40px auto
+  border 1px solid #d9d9d9
+  height 30px
+  overflow hidden
+  width 200px
+  position relative
+
+.subjectSelect::after
+  content "\025be"
+  display table-cell
+  width 30px
+  height 30px
+  padding-top 7px
+  text-align center
+  background-color #d9d9d9
+  position absolute
+  top 0
+  left 10.6em
+  right 0px
+  pointer-events none
+
+
+//lessons
+.title-lesson
+  background cyan_oscuro
+  color white
+  text-align center
+  width 39em
+  position relative
+  left 11em
+  h2
+    padding 3px
+
+.btn-end
+  background rojo_porque
+  padding .5em
+  border-radius 2px
+  box-shadow 0px 1px 1.5px  rgba(black, 0.5)
+  width 9em
+  position relative
+  left 44em
+  bottom -31em
+  text-align center
+  color #F0F0F0
+  font-weight bold
+  &:hover
+    background rojo_porque_agua
+  a
+    text-decoration none
+    color white
+
+.mic
+  float right
+  font-size 1.5em
+  color color_red
+
+.like
+  font-size 17px
+  color cyan_oscuro
+.no-like
+  font-size 17px
+  margin-left 6px
+  color color_red
+
+
+// Opciones
+.card--opciones
+  background amarillo-paper
+  color text-paper
+  border-radius 2px
+  box-shadow 0px 1px 1.5px rgba(black, 0.5)
+  position absolute
+  width 35em
+  left 12em
+  top 8em
+  display none
+  justify-content space-around
+  flex-wrap wrap
+  transition all ease 1s
+  z-index 10000
+ .HeaderOpciones
+     width 100%
+.HeaderOpciones-menu
+    display flex
+    justify-content space-around
+    margin 0
+    padding 0
+    list-style none
+    align-items center
+    height 3em
+
+.HeaderOpciones-menu__item
+    font-weight bold
+    background text-paper
+    color #F0F0F0
+    padding 1em
+    cursor pointer
+    border-right 1px solid amarillo-paper
+    text-align center
+    width 28%
+    transition all ease 1s
+    &:last-child
+        border 0
+    &:hover
+        color white
+        background rgba(102, 102, 102, 0.78)
+.Opciones-actions
+    display flex
+    justify-content center
+    width 100%
+    margin-bottom 1em
+
+.Opciones
+    position relative
+    left 33em
+    bottom -27.9em
+    margin-top 1em
+    background blue_gray
+    border 0
+    color white
+    font-weight:bold
+    width 10em
+    height 2.2em
+    display flex
+    justify-content center
+    align-items center
+    box-shadow 0px 1px 1.5px rgba(0,0,0,0.5)
+    border-radius 2px
+    &:hover
+        background rgba(54, 71, 79, 0.75)
+
+.DeberesOpcion
+.LeccionesOpcion
+.ActividadesOpcion
+    flex-wrap wrap
+    justify-content space-around
+    display none
+    div
+        font-weight bold
+        cursor pointer
+        width 8em
+        transition all ease 1s
+        text-align center
+        padding .6em
+        margin 1em 0
+        border-radius 2px
+        box-shadow 0px 1px 1.5px rgba(black, 0.5)
+        &:hover
+            background rgba(102, 102, 102, 0.78)
+            color #F0F0F0
+        p
+            margin 0
+
+.active-opcion
+    display flex
+.BodyOpciones
+    width 100%
+
+.cerrar-opciones
+    color #F0F0F0
+    border 0
+    background rojo_porque
+    box-shadow 0px 1px 1.5px rgba(black, .5)
+    padding .5em 1em
+    border-radius 2px
+    font-weight bold
+    transition all ease .3s
+    &:hover
+        background rojo_porque_agua
+.no-width
+    width 0
+//Tareas
+#aic_listado
+    display none
+    background amarillo-paper
+    box-shadow: sombra
+    position: absolute
+    left 7em
+    width 56%
+    z-index 100000
+    h3
+        text-align center
+        margin 0
+        margin-top .5em
+        margin-left 5em
+        color text-paper
+#close_note
+    background rojo_porque
+    color #F0F0F0
+    font-weight bold
+    border 0
+    border 0
+    float right
+    transition all ease 1s
+    margin .5em
+    box-shadow sombra
+    &:hover
+        background-color rojo_porque_agua
+    i
+        margin-right .5em
+        font-size .8em
+
+.estud_califi
+    display flex
+    justify-content space-around
+    list-style none
+    font-weight bold
+    color text-paper
+    align-items center
+    cursor pointer
+    transition all ease 1s
+    &:hover
+        color #F0F0F0
+        background #2196F3
+
+.lrem
+    padding 0
+    border-bottom 1px solid #b7bec3
+    padding-bottom .3em
+    &:last-child
+        border 0
+.lrem-name
+    width 16em
+.lrem-time
+    width 4em
+.lrem-nota
+    width 0
+    input
+        width 5em
+        text-align center
+        border 0
+        border-bottom 2px solid #0097A7
+        color text-paper
+
+#deber_listado
+    background amarillo-paper
+    position absolute
+    left 9em
+    z-index 10000000
+    display none
+    width 39em
+    box-shadow sombra
+    h3
+        margin .5em 0
+        color text-paper
+        text-align center
+        margin-left 5em
+#cerrar-deber
+    float right
+    background rojo_porque
+    color #F0F0F0
+    font-weight bold
+    border 0
+    box-shadow sombra
+    cursor pointer
+    padding .3em 1em
+    transition all ease 1s
+    margin .5em
+    &:hover
+        background rojo_porque_agua
+    i
+        font-size .8em
+        margin-right .3em
+.listado_tai_students
+    padding 0
+    display flex
+    justify-content space-around
+    align-items center
+    list-style none
+.listado_tai_students-name
+    width 16em
+.listado_tai_students-file
+    transition all ease 1s
+    margin-left -5.5em
+    background blue_gray
+    padding .2em 1em
+    box-shadow  sombra
+    border-radius 2px
+    &:hover
+        background rgba(54, 71, 79, 0.75)
+    a
+        color #F0F0F0
+        text-decoration none
+        font-weight bold
+    i
+        color #F0F0F0
+#nota_tai_cal
+    width 5em
+    text-align center
+    border 0
+    border-bottom 2px solid #0097A7
+    color text-paper
+.listado_tai_students
+    transition all ease 1s
+    border-bottom 1px solid #c3c3c3
+    padding-top .5em
+    padding-bottom .5em
+    margin .1em 0 .1em 0
+    &:last-child
+        border 0
+    &:hover
+        color #F0F0F0
+        font-weight bold
+        background #2196F3
+
+.card-play
+    background white
+    box-shadow 0px 1px 1.5px rgba(0, 0, 0, 0.5)
+    width 50.2em
+    position absolute
+    top -0.6em
+    left 4em
+    z-index 100000000
+    height 100vh
+    display none
+    border 9px solid #1a71a9
+.botonTAI
+    display flex
+    justify-content center
+    margin-top .5em
+    margin-bottom .5em
+#aic
+#agc
+    background rojo_porque
+    border 0
+    box-shadow sombra
+    padding .5em 1em
+    font-weight bold
+    color #F0F0F0

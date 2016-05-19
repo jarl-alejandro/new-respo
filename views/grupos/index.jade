@@ -1,0 +1,34 @@
+extends ../base
+block content
+  div.menu
+      include ../templates/menu.jade
+    
+  section(class="body" style="margin-left: 17%;margin-top: 7em;height: 0")
+    article(class="box layout-sub-mat")
+      article(class="card subjects")
+        h2(class="title-subjects") Cursos
+        ul(style="padding:0")
+            each curso in cursos
+                li(class="list-materias", id="#{ curso._id }")
+                  span(class="icon-books")
+                  p #{ curso.name }
+                  a(href="/curso/#{ curso._id }/editar/" class="edit-materia") Editar
+                  button(data-id="#{ curso._id }" class="delete-materia delete-curso") Eliminar
+        div.flex.flex-end
+            a(href="/nuevo/curso" class="space-right space-bottom BotonCrear")
+                span Crear
+                i.icon-rocket
+
+      article(class="card courses")
+        h2(class="title-course") Paralelo
+        ul(style="padding:0")
+            each paralelo inparalelos
+                li(class="list-materias" id="#{ paralelo._id }")
+                  span(class="icon-library")
+                  p #{ paralelo.name }
+                  a(href="/paralelo/#{ paralelo._id }/editar/" class="editar edit-materia") Editar
+                  button(data-id="#{ paralelo._id }" class="delete-materia delete-paralelo") Eliminar
+        div.flex.flex-end
+            a(href="/nuevo/paralelo" class="space-right space-bottom BotonCrear")
+                span Crear
+                i.icon-rocket

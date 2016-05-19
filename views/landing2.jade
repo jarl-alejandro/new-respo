@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Unidad Educativa Especial Fe y Alegria
+    link(rel="stylesheet", href="/dist/css/landing.css")
+    link(href='http://fonts.googleapis.com/css?family=Roboto:400italic,400' rel='stylesheet' type='text/css')
+  body
+    section.front
+      div.front-title
+        h1(class="pacifico") Unidad Educativa Especial Fe y Alegria
+        p(class="pacifico") Movimiento de Educación Popular Integral y Promoción Social
+      div.authentication
+        div(class="inscribite")
+          a(href="/signup" class="roboto")
+            img(src="/dist/img/pajaro.png" class="registrar-icon")
+            p.register-text Registrate
+        div.inicar
+          a(href="/login" class="roboto")
+            img(src="/dist/img/fe-y-alegria.gif" class="login-icon")
+            p(class="roboto login-text") Iniciar Sessión
+
+    section(class="tuto")
+      h2(class="title-tuto pacifico") Tutorial
+      video(src="/dist/video/video.mp4" controls)
+    section(class="Team")
+      img(src="/dist/img/developer.jpg")
+      div.TeamInfo
+        p Jorge Lema
+        p Programador 
+    

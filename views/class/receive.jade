@@ -1,0 +1,20 @@
+extends ../base
+block content
+  div.menu
+    ul.list-menu
+      li(class="item-menu top-menu ")
+        a(href="/course/#{ lessons.course._id }")
+          div(class="icon-home icon-size")
+          span.title-menu Inicio
+
+      li(class="item-menu")
+        a(href="/signout")
+          div(class="icon-exit icon-size")
+          span.title-menu Cerrar sesión
+
+  div(class="card title-lesson")
+    h2 Clase de #{ lessons.nameClass }
+  section.body
+    div.video-stu
+      video(controls autoplay id="videoremote")
+  section(class="chat" id="chat")

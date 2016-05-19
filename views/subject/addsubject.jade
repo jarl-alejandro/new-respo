@@ -1,0 +1,15 @@
+extends ../base
+block content
+    div.menu
+      include ../templates/menu.jade
+    section.body
+        article(class="center-container")
+          div(class="form-wrapper card")
+            h2(class="text-center") Agregar nueva materia
+            form(action="/subject", method="POST")
+              div(class="form-group")
+                input(type="text" name="subject", placeholder="Agregar materia", required, maxlength="140")
+              if info && info != ""
+                p.info #{ info }
+              div(class="login")
+                input(type="submit" value="Agregar materia" class="register-btn")

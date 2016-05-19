@@ -1,0 +1,69 @@
+extends ../base
+block content
+  div.menu
+      ul.list-menu
+        li(class="item-menu top-menu ")
+          a(href="/teacher")
+            div(class="icon-home icon-size")
+            span.title-menu Inicio
+
+        li(class="item-menu")
+          a(href="/create/class")
+            div(class="icon-pen icon-size")
+            span.title-menu Nueva clase
+
+        li(class="item-menu")
+          a(href="/signout")
+            div(class="icon-exit icon-size")
+            span.title-menu Cerrar sesión
+
+  section(class="TeacherLayout")
+    section(class="bitacora-box")
+        div(class="card bitacora-title")
+            h2 Actividad Realizada por el docente -- #{ user.name } --
+        each bitacora in bitacoras
+          if bitacora.publish == true
+            article(class="card bitacora")
+              table(class="table")
+                tr
+                  td Titulo de la clase:
+                  td #{ bitacora.nameClass }
+                tr
+                  td Descripcion:
+                  td #{ bitacora.description }
+                tr
+                  td Hora de inicio:
+                  td #{ bitacora.dateStart }
+                tr
+                  td Hora finalizada:
+                  td #{ bitacora.dateEnd }
+                tr
+                  td Profesor:
+                  td #{ bitacora.teacher.name }
+                tr
+                  td Materia:
+                  td #{ bitacora.subject.subject }
+    section.layout-aside 
+        aside(class="card materias-aside")
+          h2(class="title-aside") Docente
+          ul
+            li.margin-bottom 
+                span(class="icon-user-tie margin-bottom")
+                span.padding-left #{ user.name }
+            li.margin-bottom 
+                span(class="icon-mail2 margin-bottom")
+                span.padding-left #{ user.email }
+            li.margin-bottom 
+                span(class="icon-profile margin-bottom")
+                span.padding-left #{ user.cedula }
+            li.margin-bottom  
+                span(class="icon-books margin-bottom")
+                span.padding-left #{ user.subjects }
+
+        aside(class="card courses-aside")
+          h2(class="title-aside") Cursos
+          ul
+            each course in courses
+              li(class="margin-bottom")
+                span(class="icon-library")
+                a(class="padding-left" href="/course/#{ course._id }") #{ course.course.name } #{ course.parallel.name }

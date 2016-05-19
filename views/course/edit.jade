@@ -1,0 +1,28 @@
+extends ../base
+block content
+  div.menu
+    include ../templates/menu.jade
+  
+  section.body
+    article(class="")
+      div(class="form-wrapper card")
+        h2(class="text-center" style="border-bottom:1px solid; margin-top:2em") Editar curso #{ curso.course.name } #{ curso.parallel.name }
+        form(action="/curso/editar/#{ curso._id }", method="POST")
+          div(class="form-group caja")
+            select(name="course", required, value="#{ curso.course }")
+                each curso in cursos
+                    option(value="#{ curso._id }") #{ curso.name }
+          div(class="form-group caja")
+            select(name="parallel", required, value="#{ curso.parallel }")
+                each paralelo in paralelos
+                    option(value="#{  paralelo._id }") #{ paralelo.name }
+          if info_curso && info_curso != ""
+            p.info #{ info_curso }
+          div()
+              each subject in subjects
+                label(for="#{ subject.subject }") #{ subject.subject }
+                input(type="checkbox" name="subjects" value="#{ subject.subject }" id="#{ subject.subject }")
+                br
+          p.info #{ info_materias }
+          div(class="margin-top")
+            input(type="submit" value="Guardar curso" class="register-btn")

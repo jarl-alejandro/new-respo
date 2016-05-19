@@ -1,0 +1,812 @@
+div.precontenedor1
+{
+    width: 502px;
+    height: auto;
+    margin: 0 auto;    
+}
+
+div.precontenedor2
+{
+    width: 556px;
+    height: auto;
+    margin: 0 auto;    
+}
+
+div.precontenedor3
+{
+    width: 671px;
+    height: auto;
+    margin: 0 auto;    
+}
+
+div.contenedor1
+{
+    width:232px;
+    height:290px;
+    margin: 0 auto;
+}
+
+div.contenedor2
+{
+    width: 347px;
+    height:405px;
+    margin: 0 auto;
+}
+
+div.contenedor3
+{
+    width:462px;
+    height:520px;
+    margin: 0 auto;
+}
+
+div.recomendados
+{
+    width: 160px;
+    height: 140px;
+    float: left;
+    margin-left: 10px;
+    margin-top: 20px;
+}
+
+div.recomendados_titulo
+{
+    width: 160px;
+    height: 20px;
+    font-family: Trebuchet MS;  
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+div.recomendados_contenedor
+{
+    width: 160px;
+    height: 40px;
+}
+
+div.recomendados_imagen
+{
+    width: 40px;
+    height: 40px;
+    float: left;
+}
+
+div.recomendados_imagen img
+{
+    width: 40px;
+    height: 40px;
+}
+
+
+div.recomendados_descripcion
+{
+    width: 120px;
+    height: 40px;
+    font-family: Trebuchet MS;  
+    font-size: 12px;
+    float:  left;
+}
+
+div.derecha
+{
+    width: 183px;
+    height: auto;
+    margin-top: 35px; 
+    margin-left: 20px;
+    float: left;
+}
+
+div.puntuaciones
+{
+    width: 183px;
+    height: auto;
+    float: left;    
+}
+
+div.puntuaciones_contenedor
+{
+    width: auto;
+    height: auto;
+    opacity: 0.5;
+    
+}
+
+div.loading_fondo
+{
+    background:#AAA;
+    height: 130px;
+    opacity: 0.6;
+    position: absolute;
+    width: 180px;
+    z-index: 10;
+}
+
+div.loading
+{
+    position:absolute;
+    background: url('Images/ajax_loading.gif');
+    width: 32px;
+    height: 32px;
+    z-index: 20;
+    margin-left: 78px;
+    margin-top: 70px;
+}
+
+div.puntuaciones_usuario
+{
+    width: auto;
+    height: 40px;
+    margin-top: 3px;
+    
+}
+
+div.puntuaciones_titulo
+{
+    width: auto;
+    height: 20px;    
+    font-weight: bold;
+    *color: #3B5998;    
+    text-decoration: none;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 14px;
+    text-align: center;
+}
+
+div.puntuaciones_numero
+{
+    width: 20px;
+    float:left;
+    height: 40px;
+    font-weight: bold;
+    color: #3B5998;    
+    text-decoration: none;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 13px;
+    *text-align: center;
+    line-height: 30px;
+    padding-top: 3px;
+}
+
+div.puntuaciones_imagen
+{
+    width: 40px;
+    height: 40px;
+    float: left;
+}
+
+div.puntuaciones_imagen img
+{
+    width: 40px;
+    height: 40px;
+}
+
+div.puntuaciones_nombre
+{
+    width: 60px;
+    height: 40px;
+    float: left;
+    font-weight: bold;
+    color: #3B5998;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+    margin-left: 3px;
+    padding-top: 3px;
+}
+
+div.puntuaciones_tiempo
+{
+    width: 60px;
+    height: 40px;
+    float: left;
+    font-weight: bold;
+    color: #3B5998;
+    text-decoration: none;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+    text-align: center;
+}
+
+div.puntuaciones_puntaje
+{
+    width: 40px;
+    height: 40px;
+    float: left;
+    font-weight: bold;
+    color: #3B5998;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+}
+
+div.puntuaciones_vermas
+{
+    width: auto;
+    height: 15px;    
+    color: #3B5998;    
+    text-decoration: none;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 12px;
+    text-align: right; 
+    cursor: pointer;
+}
+
+div.superiorjuego
+{
+    width:auto;
+    height: 30px;
+    margin-top: 10px
+}
+
+div.superiorjuego p
+{       
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 15px;
+    
+    text-align: center;
+    line-height: 0px;
+    font-weight: bold;
+}
+
+div.superiorjuego p:hover
+{
+    text-decoration: underline;
+}
+
+div.superiorjuego_interno
+{
+    height: 30px;
+    width: 33%;
+    float: left;
+}
+
+div.fondo
+{
+    width:auto;
+    height:auto;
+    background: url("Images/fondo.png");
+}
+
+div.canvas1
+{
+    width:207px;  
+    margin: 0 auto; 
+    height:207px;
+    padding-top: 10px; 
+}
+
+div.canvas2
+{
+    width: 322px;
+    margin: 0 auto;
+    height: 322px;
+    padding-top: 10px;    
+}
+
+div.canvas3
+{
+    width: 437px;
+    margin: 0 auto;
+    height: 437px;
+    padding-top: 10px;    
+}
+
+div.bloque
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/bloques.png") 0px -23px;
+}
+
+div.bloque:hover
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/bloque_hover.png") 0px -46px;
+}
+
+div.bloque_vacio
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/bloques.png") 0px 0px;
+}
+
+div.bloque_mina
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/bloques.png") 0px -115px;    
+}
+
+div.bloque_explosion
+{
+    float: left;
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/bloque_explosion.jpg");
+}
+
+div.bloque1
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/numeros.png") 0px 0px;
+}
+
+div.bloque2
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/numeros.png") 0px -23px;
+}
+
+div.bloque3
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/numeros.png") 0px -46px;
+}
+
+div.bloque4
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/numeros.png") 0px -69px;
+}
+
+div.bloque5
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/numeros.png") 0px -92px;
+}
+
+div.bloque6
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/numeros.png") 0px -115px;
+}
+
+div.bloque7
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/numeros.png") 0px -138px;
+}
+
+div.bloque8
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/numeros.png") 0px -161px;
+}
+
+
+div.bloque_bandera
+{
+    float:left;    
+    width:23px;
+    height:23px;
+    position: relative;
+    background: url("Images/bloques.png") 0px -69px;
+}
+
+div.bloque_bandera:hover
+{
+    background: url("Images/bloque_bandera_hover2.png") 0px -92px;
+}
+
+div.bordeinferior
+{
+    width:90%; 
+    *background: url("Images/fondoinferior.png"); 
+    margin:0 auto; 
+    height: 30px;     
+}
+
+div.panelizquierdo
+{
+   width:100px;
+   height:30px;
+   float:left;
+   margin: 4px;
+}
+
+div.panelderecho
+{
+    width:87px;
+    height:30px;
+    float:right;
+    margin: 4px;
+}
+
+div.reloj
+{
+    float:left;
+    width:32px;
+    height:30px;
+    background: url("Images/reloj.png");
+}
+
+label.contador
+{   
+    float:left;
+    width:44px;
+    height:22px;
+    text-align: center;
+    color:White;
+    margin:4px;
+    background: url("Images/fondocontador.png");
+    line-height: 22px;
+}
+
+div.logomina
+{
+    float:right;
+    width:30px;
+    height:30px;
+    background: url("Images/logomina.png");
+}
+
+div.textoinferior
+{
+    width: 207px;    
+    height: 20px; 
+    margin: 0 auto;
+}
+
+div.textoinferior .texto
+{    
+    text-decoration: none;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 13px;
+    float:left; 
+    margin-left: 15px;
+    
+}
+
+div.textoinferior .imagenbandera
+{
+    background: url("Images/bloque_banderamini.png");
+    width: 15px;
+    height: 15px;
+    float: left;
+    margin-left:5px;
+}
+
+div.nuevojuego
+{
+    width: auto;
+    height: 20px;
+}
+
+div.nuevojuego p
+{
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 15px;
+    
+    line-height: 5px;
+    font-weight: bold;    
+    cursor:pointer;  
+    text-align: center;
+}
+
+div.nuevojuego p:hover
+{
+    text-decoration:underline;
+}
+
+div.informacion
+{
+    width: 250px;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 10px;
+    opacity: 0.5;
+}
+
+div.informacion .superiorizq
+{
+    margin-left: 55px;
+    height: 15px;
+    float: left;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 13px;
+    width: 80px;
+    font-weight: bold;
+    text-align: center;
+}
+
+div.informacion .superiorder
+{
+    float: left;
+    width: 110px;
+    height: 15px;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 13px;
+    font-weight: bold; 
+    text-align: center;
+}
+
+div.informacion .imagen
+{
+    float: left;
+    width: 50px;
+    height: 50px;        
+}
+
+div.informacion .imagen img
+{
+    width: 50px;
+    height: 50px; 
+}
+
+div.informacion .puntaje
+{
+    width: 80px;
+    height: 30px;
+    float: left;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 13px;
+    font-weight: bold; 
+    text-align: center;
+    color: #3B5998;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+div.informacion .tiempo
+{
+    width: 80px;
+    height: 30px;
+    float: left;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 13px;
+    font-weight: bold; 
+    text-align: center;
+    color: #3B5998;
+    margin-top: 5px;
+}
+
+div.informacion .loading
+{
+    position:absolute;
+    background: url('Images/ajax_loading.gif');
+    width: 32px;
+    height: 32px;
+    z-index: 20;
+    margin-left: 114px;
+    margin-top: 22px;
+}
+
+
+div.modal
+{
+    width: 315px;
+    height: auto;
+    z-index: 1001;
+    position:absolute;
+    background: #EEE; 
+    left: 50%;
+    top:50%;
+    margin-left:-157px;
+    margin-top: -150px;
+    visibility: collapse; 
+    display: none;    
+}
+
+div.modal a
+{
+    text-decoration:none;
+    cursor: pointer;
+    font-size:16px;    
+}
+
+div.modal a:hover
+{
+    text-decoration:underline;       
+}
+
+div.modal .superior
+{    
+    height: 23px;
+    width: 288px;
+    background: url("Images/modalsuperior3.png");
+    float: left;
+}
+
+div.modal .cerrarmodal
+{
+    float: left;
+    height: 23px;
+    width:23px;
+    background: url("Images/cerrarmodal2.png");
+    border:none;
+    cursor:pointer;
+}
+
+div.modal .bordesuperior
+{
+    width: 314px;
+    height: 2px;
+    background: url("Images/modalbordesuperior.png");    
+}
+
+div.modal .bordeizquierdo
+{
+    float:left;
+    width:2px;
+    height: 178px;
+    background: url("Images/modalbordeizq.png");
+}
+
+div.modal .bordederecho
+{
+    float:right;
+    width: 2px;
+    height: 178px;
+    background: url("Images/modalbordeizq.png");
+}
+
+div.modal .bordeinferiormodal
+{
+    width: 314px;
+    height: 2px;
+    background: url("Images/modalbordesuperior.png");
+    float: left;
+}
+
+div.modal .contenido
+{
+    width: 310px;
+    height: auto;
+    float: left;
+}
+
+div.modaltransparencia
+{
+    width:100%;
+    height:100%;
+    z-index:1000;
+    background:#AAA;
+    position:absolute;
+    top:0;
+    left:0;
+    opacity: 0.5;
+    visibility: collapse;
+    display: none;
+}
+
+div.modal .contenido .titulo
+{    
+    font-family: Trebuchet MS;
+    font-size: 18px;
+    color:#019;    
+    text-align: center;
+    font-weight: bold;
+    height: 10px;
+    margin: 25px;
+}
+
+div.modal .contenido .texto
+{
+    font-family: Trebuchet MS;
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+    height: 20px;
+    margin: 5px;
+}
+
+div.load
+{
+    display: none;  
+}
+
+div.tiempos
+{
+    width: 200px;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+div.tiempos_usuario
+{
+    width: auto;
+    height: 50px;
+    margin-top: 5px;
+}
+
+div.tiempos_numero
+{
+    width: 20px;
+    height: 30px;
+    float: left;
+    font-weight: bold;
+    color: #3B5998;    
+    text-decoration: none;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 14px;
+    *text-align: center;
+    margin-top: 10px;
+}
+
+div.tiempos_imagen
+{
+    width: 50px;
+    height: 50px;
+    float: left;
+}
+
+div.tiempos_imagen img
+{
+    width: 50px;
+    height: 50px;    
+}
+
+div.tiempos_nombre
+{
+    width: 70px;
+    height: 30px;
+    font-weight: bold;
+    color: #3B5998;    
+    text-decoration: none;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 12px;
+    *text-align: center;
+    float: left;
+    margin-left: 5px;
+    margin-top: 10px;
+}
+
+div.tiempos_tiempo
+{
+    width: 50px;
+    height: 30px;
+    font-weight: bold;
+    color: #3B5998;    
+    text-decoration: none;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 12px;
+    text-align: center;
+    float: left;
+    margin-left: 5px;
+    margin-top: 10px;
+}
