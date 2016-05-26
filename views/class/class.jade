@@ -28,10 +28,11 @@ block content
     input(type="hidden" value="#{ lessons.subject._id }" id="materia")
     input(type="hidden" value="#{ lessons.teacher._id }" id="profesor")    
   section#webrtc
-    video(id="remoteView", controls, autoplay)
+    article.containerVideoRemote
+    input(type="text" value="#{ user._id }" class="user_id")
     video(id="selfView",  controls, muted, autoplay)
     
-  section(class="contentClass")
+  section(class="LayoutClass")
       section
         article.card-play
           h3.title-play
@@ -79,14 +80,13 @@ block content
           div#listado_est_tai
         input(type="hidden" value="#{ lessons.course._id }" id="curso")
         input(type="hidden" value="#{ lessons._id }" id="clase_id")
+        input(type="hidden" value="#{ user.type }" id="type_user")
         button#startClass Empezar Clase
-        if user.type == "Teacher"
-          div(class="btn-end")
-            a(href="/post/class/#{ lessons._id }") Terminar la clase
-          button.Opciones Opciones
-        else
-          article.estudiantes-vdchat
-            img(id="play")
+        div.none.btn-clas-active
+            if user.type == "Teacher"
+              div(class="btn-end")
+                a(href="/post/class/#{ lessons._id }") Terminar la clase
+              button.Opciones Opciones
       section(class="chat" id="chat")
   section(class="card__preguntas-create")
     article(class="type_question-container")
@@ -167,27 +167,29 @@ block content
             li(class="HeaderOpciones-menu__item" id="OpcionesLecciones") Lecciones
     article.BodyOpciones
         div(class="ActividadesOpcion active-opcion")
-            div(class="ahorcado")
+            button(class="ahorcado")
               p ahorcado
-            div(class="tretis")
-              p tretis
-            div(class="pizarra")
+            button(class="tretis")
+              p tetris
+            button(class="pizarra")
               p pizarra
-            div(class="buscamina")
+            button(class="buscamina")
               p buscamina
         div.DeberesOpcion
-            div(class="calificar-aic") 
+            button(class="calificar-aic") 
               p AIC
-            div(class="tai-cal") 
+            button(class="tai-cal") 
               p SUBIR TAI
-            div(class="tai-ver") 
+            button(class="tai-ver") 
               p TAI
-            div(class="agc-ver")
+            button(class="agc-ver")
               p AGC
         div.LeccionesOpcion
-            div(class="new-leccion")
+            button(class="new-leccion")
               p Crear leccion
-            div(class="see_leccion")
+            button(class="see_leccion")
               p Ver leccion
     div.Opciones-actions
         button(class="cerrar-opciones") Cerrar
+  div.poppu-message
+    p Debe ingresar minimo 3 opciones

@@ -14,6 +14,7 @@ function Leccion (socket){
     let add_compuestas_opt = document.querySelector("#add__respuestas-compuestas")
     let enviar_leccion = document.querySelector("#BotonEnviar-leccion")
     let terminar_leccion = document.querySelector("#TerminarLeccionBoton")
+    let close_leccion = document.querySelector("#closeLeccion")
     onEvent()
 
     socket.on("emit::leccion", EmitLeccion)
@@ -29,6 +30,14 @@ function Leccion (socket){
       add_compuestas_opt.addEventListener("click", addCompuetasOpt, false)
       enviar_leccion.addEventListener("click", enviarLeccion, false)
       terminar_leccion.addEventListener("click", TerminarLeccion, false)
+      close_leccion.addEventListener("click", closeLeccion, false)
+    }
+
+    function closeLeccion () {
+        $("#card__leccion").fadeOut()
+        $(".container__pregunta-leccion").empty()
+        $("#crear__pregunta").attr("disabled", false)
+        $(".poppu-message").fadeOut()
     }
 
   function TemplateLeccion(data) {
@@ -81,8 +90,16 @@ function Leccion (socket){
   }
 
   function enviarLeccion(){
-    let data = getData()
-    socket.emit("create::leccion", data)
+      var count = document.querySelector(".container__pregunta-leccion").childElementCount
+      if(count == 0)
+        alert("No tiene preguntas")
+      else{
+          let data = getData()
+          socket.emit("create::leccion", data)
+          var lec = document.querySelector(".new-leccion")
+          lec.disabled = true
+          lec.style = "cursor:no-drop"
+      }
   }
 
   function TerminarLeccion(){
@@ -184,8 +201,27 @@ function  completarNew() {
         content.append(tpl)
         $(".card__preguntas-create").fadeOut()
         pregunta.val("")
+        var elim = document.querySelectorAll(".eliminar__completo")
+
+        for(var i=0; i<elim.length; i++){
+          elim[i].addEventListener("click", onEliminarCompleto)
+        }
+
     }
   }
+
+function onEliminarCompleto (e) {
+    var el = e.path[2]
+    el.remove()
+    $("#crear__pregunta").attr("disabled", false)
+    $(".poppu-message").fadeIn()
+
+    var count = document.querySelectorAll(".count__leccion")
+    for(var a=0; a<count.length; a++){
+      count[a].innerHTML = a+1
+    }
+
+}
 
 function  simpleNew() {
     let pregunta = $("#pregunta__simple")
@@ -214,13 +250,20 @@ function  simpleNew() {
         content.append(tpl)
         let count_opt = document.querySelector(`#lista_opt_simple_${ count }`).childElementCount
 
-        if(count_opt < 3)
+        if(count_opt < 3){
             $("#crear__pregunta").attr("disabled", true)
+            $(".poppu-message").fadeIn()
+        }
         $(".card__preguntas-create").fadeOut()
         pregunta.val("")
 
         let addopt = $(".add_option_simple")
         addopt.on("click", ()=>$(".grupo__new-simples").fadeIn())
+    }
+    var elim = document.querySelectorAll(".eliminar__simple")
+
+    for(var i=0; i<elim.length; i++){
+      elim[i].addEventListener("click", onEliminarCompleto)
     }
   }
 
@@ -245,9 +288,20 @@ function  opcionSimpleAdd() {
         option.val("")
 
         let count_opt = document.querySelector(`#lista_opt_simple_${ count }`).childElementCount
-        if(count_opt >= 3)
+        if(count_opt >= 3){
             $("#crear__pregunta").attr("disabled", false)
+            $(".poppu-message").fadeOut()
+        }
+        var elimsimple = document.querySelectorAll(".eliminar__opcion-simple")
+
+        for(var i=0; i<elimsimple.length; i++)
+            elimsimple[i].addEventListener("click", eliminarSimple)
     }
+  }
+
+  function eliminarSimple (e) {
+      var el = e.path[2]
+      el.remove()
   }
 
 function  botonAddMultiple() {
@@ -263,7 +317,7 @@ function  botonAddMultiple() {
 
         let tpl = `<div>
         <p class="Seleccion__multimple">De Selecion Multiple.</p>
-        <span class="count_multiple">${ count }</span>
+        <span class="count__leccion">${ count }</span>
         <input data-type="M" value="${ pregunta.val() }" class="input__leccion" />
         <a class="eliminar_multiple">
             <i class="icon-cross"></i>
@@ -278,15 +332,34 @@ function  botonAddMultiple() {
         content.append(tpl)
         let count_opt = document.querySelector(`#lista_opt_multiple_${ count }`).childElementCount
 
-        if(count_opt < 3)
+        if(count_opt < 3){
             $("#crear__pregunta").attr("disabled", true)
+            $(".poppu-message").fadeIn()
+        }
         $(".card__preguntas-create").fadeOut()
         pregunta.val("")
 
         let addopt = $(".add_option_multiple")
         addopt.on("click", ()=>$(".grupo__new-compuestas").fadeIn())
     }
+    var elim = document.querySelectorAll(".eliminar_multiple")
+
+    for(var i=0; i<elim.length; i++){
+      elim[i].addEventListener("click", onEliminarMultiple)
+    }
   }
+
+function onEliminarMultiple (e) {
+    var el = e.path[2]
+    el.remove()
+    $(".poppu-message").fadeIn()
+    $("#crear__pregunta").attr("disabled", false)
+    var count = document.querySelectorAll(".count__leccion")
+
+    for(var a=0; a<count.length; a++){
+      count[a].innerHTML = a+1
+    }
+}
 
 function  addCompuetasOpt() {
     let option = $("#posibles__respuesta-compuesta")
@@ -311,8 +384,13 @@ function  addCompuetasOpt() {
         option.val("")
 
         let count_opt = document.querySelector(`#lista_opt_multiple_${ count }`).childElementCount
-        if(count_opt >= 3)
+        if(count_opt >= 3){
             $("#crear__pregunta").attr("disabled", false)
+            $(".poppu-message").fadeOut()
+        }
+        var elimcompusto =document.querySelectorAll(".eliminar_multiple_opcion")
+        for(var i=0; i<elimcompusto.length; i++)
+          elimcompusto[i].addEventListener("click", eliminarSimple)
     }
 
   }

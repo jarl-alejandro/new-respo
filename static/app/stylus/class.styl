@@ -1,3 +1,18 @@
+.poppu-message
+    background #444444
+    color #F0F0F0
+    font-weight bold
+    width 12em
+    padding 1em
+    box-shadow 0px 1px 1.5px rgba(0,0,0,0.5)
+    position absolute
+    top 13em
+    right 16em
+    border-radius 3px
+    display none
+    p
+        margin 0
+
 #remoteView
     display block
     width 56%
@@ -8,10 +23,24 @@
     margin 0em
     display block
     width 22%
+.LayoutClass
+    width 97%
+    left 3%
+    display flex
+    justify-content space-between
+    position absolute
+    top 6em
 #startClass
     position absolute
-    top 33em
-    left 24em
+    top 32em
+    left 23em
+    background #0097a7
+    color white
+    font-weight bold
+    border 0
+    box-shadow 0px 1px 1.5px rgba(black,0.5)
+    padding .5em 1em
+    border-radius 2px
 #webrtc
     margin-left 7em
 .fecha__class
@@ -88,8 +117,8 @@
   box-shadow 0px 1px 1.5px  rgba(black, 0.5)
   width 9em
   position relative
-  left 44em
-  bottom -31em
+  left 43em
+  bottom -32em
   text-align center
   color #F0F0F0
   font-weight bold
@@ -162,8 +191,8 @@
 
 .Opciones
     position relative
-    left 33em
-    bottom -27.9em
+    left 32em
+    bottom -28.9em
     margin-top 1em
     background blue_gray
     border 0
@@ -185,7 +214,9 @@
     flex-wrap wrap
     justify-content space-around
     display none
-    div
+    button
+        background transparent
+        border 0em
         font-weight bold
         cursor pointer
         width 8em

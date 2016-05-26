@@ -12926,23 +12926,41 @@ if (pathName == '/course/') {
   })();
 }
 
+function bloquear() {
+  var aho = document.querySelector(".ahorcado");
+  var tret = document.querySelector(".tretis");
+  var busa = document.querySelector(".buscamina");
+  aho.disabled = true;
+  aho.style = "cursor:no-drop";
+  tret.disabled = true;
+  tret.style = "cursor:no-drop";
+  busa.disabled = true;
+  busa.style = "cursor:no-drop";
+}
+
 function eventos() {
   document.querySelector(".ahorcado").addEventListener("click", function (event) {
+    bloquear();
     alert("El estudiante a empezado a jugar ahorcado");
     socket.emit("play", { "play": "ahorcado" });
   });
 
   document.querySelector(".tretis").addEventListener("click", function (event) {
+    bloquear();
     alert("El estudiante a empezado a jugar tretis");
     socket.emit("play", { "play": "tretis" });
   });
 
   document.querySelector(".pizarra").addEventListener("click", function (event) {
+    var piza = document.querySelector(".pizarra");
+    piza.style = "cursor:no-drop";
+    piza.disabled = true;
     alert("El estudiante a empezado a jugar la pizarra");
     socket.emit("play", { "play": "pizarra" });
   });
 
   document.querySelector(".buscamina").addEventListener("click", function (event) {
+    bloquear();
     alert("El estudiante a empezado a jugar buscamina");
     socket.emit("play", { "play": "buscamina" });
   });
@@ -12952,7 +12970,7 @@ function eventos() {
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-  value: true
+    value: true
 });
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -12963,269 +12981,345 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 function Leccion(socket) {
 
-  var leccion = document.querySelector(".new-leccion");
-  var new_preg = document.querySelector("#crear__pregunta");
-  var add_leccion = document.querySelector("#add__leccion");
-  var completar_new = document.querySelector("#LeccionPregunta-completar-add");
-  var simple_new = document.querySelector("#LeccionPregunta-simple-add");
-  var add_opc_simple = document.querySelector("#add__respuestas-simples");
-  var boton_add_multi = document.querySelector("#LeccionBotonAdd-multiple");
-  var add_compuestas_opt = document.querySelector("#add__respuestas-compuestas");
-  var enviar_leccion = document.querySelector("#BotonEnviar-leccion");
-  var terminar_leccion = document.querySelector("#TerminarLeccionBoton");
-  onEvent();
+    var leccion = document.querySelector(".new-leccion");
+    var new_preg = document.querySelector("#crear__pregunta");
+    var add_leccion = document.querySelector("#add__leccion");
+    var completar_new = document.querySelector("#LeccionPregunta-completar-add");
+    var simple_new = document.querySelector("#LeccionPregunta-simple-add");
+    var add_opc_simple = document.querySelector("#add__respuestas-simples");
+    var boton_add_multi = document.querySelector("#LeccionBotonAdd-multiple");
+    var add_compuestas_opt = document.querySelector("#add__respuestas-compuestas");
+    var enviar_leccion = document.querySelector("#BotonEnviar-leccion");
+    var terminar_leccion = document.querySelector("#TerminarLeccionBoton");
+    var close_leccion = document.querySelector("#closeLeccion");
+    onEvent();
 
-  socket.on("emit::leccion", EmitLeccion);
+    socket.on("emit::leccion", EmitLeccion);
 
-  function onEvent() {
-    leccion.addEventListener("click", newLeccion, false);
-    new_preg.addEventListener("click", newQuestion, false);
-    add_leccion.addEventListener("click", selectTypeQuestion, false);
-    completar_new.addEventListener("click", completarNew, false);
-    simple_new.addEventListener("click", simpleNew, false);
-    add_opc_simple.addEventListener("click", opcionSimpleAdd, false);
-    boton_add_multi.addEventListener("click", botonAddMultiple, false);
-    add_compuestas_opt.addEventListener("click", addCompuetasOpt, false);
-    enviar_leccion.addEventListener("click", enviarLeccion, false);
-    terminar_leccion.addEventListener("click", TerminarLeccion, false);
-  }
+    function onEvent() {
+        leccion.addEventListener("click", newLeccion, false);
+        new_preg.addEventListener("click", newQuestion, false);
+        add_leccion.addEventListener("click", selectTypeQuestion, false);
+        completar_new.addEventListener("click", completarNew, false);
+        simple_new.addEventListener("click", simpleNew, false);
+        add_opc_simple.addEventListener("click", opcionSimpleAdd, false);
+        boton_add_multi.addEventListener("click", botonAddMultiple, false);
+        add_compuestas_opt.addEventListener("click", addCompuetasOpt, false);
+        enviar_leccion.addEventListener("click", enviarLeccion, false);
+        terminar_leccion.addEventListener("click", TerminarLeccion, false);
+        close_leccion.addEventListener("click", closeLeccion, false);
+    }
 
-  function TemplateLeccion(data) {
-    // let data = JSON.parse(data_leccion)
-    (0, _jquery2['default'])("#leccion_id").val(data._id);
-    for (var i = 0; i < data.num_question; i++) {
-      var tests = data['test' + (i + 1)];
-      var type = "";
-      if (tests.type == "C") type = "DE COMPLETAR";
-      if (tests.type == "S") type = "DE SELECCION SIMPLE";
-      if (tests.type == "M") type = "DE SELECCION MULTIPLE";
+    function closeLeccion() {
+        (0, _jquery2['default'])("#card__leccion").fadeOut();
+        (0, _jquery2['default'])(".container__pregunta-leccion").empty();
+        (0, _jquery2['default'])("#crear__pregunta").attr("disabled", false);
+        (0, _jquery2['default'])(".poppu-message").fadeOut();
+    }
 
-      var tpl = '<div>\n        <p class="de_completar">' + type + '</p>\n        <p>\n          <span class="count__leccion">' + tests.count + '</span>\n          <span class="pregunta_leccion_text">' + tests.pregunta + '</span>\n          <input type="hidden" value="' + tests._id + '" />\n        </p>\n        <div id="resp_preg' + tests.count + '" class="form-checks"></div>\n        <input type="hidden" value="' + tests.type + '" />\n      </div>';
-      document.querySelector(".LeccionPapperBody").innerHTML += tpl;
-      var content_resp = document.querySelector('#resp_preg' + tests.count);
+    function TemplateLeccion(data) {
+        // let data = JSON.parse(data_leccion)
+        (0, _jquery2['default'])("#leccion_id").val(data._id);
+        for (var i = 0; i < data.num_question; i++) {
+            var tests = data['test' + (i + 1)];
+            var type = "";
+            if (tests.type == "C") type = "DE COMPLETAR";
+            if (tests.type == "S") type = "DE SELECCION SIMPLE";
+            if (tests.type == "M") type = "DE SELECCION MULTIPLE";
 
-      if (tests.opciones != null) {
-        for (var a = 0; a < tests.opciones.count_opciones; a++) {
-          var opciones = tests.opciones['posibilidad' + (a + 1)];
-          var con_resp = "";
-          if (tests.type == "S") {
-            con_resp = '<p>\n              <input type="radio" value="' + opciones._id + '" name="simple' + tests.count + '"\n                id="simple' + a + tests.count + '" />\n              <label for="simple' + a + tests.count + '">' + opciones.pregunta + '</label>\n            </p>';
-          }
-          if (tests.type == "M") {
-            con_resp = '<p>\n              <input type="checkbox" value="' + opciones._id + '" style="float:none" name="multiple' + tests.count + '" id="multiple' + a + tests.count + '"/>\n              <label for="multiple' + a + tests.count + '">' + opciones.pregunta + '</label>\n            </p>';
-          }
-          content_resp.innerHTML += con_resp;
+            var tpl = '<div>\n        <p class="de_completar">' + type + '</p>\n        <p>\n          <span class="count__leccion">' + tests.count + '</span>\n          <span class="pregunta_leccion_text">' + tests.pregunta + '</span>\n          <input type="hidden" value="' + tests._id + '" />\n        </p>\n        <div id="resp_preg' + tests.count + '" class="form-checks"></div>\n        <input type="hidden" value="' + tests.type + '" />\n      </div>';
+            document.querySelector(".LeccionPapperBody").innerHTML += tpl;
+            var content_resp = document.querySelector('#resp_preg' + tests.count);
+
+            if (tests.opciones != null) {
+                for (var a = 0; a < tests.opciones.count_opciones; a++) {
+                    var opciones = tests.opciones['posibilidad' + (a + 1)];
+                    var con_resp = "";
+                    if (tests.type == "S") {
+                        con_resp = '<p>\n              <input type="radio" value="' + opciones._id + '" name="simple' + tests.count + '"\n                id="simple' + a + tests.count + '" />\n              <label for="simple' + a + tests.count + '">' + opciones.pregunta + '</label>\n            </p>';
+                    }
+                    if (tests.type == "M") {
+                        con_resp = '<p>\n              <input type="checkbox" value="' + opciones._id + '" style="float:none" name="multiple' + tests.count + '" id="multiple' + a + tests.count + '"/>\n              <label for="multiple' + a + tests.count + '">' + opciones.pregunta + '</label>\n            </p>';
+                    }
+                    content_resp.innerHTML += con_resp;
+                }
+            } else content_resp.innerHTML = '<input type="text" class="input__leccion respuesta_leccion" placeholder="Ingres la respuesta"/>';
         }
-      } else content_resp.innerHTML = '<input type="text" class="input__leccion respuesta_leccion" placeholder="Ingres la respuesta"/>';
     }
-  }
 
-  function enviarLeccion() {
-    var data = getData();
-    socket.emit("create::leccion", data);
-  }
-
-  function TerminarLeccion() {
-    var questions = document.querySelector(".LeccionPapperBody");
-    var estudainte = (0, _jquery2['default'])("#estudiante_id").val();
-    var leccion = (0, _jquery2['default'])("#leccion_id").val();
-    var count_pregu = document.querySelector(".LeccionPapperBody").childElementCount;
-    var json = { "estudiante": estudainte, "leccion": leccion, "count": count_pregu };
-
-    for (var i = 0; i < questions.childElementCount; i++) {
-      var pregunta = questions.children[i].children[1].children[2].value;
-      var type = questions.children[i].children[3].value;
-      json['test' + i] = { "pregunta": pregunta };
-
-      if (type == "C") {
-        var respuesta = questions.children[i].children[2].children[0].value;
-        json['test' + i]["respuesta"] = respuesta;
-      }
-
-      if (type == "S") {
-        var _name = questions.children[i].children[2].children[0].children[0].name;
-        var a = document.getElementsByName(_name);
-
-        for (var j = 0; j < a.length; j++) {
-          if (a[j].checked == true) json['test' + i]["respuesta"] = a[j].value;
+    function enviarLeccion() {
+        var count = document.querySelector(".container__pregunta-leccion").childElementCount;
+        if (count == 0) alert("No tiene preguntas");else {
+            var data = getData();
+            socket.emit("create::leccion", data);
+            var lec = document.querySelector(".new-leccion");
+            lec.disabled = true;
+            lec.style = "cursor:no-drop";
         }
-      }
-      if (type == "M") {
-        var name_m = questions.children[i].children[2].children[0].children[0].name;
-        var a_m = document.getElementsByName(name_m);
-        json['test' + i]["respuesta"] = null;
-        var opcion = [];
+    }
 
-        for (var e = 0; e < a_m.length; e++) {
-          if (a_m[e].checked == true) opcion.push(a_m[e].value);
+    function TerminarLeccion() {
+        var questions = document.querySelector(".LeccionPapperBody");
+        var estudainte = (0, _jquery2['default'])("#estudiante_id").val();
+        var leccion = (0, _jquery2['default'])("#leccion_id").val();
+        var count_pregu = document.querySelector(".LeccionPapperBody").childElementCount;
+        var json = { "estudiante": estudainte, "leccion": leccion, "count": count_pregu };
+
+        for (var i = 0; i < questions.childElementCount; i++) {
+            var pregunta = questions.children[i].children[1].children[2].value;
+            var type = questions.children[i].children[3].value;
+            json['test' + i] = { "pregunta": pregunta };
+
+            if (type == "C") {
+                var respuesta = questions.children[i].children[2].children[0].value;
+                json['test' + i]["respuesta"] = respuesta;
+            }
+
+            if (type == "S") {
+                var _name = questions.children[i].children[2].children[0].children[0].name;
+                var a = document.getElementsByName(_name);
+
+                for (var j = 0; j < a.length; j++) {
+                    if (a[j].checked == true) json['test' + i]["respuesta"] = a[j].value;
+                }
+            }
+            if (type == "M") {
+                var name_m = questions.children[i].children[2].children[0].children[0].name;
+                var a_m = document.getElementsByName(name_m);
+                json['test' + i]["respuesta"] = null;
+                var opcion = [];
+
+                for (var e = 0; e < a_m.length; e++) {
+                    if (a_m[e].checked == true) opcion.push(a_m[e].value);
+                }
+                json['test' + i]["opcion"] = opcion;
+            }
         }
-        json['test' + i]["opcion"] = opcion;
-      }
+
+        console.log(json);
+        document.querySelector("#question").value = JSON.stringify(json);
+        socket.emit("presentar::leccion", json);
+        alert("La leccion ha sido presentada..");
     }
 
-    console.log(json);
-    document.querySelector("#question").value = JSON.stringify(json);
-    socket.emit("presentar::leccion", json);
-    alert("La leccion ha sido presentada..");
-  }
-
-  function EmitLeccion(data) {
-    (0, _jquery2['default'])(".LeccionPaper").fadeIn();
-    alert("La lección  a empezado");
-    console.log(data);
-    TemplateLeccion(data);
-  }
-
-  function newLeccion() {
-    (0, _jquery2['default'])("#card__leccion").fadeIn();
-  }
-
-  function newQuestion() {
-    (0, _jquery2['default'])(".card__preguntas-create").fadeIn();
-    (0, _jquery2['default'])(".type_question-container").fadeIn();
-    (0, _jquery2['default'])(".question__lecccion").val("");
-    (0, _jquery2['default'])(".leccion__completar").fadeOut();
-    (0, _jquery2['default'])(".leccion__simple").fadeOut();
-    (0, _jquery2['default'])(".leccion__compuesta").fadeOut();
-  }
-
-  function selectTypeQuestion() {
-    var select = (0, _jquery2['default'])(".question__lecccion").val();
-    (0, _jquery2['default'])(".type_question-container").fadeOut();
-    if (select == 1) (0, _jquery2['default'])(".leccion__completar").fadeIn();
-    if (select == 2) (0, _jquery2['default'])(".leccion__simple").fadeIn();
-    if (select == 3) (0, _jquery2['default'])(".leccion__compuesta").fadeIn();
-  }
-
-  function completarNew() {
-    if ((0, _jquery2['default'])("#pregunta__completar").val() == "") {
-      alert("Debes  Ingresar un pregunta.");
-    } else {
-      var pregunta = (0, _jquery2['default'])("#pregunta__completar");
-      var content = (0, _jquery2['default'])(".container__pregunta-leccion");
-      var count = document.querySelector(".container__pregunta-leccion").childElementCount;
-
-      var tpl = '<div>\n        <p class="de_completar">De completar</p>\n        <span class="count__leccion">' + ++count + '</span>\n        <input data-type="C"  value="' + pregunta.val() + '" class="input__leccion" />\n        <a class="eliminar__completo">\n            <i class="icon-cross"></i>\n            <span>Eliminar</span>\n        </a>\n        </div>';
-      content.append(tpl);
-      (0, _jquery2['default'])(".card__preguntas-create").fadeOut();
-      pregunta.val("");
+    function EmitLeccion(data) {
+        (0, _jquery2['default'])(".LeccionPaper").fadeIn();
+        alert("La lección  a empezado");
+        console.log(data);
+        TemplateLeccion(data);
     }
-  }
 
-  function simpleNew() {
-    var pregunta = (0, _jquery2['default'])("#pregunta__simple");
-    if (pregunta.val() == "") {
-      alert("Debes Ingresar una pregunta valida.");
-    } else {
-      var content = (0, _jquery2['default'])(".container__pregunta-leccion");
-      var count = document.querySelector(".container__pregunta-leccion").childElementCount;
-      ++count;
-
-      var tpl = '<div>\n        <p class="seleccion__simple">De seleccion simple.</p>\n        <span class="count__leccion">' + count + '</span>\n        <input data-type="S" value="' + pregunta.val() + '" class="input__leccion" />\n        <a class="eliminar__simple">\n            <i class="icon-cross"></i>\n            <span>Eliminar</span>\n        </a>\n        <button class="add_option_simple">\n            <i class="icon-plus"></i>\n            <span class="agregar__simple-span">Agregar</span>\n        </button>\n        <ul class="lista_opciones" id="lista_opt_simple_' + count + '"></ul>\n        </div>';
-      content.append(tpl);
-      var count_opt = document.querySelector('#lista_opt_simple_' + count).childElementCount;
-
-      if (count_opt < 3) (0, _jquery2['default'])("#crear__pregunta").attr("disabled", true);
-      (0, _jquery2['default'])(".card__preguntas-create").fadeOut();
-      pregunta.val("");
-
-      var addopt = (0, _jquery2['default'])(".add_option_simple");
-      addopt.on("click", function () {
-        return (0, _jquery2['default'])(".grupo__new-simples").fadeIn();
-      });
+    function newLeccion() {
+        (0, _jquery2['default'])("#card__leccion").fadeIn();
     }
-  }
 
-  function opcionSimpleAdd() {
-    var option = (0, _jquery2['default'])("#posibles_respues");
-    var count = document.querySelector(".container__pregunta-leccion").childElementCount;
-    if (option.val() == "") {
-      alert("Debes ingresar una opcion.");
-    } else {
-      var tpl = '<li>\n        <input  type="radio"  name="simple" />\n        <input  type="text" value="' + option.val() + '" class="input__leccion" />\n        <a class="eliminar__opcion-simple">\n            <i class="icon-cross"></i>\n            <span>Eliminar</span>\n        </a>\n        </li>';
-
-      (0, _jquery2['default'])('#lista_opt_simple_' + count).append(tpl);
-      (0, _jquery2['default'])(".grupo__new-simples").fadeOut();
-      option.val("");
-
-      var count_opt = document.querySelector('#lista_opt_simple_' + count).childElementCount;
-      if (count_opt >= 3) (0, _jquery2['default'])("#crear__pregunta").attr("disabled", false);
+    function newQuestion() {
+        (0, _jquery2['default'])(".card__preguntas-create").fadeIn();
+        (0, _jquery2['default'])(".type_question-container").fadeIn();
+        (0, _jquery2['default'])(".question__lecccion").val("");
+        (0, _jquery2['default'])(".leccion__completar").fadeOut();
+        (0, _jquery2['default'])(".leccion__simple").fadeOut();
+        (0, _jquery2['default'])(".leccion__compuesta").fadeOut();
     }
-  }
 
-  function botonAddMultiple() {
-    var pregunta = (0, _jquery2['default'])("#pregunta__compuesta");
-
-    if (pregunta.val() == "") {
-      alert("Debes ingresar una pregunta valida");
-    } else {
-      var content = (0, _jquery2['default'])(".container__pregunta-leccion");
-      var count = document.querySelector(".container__pregunta-leccion").childElementCount;
-      ++count;
-
-      var tpl = '<div>\n        <p class="Seleccion__multimple">De Selecion Multiple.</p>\n        <span class="count_multiple">' + count + '</span>\n        <input data-type="M" value="' + pregunta.val() + '" class="input__leccion" />\n        <a class="eliminar_multiple">\n            <i class="icon-cross"></i>\n            <span>Eliminar</span>\n        </a>\n        <button class="add_option_multiple">\n            <i class="icon-plus"></i>\n            <span class="add_multiple_opt">Agregar</span>\n        </button>\n        <ul class="lista_opcion_multiple"  id="lista_opt_multiple_' + count + '"></ul>\n        </div>';
-      content.append(tpl);
-      var count_opt = document.querySelector('#lista_opt_multiple_' + count).childElementCount;
-
-      if (count_opt < 3) (0, _jquery2['default'])("#crear__pregunta").attr("disabled", true);
-      (0, _jquery2['default'])(".card__preguntas-create").fadeOut();
-      pregunta.val("");
-
-      var addopt = (0, _jquery2['default'])(".add_option_multiple");
-      addopt.on("click", function () {
-        return (0, _jquery2['default'])(".grupo__new-compuestas").fadeIn();
-      });
+    function selectTypeQuestion() {
+        var select = (0, _jquery2['default'])(".question__lecccion").val();
+        (0, _jquery2['default'])(".type_question-container").fadeOut();
+        if (select == 1) (0, _jquery2['default'])(".leccion__completar").fadeIn();
+        if (select == 2) (0, _jquery2['default'])(".leccion__simple").fadeIn();
+        if (select == 3) (0, _jquery2['default'])(".leccion__compuesta").fadeIn();
     }
-  }
 
-  function addCompuetasOpt() {
-    var option = (0, _jquery2['default'])("#posibles__respuesta-compuesta");
-    var count = document.querySelector(".container__pregunta-leccion").childElementCount;
-    // ++count
+    function completarNew() {
+        if ((0, _jquery2['default'])("#pregunta__completar").val() == "") {
+            alert("Debes  Ingresar un pregunta.");
+        } else {
+            var pregunta = (0, _jquery2['default'])("#pregunta__completar");
+            var content = (0, _jquery2['default'])(".container__pregunta-leccion");
+            var count = document.querySelector(".container__pregunta-leccion").childElementCount;
 
-    if (option.val() == "") {
-      alert("Debes ingresar una pregunta.");
-    } else {
-      var tpl = '<li>\n        <input  type="checkbox" value="' + option.val() + '" name="mutiple"  style="float:none;" />\n        <input  type="text" value="' + option.val() + '" class="input__leccion" />\n        <a class="eliminar_multiple_opcion">\n            <i class="icon-cross"></i>\n            <span>Eliminar</span>\n        </a>\n        </li>';
+            var tpl = '<div>\n        <p class="de_completar">De completar</p>\n        <span class="count__leccion">' + ++count + '</span>\n        <input data-type="C"  value="' + pregunta.val() + '" class="input__leccion" />\n        <a class="eliminar__completo">\n            <i class="icon-cross"></i>\n            <span>Eliminar</span>\n        </a>\n        </div>';
+            content.append(tpl);
+            (0, _jquery2['default'])(".card__preguntas-create").fadeOut();
+            pregunta.val("");
+            var elim = document.querySelectorAll(".eliminar__completo");
 
-      (0, _jquery2['default'])('#lista_opt_multiple_' + count).append(tpl);
-      (0, _jquery2['default'])(".grupo__new-compuestas").fadeOut();
-      option.val("");
-
-      var count_opt = document.querySelector('#lista_opt_multiple_' + count).childElementCount;
-      if (count_opt >= 3) (0, _jquery2['default'])("#crear__pregunta").attr("disabled", false);
+            for (var i = 0; i < elim.length; i++) {
+                elim[i].addEventListener("click", onEliminarCompleto);
+            }
+        }
     }
-  }
+
+    function onEliminarCompleto(e) {
+        var el = e.path[2];
+        el.remove();
+        (0, _jquery2['default'])("#crear__pregunta").attr("disabled", false);
+        (0, _jquery2['default'])(".poppu-message").fadeIn();
+
+        var count = document.querySelectorAll(".count__leccion");
+        for (var a = 0; a < count.length; a++) {
+            count[a].innerHTML = a + 1;
+        }
+    }
+
+    function simpleNew() {
+        var pregunta = (0, _jquery2['default'])("#pregunta__simple");
+        if (pregunta.val() == "") {
+            alert("Debes Ingresar una pregunta valida.");
+        } else {
+            var content = (0, _jquery2['default'])(".container__pregunta-leccion");
+            var count = document.querySelector(".container__pregunta-leccion").childElementCount;
+            ++count;
+
+            var tpl = '<div>\n        <p class="seleccion__simple">De seleccion simple.</p>\n        <span class="count__leccion">' + count + '</span>\n        <input data-type="S" value="' + pregunta.val() + '" class="input__leccion" />\n        <a class="eliminar__simple">\n            <i class="icon-cross"></i>\n            <span>Eliminar</span>\n        </a>\n        <button class="add_option_simple">\n            <i class="icon-plus"></i>\n            <span class="agregar__simple-span">Agregar</span>\n        </button>\n        <ul class="lista_opciones" id="lista_opt_simple_' + count + '"></ul>\n        </div>';
+            content.append(tpl);
+            var count_opt = document.querySelector('#lista_opt_simple_' + count).childElementCount;
+
+            if (count_opt < 3) {
+                (0, _jquery2['default'])("#crear__pregunta").attr("disabled", true);
+                (0, _jquery2['default'])(".poppu-message").fadeIn();
+            }
+            (0, _jquery2['default'])(".card__preguntas-create").fadeOut();
+            pregunta.val("");
+
+            var addopt = (0, _jquery2['default'])(".add_option_simple");
+            addopt.on("click", function () {
+                return (0, _jquery2['default'])(".grupo__new-simples").fadeIn();
+            });
+        }
+        var elim = document.querySelectorAll(".eliminar__simple");
+
+        for (var i = 0; i < elim.length; i++) {
+            elim[i].addEventListener("click", onEliminarCompleto);
+        }
+    }
+
+    function opcionSimpleAdd() {
+        var option = (0, _jquery2['default'])("#posibles_respues");
+        var count = document.querySelector(".container__pregunta-leccion").childElementCount;
+        if (option.val() == "") {
+            alert("Debes ingresar una opcion.");
+        } else {
+            var tpl = '<li>\n        <input  type="radio"  name="simple" />\n        <input  type="text" value="' + option.val() + '" class="input__leccion" />\n        <a class="eliminar__opcion-simple">\n            <i class="icon-cross"></i>\n            <span>Eliminar</span>\n        </a>\n        </li>';
+
+            (0, _jquery2['default'])('#lista_opt_simple_' + count).append(tpl);
+            (0, _jquery2['default'])(".grupo__new-simples").fadeOut();
+            option.val("");
+
+            var count_opt = document.querySelector('#lista_opt_simple_' + count).childElementCount;
+            if (count_opt >= 3) {
+                (0, _jquery2['default'])("#crear__pregunta").attr("disabled", false);
+                (0, _jquery2['default'])(".poppu-message").fadeOut();
+            }
+            var elimsimple = document.querySelectorAll(".eliminar__opcion-simple");
+
+            for (var i = 0; i < elimsimple.length; i++) elimsimple[i].addEventListener("click", eliminarSimple);
+        }
+    }
+
+    function eliminarSimple(e) {
+        var el = e.path[2];
+        el.remove();
+    }
+
+    function botonAddMultiple() {
+        var pregunta = (0, _jquery2['default'])("#pregunta__compuesta");
+
+        if (pregunta.val() == "") {
+            alert("Debes ingresar una pregunta valida");
+        } else {
+            var content = (0, _jquery2['default'])(".container__pregunta-leccion");
+            var count = document.querySelector(".container__pregunta-leccion").childElementCount;
+            ++count;
+
+            var tpl = '<div>\n        <p class="Seleccion__multimple">De Selecion Multiple.</p>\n        <span class="count__leccion">' + count + '</span>\n        <input data-type="M" value="' + pregunta.val() + '" class="input__leccion" />\n        <a class="eliminar_multiple">\n            <i class="icon-cross"></i>\n            <span>Eliminar</span>\n        </a>\n        <button class="add_option_multiple">\n            <i class="icon-plus"></i>\n            <span class="add_multiple_opt">Agregar</span>\n        </button>\n        <ul class="lista_opcion_multiple"  id="lista_opt_multiple_' + count + '"></ul>\n        </div>';
+            content.append(tpl);
+            var count_opt = document.querySelector('#lista_opt_multiple_' + count).childElementCount;
+
+            if (count_opt < 3) {
+                (0, _jquery2['default'])("#crear__pregunta").attr("disabled", true);
+                (0, _jquery2['default'])(".poppu-message").fadeIn();
+            }
+            (0, _jquery2['default'])(".card__preguntas-create").fadeOut();
+            pregunta.val("");
+
+            var addopt = (0, _jquery2['default'])(".add_option_multiple");
+            addopt.on("click", function () {
+                return (0, _jquery2['default'])(".grupo__new-compuestas").fadeIn();
+            });
+        }
+        var elim = document.querySelectorAll(".eliminar_multiple");
+
+        for (var i = 0; i < elim.length; i++) {
+            elim[i].addEventListener("click", onEliminarMultiple);
+        }
+    }
+
+    function onEliminarMultiple(e) {
+        var el = e.path[2];
+        el.remove();
+        (0, _jquery2['default'])(".poppu-message").fadeIn();
+        (0, _jquery2['default'])("#crear__pregunta").attr("disabled", false);
+        var count = document.querySelectorAll(".count__leccion");
+
+        for (var a = 0; a < count.length; a++) {
+            count[a].innerHTML = a + 1;
+        }
+    }
+
+    function addCompuetasOpt() {
+        var option = (0, _jquery2['default'])("#posibles__respuesta-compuesta");
+        var count = document.querySelector(".container__pregunta-leccion").childElementCount;
+        // ++count
+
+        if (option.val() == "") {
+            alert("Debes ingresar una pregunta.");
+        } else {
+            var tpl = '<li>\n        <input  type="checkbox" value="' + option.val() + '" name="mutiple"  style="float:none;" />\n        <input  type="text" value="' + option.val() + '" class="input__leccion" />\n        <a class="eliminar_multiple_opcion">\n            <i class="icon-cross"></i>\n            <span>Eliminar</span>\n        </a>\n        </li>';
+
+            (0, _jquery2['default'])('#lista_opt_multiple_' + count).append(tpl);
+            (0, _jquery2['default'])(".grupo__new-compuestas").fadeOut();
+            option.val("");
+
+            var count_opt = document.querySelector('#lista_opt_multiple_' + count).childElementCount;
+            if (count_opt >= 3) {
+                (0, _jquery2['default'])("#crear__pregunta").attr("disabled", false);
+                (0, _jquery2['default'])(".poppu-message").fadeOut();
+            }
+            var elimcompusto = document.querySelectorAll(".eliminar_multiple_opcion");
+            for (var i = 0; i < elimcompusto.length; i++) elimcompusto[i].addEventListener("click", eliminarSimple);
+        }
+    }
 }
 function getData() {
-  var count = document.querySelector(".container__pregunta-leccion").childElementCount;
-  var clase = (0, _jquery2['default'])("#clase_id").val();
-  var materia = (0, _jquery2['default'])("#materia").val();
-  var json = { "clase": clase, "materia": materia, "num_question": count };
-  var preguntas = document.querySelector(".container__pregunta-leccion").children;
+    var count = document.querySelector(".container__pregunta-leccion").childElementCount;
+    var clase = (0, _jquery2['default'])("#clase_id").val();
+    var materia = (0, _jquery2['default'])("#materia").val();
+    var json = { "clase": clase, "materia": materia, "num_question": count };
+    var preguntas = document.querySelector(".container__pregunta-leccion").children;
 
-  for (var i = 0; i < preguntas.length; i++) {
-    var _count = preguntas[i].children[1].innerHTML;
-    var test = preguntas[i].children[2].value;
-    var opt = preguntas[i].children[5];
-    var type = preguntas[i].children[2].dataset.type;
-    var opcion = {};
+    for (var i = 0; i < preguntas.length; i++) {
+        var _count = preguntas[i].children[1].innerHTML;
+        var test = preguntas[i].children[2].value;
+        var opt = preguntas[i].children[5];
+        var type = preguntas[i].children[2].dataset.type;
+        var opcion = {};
 
-    if (opt != undefined) {
-      for (var a = 0; a < opt.children.length; a++) {
-        var list = opt.children[a];
-        var posibles = list.children[1].value;
-        var _count2 = list.childElementCount;
-        var posib = {};
-        opcion["count_opciones"] = _count2;
-        opcion['posibilidad' + (a + 1)] = { "pregunta": posibles };
-      }
-    } else opcion = null;
+        if (opt != undefined) {
+            for (var a = 0; a < opt.children.length; a++) {
+                var list = opt.children[a];
+                var posibles = list.children[1].value;
+                var _count2 = list.childElementCount;
+                var posib = {};
+                opcion["count_opciones"] = _count2;
+                opcion['posibilidad' + (a + 1)] = { "pregunta": posibles };
+            }
+        } else opcion = null;
 
-    json['test' + (i + 1)] = { "pregunta": test, "count": _count, "opciones": opcion, "type": type };
-  }
+        json['test' + (i + 1)] = { "pregunta": test, "count": _count, "opciones": opcion, "type": type };
+    }
 
-  return json;
+    return json;
 }
 
 exports['default'] = Leccion;
@@ -13441,116 +13535,161 @@ module.exports = exports['default'];
 },{}],36:[function(require,module,exports){
 'use strict';
 
-// import viewvideoTemplate from './templates/viewvideo.hbs'
-// import domify from 'domify'
-
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 function streamingTeacher(socket) {
-    var configuration = { 'iceServers': [{ 'url': 'stun:stun.services.mozilla.com' }, { 'url': 'stun:stun.l.google.com:19302' }] };
-    var remoteView = document.querySelector("#remoteView");
+    document.querySelector("#startClass").style = "display:none";
+
+    var configuration = { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] };
     var selfView = document.querySelector("#selfView");
-    var startClass = document.getElementById('startClass');
-    var localVideoStream = null;
-    var peerConn = null;
 
-    startClass.addEventListener("click", initCall, false);
+    socket.emit("join::video::chat", { "channel": getChannel() });
+    socket.on("addPeer", start);
 
-    // endCall.addEventListener("click", endCall)
-    socket.on("onwebrtc::message", onMessageEvent);
+    var local_media_stream = null;
+    var peer_connection = null;
+    var peer_media_elements = {};
+    var peers = {};
 
-    function onError(err) {
+    navigator.getUserMedia({ "audio": true, "video": true }, function (stream) {
+        local_media_stream = stream;
+        selfView.src = URL.createObjectURL(local_media_stream);
+    }, function (err) {
         console.log(err);
-    }
+    });
 
-    function prepareCall() {
-        peerConn = new RTCPeerConnection(configuration);
-        peerConn.onicecandidate = onIceCandidateHandler;
-        peerConn.onaddstream = onAddStreamHandler;
-    }
+    function start(config) {
+        var peer_id = config.peer_id;
 
-    function initCall() {
-        prepareCall();
-
-        navigator.getUserMedia({ "audio": true, "video": true }, function (stream) {
-            localVideoStream = stream;
-            selfView.src = URL.createObjectURL(localVideoStream);
-            peerConn.addStream(localVideoStream);
-            createAndSendOffer();
-        }, onError);
-    }
-
-    function onMessageEvent(evt) {
-        var signal = null;
-        signal = evt;
-        console.log("on message");
-
-        if (!peerConn) {
-            answerCall();
+        if (peer_id in peers) {
+            console.log("Already connected to peer ", peer_id);
+            return;
         }
-        if (signal.sdp) {
-            peerConn.setRemoteDescription(new RTCSessionDescription(signal.sdp));
-        } else if (signal.candidate) {
-            peerConn.addIceCandidate(new RTCIceCandidate(signal.candidate));
-        }
-    }
-    function answerCall() {
-        prepareCall();
 
-        navigator.getUserMedia({ "audio": true, "video": true }, function (stream) {
-            localVideoStream = stream;
-            selfView.src = URL.createObjectURL(localVideoStream);
-            peerConn.addStream(localVideoStream);
-            createAndSendAnswer();
-        }, onError);
+        peer_connection = new RTCPeerConnection(configuration, { "optional": [{ "DtlsSrtpKeyAgreement": true }] });
+        peers[peer_id] = peer_connection;
+
+        peer_connection.onicecandidate = function (event) {
+            if (event.candidate) {
+                console.log("ice candidate");
+                socket.emit("relayICECandidate", {
+                    'peer_id': peer_id,
+                    'ice_candidate': {
+                        'sdpMLineIndex': event.candidate.sdpMLineIndex,
+                        'candidate': event.candidate.candidate
+                    }
+                });
+            }
+        };
+        peer_connection.onaddstream = function (event) {
+            var remote_media = (0, _jquery2['default'])("<video>");
+            remote_media.attr("autoplay", "autoplay");
+            remote_media.attr("controls", "");
+            peer_media_elements[peer_id] = remote_media;
+            (0, _jquery2['default'])('.containerVideoRemote').append(remote_media);
+            attachMediaStream(remote_media[0], event.stream);
+        };
+
+        peer_connection.addStream(local_media_stream);
+
+        alert(config.should_offer);
+
+        if (config.should_offer) {
+            alert("dentro del if");
+            alert(peer_id);
+
+            peer_connection.createOffer(function (local_description) {
+                peer_connection.setLocalDescription(local_description, function () {
+                    socket.emit("relaySessionDescription", { 'peer_id': peer_id, 'session_description': local_description });
+                }, function () {
+                    Alert("Offer setLocalDescription failed!");
+                });
+            }, function (err) {
+                console.log(err);
+            });
+        } // dein del if que valida el should_offer
     }
 
-    function createAndSendOffer() {
-        peerConn.createOffer(function (offer) {
-            var off = new RTCSessionDescription(offer);
-            peerConn.setLocalDescription(off, function () {
-                socket.emit("onwebrtc", { sdp: off });
-            }, onError);
-        }, onError);
-    }
+    socket.on("sessionDescription", function (config) {
+        console.log('Remote description received: ', config);
+        var peer_id = config.peer_id;
+        var peer = peers[peer_id];
+        var remote_description = config.session_description;
+        console.log(config.session_description);
 
-    function createAndSendAnswer() {
-        peerConn.createAnswer(function (answer) {
-            var ans = new RTCSessionDescription(answer);
-            peerConn.setLocalDescription(ans, function () {
-                socket.emit("onwebrtc", { "sdp": ans });
-            }, onError);
-        }, onError);
-    }
+        var desc = new RTCSessionDescription(remote_description);
+        var stuff = peer.setRemoteDescription(desc, function () {
+            console.log("setRemoteDescription succeeded");
 
-    function onIceCandidateHandler(evt) {
-        if (!evt || !evt.candidate) return;
-        socket.emit("onwebrtc", { "candidate": evt.candidate });
-    }
+            if (remote_description.type == "offer") {
+                console.log("Creating answer");
+                peer.createAnswer(function (local_description) {
+                    console.log("Answer description is: ", local_description);
+                    peer.setLocalDescription(local_description, function () {
+                        socket.emit('relaySessionDescription', { 'peer_id': peer_id, 'session_description': local_description });
 
-    function onAddStreamHandler(evt) {
-        console.log("vista");
-        remoteView.src = URL.createObjectURL(evt.stream);
-    }
-
-    function endCall() {
-        peerConn.close();
-        peerConn = null;
-        localVideoStream.getTracks().forEach(function (track) {
-            track.stop();
+                        console.log("Answer setLocalDescription succeeded");
+                    }, function () {
+                        Alert("Answer setLocalDescription failed!");
+                    });
+                }, function (err) {
+                    console.log("Error creating answer: ", err);
+                    console.log(peer);
+                });
+            }
+        }, function (err) {
+            console.log(err);
         });
-        remoteView.src = "";
-        selfView.src = "";
-    }
+
+        console.log("Description Object: ", desc);
+    });
+
+    socket.on("iceCandidate", function (config) {
+        var peer = peers[config.peer_id];
+        var ice_candidate = config.ice_candidate;
+        peer.addIceCandidate(new RTCIceCandidate(ice_candidate));
+    });
+
+    socket.on('disconnect', function () {
+        for (peer_id in peer_media_elements) peer_media_elements[peer_id].remove();
+        for (peer_id in peers) peers[peer_id].close();
+
+        peers = {};
+        peer_media_elements = {};
+    });
+
+    socket.on("removePeer", function (config) {
+        var peer_id = config.peer_id;
+        if (peer_id in peer_media_elements) peer_media_elements[peer_id].remove();
+
+        if (peer_id in peers) peers[peer_id].close();
+
+        delete peers[peer_id];
+        delete peer_media_elements[config.peer_id];
+    });
+}
+
+function getChannel() {
+    var loc = window.location;
+    var pathName = loc.pathname.substring(0, loc.pathname.lastIndexOf('/') + 1).length;
+    var channel = window.location.pathname.substring(pathName);
+    return channel;
 }
 
 exports['default'] = streamingTeacher;
 module.exports = exports['default'];
 
-},{}],37:[function(require,module,exports){
+},{"jquery":21}],37:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

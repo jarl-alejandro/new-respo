@@ -299,23 +299,41 @@ if(pathName == '/course/'){
 
 }
 
+function bloquear () {
+    var aho = document.querySelector(".ahorcado")
+    var tret = document.querySelector(".tretis")
+    var busa = document.querySelector(".buscamina")
+    aho.disabled  = true
+    aho.style = "cursor:no-drop"
+    tret.disabled  = true
+    tret.style = "cursor:no-drop"
+    busa.disabled  = true
+    busa.style = "cursor:no-drop"
+}
+
 function eventos(){
   document.querySelector(".ahorcado").addEventListener("click", function(event){
+      bloquear()
     alert("El estudiante a empezado a jugar ahorcado")
     socket.emit("play", { "play":"ahorcado" })
   })
 
   document.querySelector(".tretis").addEventListener("click", function(event){
+  bloquear()
     alert("El estudiante a empezado a jugar tretis")
     socket.emit("play", { "play":"tretis" })
   })
 
   document.querySelector(".pizarra").addEventListener("click", function(event){
+     var piza = document.querySelector(".pizarra")
+     piza.style = "cursor:no-drop"
+     piza.disabled  = true
     alert("El estudiante a empezado a jugar la pizarra")
     socket.emit("play", { "play":"pizarra" })
   })
 
   document.querySelector(".buscamina").addEventListener("click", function(event){
+  bloquear()
     alert("El estudiante a empezado a jugar buscamina")
     socket.emit("play", { "play":"buscamina" })
   })

@@ -1,6 +1,6 @@
 'use strict'
 
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 5000
 var http = require('http')
 var path = require('path')
 // var redis = require('redis')
