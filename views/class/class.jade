@@ -1,6 +1,6 @@
 extends ../base
 block content
-  div.menu
+  div.menu.none
     if user.type == "Teacher"
       ul.list-menu
         li(class="item-menu top-menu ")
@@ -29,8 +29,8 @@ block content
     input(type="hidden" value="#{ lessons.teacher._id }" id="profesor")    
   section#webrtc
     article.containerVideoRemote
-    input(type="text" value="#{ user._id }" class="user_id")
-    video(id="selfView",  controls, muted, autoplay)
+        div.LayoutRemoteProfesor
+        div.LayoutRemoteEstudiante
     
   section(class="LayoutClass")
       section
@@ -81,8 +81,7 @@ block content
         input(type="hidden" value="#{ lessons.course._id }" id="curso")
         input(type="hidden" value="#{ lessons._id }" id="clase_id")
         input(type="hidden" value="#{ user.type }" id="type_user")
-        button#startClass Empezar Clase
-        div.none.btn-clas-active
+        div.btn-clas-active
             if user.type == "Teacher"
               div(class="btn-end")
                 a(href="/post/class/#{ lessons._id }") Terminar la clase
@@ -139,7 +138,7 @@ block content
             input(type="hidden" value="#{ user._id }" id="estudiante_id")
             label.name-last Nombre y Apellido
             input(type="text" value="#{ user.name }" class="input__leccion")
-        div
+        div.none
             label.curso-parallel Curso y Paralelo
             input(type="text" value="#{ lessons.course.course } #{ lessons.course.parallel }" class="input__leccion")
     article.LeccionPapperBody
@@ -149,14 +148,21 @@ block content
         h3 Lecciones de la clase #{ lessons.nameClass }
     article.ListaEstudiantesLeccionBody
         ul.ListaEstudiantesLeccionBody-list
+    div.center-flex.flexbox
+      button.ListaEstudiantesLeccion-cerrar Cerrar
   section.LeccionCalificar
     header.LeccionCalificarHeader
+      h2.LeccionCalificarHeader-title Leccion de #{ lessons.nameClass } 
+      div.name
         label Nombre
-        input(type="text" id="LeccionCalificarHeader-alumno")
+        input(type="text" id="LeccionCalificarHeader-alumno" class="input__leccion" disabled="true")
+        input(type="hidden" class="id_estudiante_leccion")
+      div.nota
         label Nota
-        input(type="text" id="LeccionCalificarHeader-nota")
+        input(type="text" id="LeccionCalificarHeader-nota" class="input__leccion")
+        input(type="text" placeholder="Ejem: Felicitacionez" class="leccion_recomendacion" class="input__leccion")
     article.LeccionCalificarBody
-    div.actions
+    div.actions.center-flex.flexbox
         button(id="action-calificar" data-id="") Calificar
         button#action-cerrar Cerrar
   article.card--opciones

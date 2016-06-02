@@ -10,13 +10,18 @@ navigator.getUserMedia = (
 )
 
 function streamingTeacher(socket){
-    document.querySelector("#startClass").style = "display:none"
 
     const configuration = {'iceServers':[{'url': 'stun:stun.l.google.com:19302'}]}
-    const selfView = document.querySelector("#selfView")
+    let type_user = document.querySelector("#type_user").value
+    let tipo_usuario = null
 
-    socket.emit("join::video::chat", { "channel":getChannel() })
+    socket.emit("type::user", { "type_user":type_user })
+    socket.emit("join::video::chat", { "channel":getChannel(), "type_user":type_user })
     socket.on("addPeer", start)
+
+    socket.on("user::typo", function (data) {
+        tipo_usuario = data.type_user
+    })
 
     let local_media_stream = null;
     let peer_connection = null
@@ -25,7 +30,20 @@ function streamingTeacher(socket){
 
     navigator.getUserMedia({"audio":true, "video":true}, function (stream) {
         local_media_stream = stream;
-        selfView.src = URL.createObjectURL(local_media_stream)
+        var local_media = $("<video>")
+        local_media.attr("autoplay", "autoplay")
+        local_media.attr("controls", "")
+        local_media.attr("muted", "true");
+
+        if(type_user == "Student"){
+            local_media.addClass("estudianteLocalView")
+            $('.LayoutRemoteEstudiante').append(local_media)
+        }
+        else{
+            local_media.addClass("profesorLocalView")
+            $('.LayoutRemoteProfesor').append(local_media)
+        }
+        attachMediaStream(local_media[0], local_media_stream)
     },
     function (err) {
         console.log(err)
@@ -33,6 +51,7 @@ function streamingTeacher(socket){
 
     function start (config) {
         let peer_id = config.peer_id
+        let type_usuario = config.type_user
 
         if (peer_id in peers) {
             console.log("Already connected to peer ", peer_id);
@@ -58,18 +77,23 @@ function streamingTeacher(socket){
             var remote_media = $("<video>")
             remote_media.attr("autoplay", "autoplay")
             remote_media.attr("controls", "")
+
             peer_media_elements[peer_id] = remote_media
-            $('.containerVideoRemote').append(remote_media)
-            attachMediaStream(remote_media[0], event.stream)
+            if(tipo_usuario == "Student"){
+                remote_media.addClass("estudianteRemoteView")
+                $('.LayoutRemoteEstudiante').append(remote_media)
+                attachMediaStream(remote_media[0], event.stream)
+            }
+            else{
+                remote_media.addClass("profesorRemoteView")
+                $('.LayoutRemoteProfesor').append(remote_media)
+                attachMediaStream(remote_media[0], event.stream)
+            }
         }
 
         peer_connection.addStream(local_media_stream)
 
-        alert(config.should_offer)
-
         if(config.should_offer){
-            alert("dentro del if")
-            alert(peer_id)
 
             peer_connection.createOffer(function (local_description) {
                 peer_connection.setLocalDescription(local_description, function () {

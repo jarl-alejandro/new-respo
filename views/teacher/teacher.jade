@@ -67,3 +67,7 @@ block content
               li(class="margin-bottom")
                 span(class="icon-library")
                 a(class="padding-left" href="/course/#{ course._id }") #{ course.course.name } #{ course.parallel.name }
+        if clase != null
+          aside(class="card card-padding")
+            h2.title-have-class
+              a(href="/lessons/#{ clase._id }") Tienes Clase

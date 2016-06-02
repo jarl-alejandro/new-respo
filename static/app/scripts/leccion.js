@@ -99,6 +99,7 @@ function Leccion (socket){
           var lec = document.querySelector(".new-leccion")
           lec.disabled = true
           lec.style = "cursor:no-drop"
+          closeLeccion()
       }
   }
 
@@ -144,8 +145,9 @@ function Leccion (socket){
     }
 
     console.log( json);
-    document.querySelector("#question").value = JSON.stringify(json)
     socket.emit("presentar::leccion", json)
+    $(".LeccionPapperBody").empty()
+    $(".LeccionPaper").fadeOut()
     alert("La leccion ha sido presentada..")
   }
 

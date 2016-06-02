@@ -1,3 +1,47 @@
+#action-cerrar
+#action-calificar
+    color #F0F0F0
+    padding 0.5em
+    box-shadow sombra
+    border 0
+    font-weight bold
+    border-radius 2px
+    transition all ease .3s
+    &:hover
+        box-shadow 0px 2px 3px rgba(black, .5)
+#action-cerrar
+    background rojo_porque
+    margin-left .5em
+    &:hover
+        background rojo_porque_agua
+
+#action-calificar
+    background blue_gray
+    margin-right .5em
+    &:hover
+        background blue_gray_agua
+#LeccionCalificarHeader-nota
+    width 15%
+    margin-right 1em
+    padding-bottom 0em
+.leccion_recomendacion
+    padding-bottom 0em !important
+    padding-top 1em !important
+.name
+.nota
+    label 
+        margin-right 1em
+        font-weight bold
+        color text-paper
+.md-respuesta
+    margin 0
+    font-weight bold
+    margin-left 3em !important
+    color #2498C3
+.ListaEstudiantesLeccionBody-list
+    padding 0
+    li
+        border-bottom 1px solid #C5C3C3
 #card__leccion
     background #FFFBEC
     box-shadow 0px 1px 1.5px rgba(0, 0, 0, 0.5)
@@ -87,7 +131,26 @@
     left 11.4em
     display none
     z-index 100000
-
+    top 10em
+.ListaEstudiantesLeccion-cerrar
+    border 0
+    color #f0f0f0
+    box-shadow 0px 1px 1.5px rgba(black, .5)
+    background #d2527f
+    padding .5em
+    margin-bottom 1em
+    font-weight bold
+.center-flex
+    justify-content center
+.flexbox
+    display flex
+.md-lesson
+    background #10ADE6
+    color white
+    box-shadow 0px 1px 1.5px rgba(0,0,0,0.5)
+    border 0
+    padding 0.2em 2em
+    margin-left 21em
 .ListaEstudiantesLeccionHeader
     h3
         text-align center
@@ -140,13 +203,21 @@
 .name-last
     color text-paper
     font-weight bold
-
+.LeccionCalificarHeader-title
+    text-align center
+    margin 0 0 .3em 0
+    color text-paper
 .LeccionCalificar
     background amarillo-paper
     position absolute
     z-index 100000
-    left 5em
+    left 7em
+    width 41em
     display none
+    top 7em
+    box-shadow 0px 1px 1.5px rgba(black, 0.5)
+    padding 1em 2em
+    margin-bottom 1em
 
 .card__preguntas-create
     width 23em

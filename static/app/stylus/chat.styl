@@ -1,5 +1,46 @@
+.lista_respuesta
+  max-height 300px
+  overflow-y scroll
+.count_repuesta
+  margin-right .5em
+  color #666
 //form
+.question__respuesta
+  font-weight bold
+  background white
+  margin 1em 0
+  padding 1em
+  text-align center
+  color #696867
+  font-size 1em
+  box-shadow 0px 0px 3px rgba(0,0,0,0.5)
+  width 90%
+  margin-left .5em
+  border-radius 2px
+#respuestas
+  position relative
+.atras
+    background #FCC41C
+    color #87620a
+    font-weight bold
+    display block
+    padding .7em 2em
+    cursor pointer
+    width 24.5em
+    transition all ease .3s
+    &:before
+      content ""
+      display inline-block
+      border-top 20px solid #DDE3E6
+      border-right 20px solid #FCC41C
+      border-bottom 20px solid #DDE3E6
+      position absolute
+      top 0
+      left 0
+#form-responder
+  margin-left 22em
 .btnQuestion
+#form-responder
   background rgba(color_amber, .9)
   border 1px solid #87620a
   border-radius 5px
@@ -13,7 +54,20 @@
 .questionForm
   padding 15px 25px .5em 1px
   background #edf1f4
-
+#form-respuesta
+  border 1px solid #bbbec0
+  border-radius 5px
+  box-shadow 0 0 10px rgba(187,190,192,.8) inset
+  font-size 15px
+  height 59px
+  width 93%
+  margin-left .5em
+  resize none
+  font-family "Open Sans", Arial
+  transition all ease 1s
+  outline-color red
+  &:focus
+    border 1px solid cyan_oscuro
 .questionForm-textarea
   border 1px solid #bbbec0
   border-radius 5px
@@ -63,7 +117,10 @@ textarea[placeholder]
   text-align right
   display block
   color #666
-
+.responder-pregunta
+  color #666
+  background #DDE3E6
+  padding .4em
 .discussion-text
   color #0187b9
   font-size 16px
@@ -91,7 +148,6 @@ textarea[placeholder]
   cursor pointer
 
 .user
-  float left
   font-weight 400px
   font-size 13px
 

@@ -17,6 +17,7 @@ import Grupos from './grupos'
 import Reporte from './reportes'
 
 import boxTemplate from './templates/box.hbs'
+import respuestaTemplate from './templates/respuestas.hbs'
 import formTemplate from './templates/form.hbs'
 import itemTemplate from './templates/item.hbs'
 import listTemplate from './templates/list.hbs'
@@ -184,6 +185,7 @@ function streamingCameraTeacher(){
   if(pathName === '/lessons/'){
     console.log("pathName cumplio", pathName)
     streamingT(socket)
+    chatPreguntasLoad()
   }
   if(pathName.startsWith('/lessons/')){
 
@@ -221,9 +223,13 @@ function streamingCameraTeacher(){
 
 function boxTmpl(){
   const box = boxTemplate()
+  const respuesta = respuestaTemplate()
   chat.appendChild(domify(box))
+  chat.appendChild(domify(respuesta))
   formularioTmpl()
   listTmpl()
+  let atras = document.querySelector(".atras")
+  atras.addEventListener("click", onAtras)
 }
 
 function formularioTmpl(){
@@ -244,28 +250,36 @@ var listTmpl = function(){
 
 var sendQuestion = function(e){
   e.preventDefault()
-  const question = document.getElementById("question").value
-  socket.emit("send::question", question)
-  document.getElementById("question").value = ""
+  let question = document.getElementById("question").value
+  let bitacora = document.getElementById("clase_id").value 
+  if (question == "")
+    alert("Debe ingresar un preguta")
+  else{
+    socket.emit("send::question", { "question":question, "bitacora":bitacora })
+    document.getElementById("question").value = ""    
+  }
 }
+
 socket.on("question::recieve", addQuestion)
 
 //< menor que || > mayor que
 function addQuestion(question){
+  console.log(question)
   const q = itemTemplate({ question:question })
   listQuestion.appendChild(domify(q))
 
   const like = document.querySelectorAll(".like")
   const noLike = document.querySelectorAll('.no-like')
+  const respues = document.querySelectorAll(".responder-pregunta")
 
-  for(let i=0; i<like.length; i++){
+  for(let i=0; i<like.length; i++)
     like[i].addEventListener("click", plus)
-  }
 
-  for(let i=0; i<noLike.length; i++){
+  for(let i=0; i<noLike.length; i++)
     noLike[i].addEventListener("click", minus)
-  }
 
+  for(let i=0; i<respues.length; i++)
+    respues[i].addEventListener("click", responder)
 }
 
 function plus(e){
@@ -338,3 +352,92 @@ function eventos(){
     socket.emit("play", { "play":"buscamina" })
   })
 }
+
+function chatPreguntasLoad(){
+  let bitacora = document.getElementById("clase_id").value 
+  $.get(`/preguntas/chat/${ bitacora }`)
+    .done(function (preguntas) {
+      for (var i = 0; i < preguntas.length; i++) {
+        var preg = preguntas[i]
+        var q = itemTemplate({ question:preg })
+        listQuestion.appendChild(domify(q))
+        count__questions(preg._id)
+        const respuesta = document.querySelectorAll(".responder-pregunta")
+        respuesta[i].addEventListener("click", responder)        
+      }
+    })
+}
+
+function count__questions (id) {
+  console.log(id)
+  $.get(`/respuestas/count/${id}`)
+    .done(function (respuestas){
+      console.log(respuestas)
+      console.log(id)
+      $(`.count_repuesta span[data-id="${ id }"]`).html(respuestas.count)
+    })
+}
+
+function responder (event) {
+  var id = event.target.dataset.id
+  var pregunta = $(`.discussion-text p[data-id="${ id }"]`).html()
+  document.querySelector("#form-responder").dataset.id = id
+  $(".question__respuesta").html(pregunta)
+  $("#box").addClass("removeChat")
+  $("#respuestas").removeClass("none")
+  var responder_pregunta = document.querySelector("#form-responder")
+  responder_pregunta.addEventListener("click", onResponderPregunta, false)
+  respuestasTemplate(id)
+}
+
+function onAtras() {
+  $("#box").removeClass("removeChat")
+  $("#respuestas").addClass("none")  
+  $(".lista_respuesta").html("")
+}
+
+
+function onResponderPregunta(e) {
+  var id = e.target.dataset.id
+  var respuesta = $("#form-respuesta")
+  var data = { "respuesta":respuesta.val(), "id_pregunta":id }
+  socket.emit("responder::pregunta", data)
+  onAtras()
+  respuesta.val("")
+}
+
+socket.on("count::respuesta", onCount)
+
+function onCount(data) {
+  $(`.count_repuesta span[data-id="${ data.id }"]`).html(data.count)
+}
+
+
+function respuestasTemplate (id) {
+  $.get(`/respuestas/preguntas/${id}`)
+  .done(function (respuestas) {
+    for(var i=0; i<respuestas.length; i++) {
+      var item = template_respuesta(respuestas[i])
+      $(".lista_respuesta").prepend(item)
+    }
+
+  })
+}
+
+function template_respuesta(respuesta) {
+  var item = `<div class="item" id="item-question" style="width: 86.1% !important;">
+    <div class="top-details">
+      <div class="user">
+        <span class="avatar-discussion">
+          <img src="${ respuesta.avatar }" alt="${ respuesta.name }" height="20" width="20">
+        </span>
+        <a class="author-discussion">${ respuesta.name }</a>
+      </div>
+    </div>
+    <div class="discussion-text">
+      <p class="btn-q" data-id="${ respuesta._id }">${ respuesta.respuesta }</p>
+    </div>
+  </div>`
+  return item
+}
+

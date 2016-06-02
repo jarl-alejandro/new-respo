@@ -12041,17 +12041,32 @@ function CalificarLeccion(socket) {
     var see_leccion = document.querySelector(".see_leccion");
     var calificar_btn = document.querySelector("#action-calificar");
     var cerrar_btn = document.querySelector("#action-cerrar");
+    var cerrar_btn_listado = document.querySelector(".ListaEstudiantesLeccion-cerrar");
     // Eventos
     see_leccion.addEventListener("click", seeLeccion, false);
     calificar_btn.addEventListener("click", onCalificar, false);
     cerrar_btn.addEventListener("click", onCerrar, false);
+    cerrar_btn_listado.addEventListener("click", onCerrarListado, false);
+
+    function onCerrarListado() {
+        (0, _jquery2['default'])(".ListaEstudiantesLeccionBody-list").empty();
+        (0, _jquery2['default'])("#ListaEstudiantesLeccion").fadeOut();
+    }
 
     function onCalificar(e) {
         var leccion = e.target.dataset.id;
         var nota = (0, _jquery2['default'])("#LeccionCalificarHeader-nota").val();
+        var recomendacion = (0, _jquery2['default'])(".leccion_recomendacion").val();
+        var id_estudiante = (0, _jquery2['default'])(".id_estudiante_leccion").val();
+
         if (nota > 10) alert("No puede sar mayor que 10");
-        if (nota <= 0) alert("No puede sar menor que 0");else {
-            socket.emit("calificar::leccion:nota", { nota: nota, leccion: leccion });
+        if (nota <= 0) alert("No puede sar menor que 0");
+        if (recomendacion == "") alert("Debe ingresar una recomendacion");else {
+            socket.emit("calificar::leccion:nota", { nota: nota, leccion: leccion, recomendacion: recomendacion });
+            var btn = document.querySelector('input[data-id_alumno="' + id_estudiante + '"]');
+            btn.dataset.nota = nota;
+            btn.dataset.recomendacion = recomendacion;
+            console.log(btn);
             onCerrar();
         }
     }
@@ -12082,7 +12097,7 @@ function seeLeccion() {
 }
 
 function TemplateItemEstudiante(estudiante) {
-    var item = '<li>\n        <figure><img  src="' + estudiante.rel_alumno.avatar + '" width="30" height="30" /></figure>\n        <span>' + estudiante.rel_alumno.name + '</span>\n        <input type="button" value="Ver" data-id="' + estudiante.rel_leccion + '"  class="md-lesson"\n            data-alumno="' + estudiante.rel_alumno.name + '" data-leccion="' + estudiante._id + '" />\n    </li>';
+    var item = '<li>\n        <figure><img  src="' + estudiante.rel_alumno.avatar + '" width="30" height="30" /></figure>\n        <span>' + estudiante.rel_alumno.name + '</span>\n        <input type="button" value="Ver" data-id="' + estudiante.rel_leccion + '"  class="md-lesson"\n            data-alumno="' + estudiante.rel_alumno.name + '" data-leccion="' + estudiante._id + '" \n            data-id_alumno="' + estudiante.rel_alumno._id + '" data-nota="' + estudiante.nota + '" \n            data-recomendacion="' + estudiante.recomendacion + '" />\n    </li>';
     return item;
 }
 function selectType(data) {
@@ -12097,16 +12112,21 @@ function calificarLesson(e) {
     var prueba = e.target.dataset.id;
     var alumno = e.target.dataset.alumno;
     var leccion = e.target.dataset.leccion;
+    var id_alumno = e.target.dataset.id_alumno;
+    var nota = e.target.dataset.nota;
+    var recomendacion = e.target.dataset.recomendacion;
     document.querySelector("#action-calificar").dataset.id = leccion;
-
+    (0, _jquery2['default'])("#LeccionCalificarHeader-nota").val(nota);
+    (0, _jquery2['default'])(".leccion_recomendacion").val(recomendacion);
+    (0, _jquery2['default'])(".id_estudiante_leccion").val(id_alumno);
     _jquery2['default'].get('/prueba/' + prueba).done(function (prueba) {
         console.log(prueba);
         for (var i = 0; i < prueba.length; i++) {
             var type = selectType(prueba[i]);
             var tpl = TemplatePrueba(prueba[i], type);
             (0, _jquery2['default'])(".LeccionCalificarBody").append(tpl);
-            if (prueba[i].type == "C") completar(prueba[i]._id, prueba[i].numero);
-            if (prueba[i].type != "C") selecionar(prueba[i]._id, prueba[i].numero);
+            if (prueba[i].type == "C") completar(prueba[i]._id, prueba[i].numero, id_alumno);
+            if (prueba[i].type != "C") selecionar(prueba[i]._id, prueba[i].numero, id_alumno);
 
             (0, _jquery2['default'])(".LeccionCalificar").fadeIn();
             (0, _jquery2['default'])("#LeccionCalificarHeader-alumno").val(alumno);
@@ -12115,29 +12135,28 @@ function calificarLesson(e) {
 }
 
 function TemplatePrueba(data, type) {
-    var tpl = '<div>\n        <p>' + type + '</p>\n        <p>' + data.numero + '</p>\n        <input type="hidden" value="' + data._id + '" />\n        <p>' + data.descripcion + '</p>\n        <div class="respuesta-container-' + data.numero + '"></div>\n    </div>';
+    var tpl = '<div>\n        <p class="de_completar">' + type + '</p>\n        <p>\n            <span class="count__leccion">' + data.numero + '</span>\n            <span class="pregunta_leccion_text">' + data.descripcion + '</span>\n            <input type="hidden" value="' + data._id + '" />\n        </p>\n        <div class="respuesta-container-' + data.numero + ' form-checks"></div>\n    </div>';
     return tpl;
 }
-
-function selecionar(id, count) {
+function selecionar(id, count, alumno) {
     _jquery2['default'].get('/posibilidades/' + id).done(function (posibilidades) {
         (0, _jquery2['default'])('.respuesta-container-' + count).append('<ul class="lista-posibi-' + count + '"></ul>');
 
         for (var i = 0; i < posibilidades.length; i++) {
-            if (posibilidades[i].type == "S") templateCheckType(posibilidades[i], count, "radio");
-            if (posibilidades[i].type == "M") templateCheckType(posibilidades[i], count, "checkbox");
+            if (posibilidades[i].type == "S") templateCheckType(posibilidades[i], count, "radio", alumno);
+            if (posibilidades[i].type == "M") templateCheckType(posibilidades[i], count, "checkbox", alumno);
         }
     });
 }
 
-function templateCheckType(data, count, type) {
-    var item = '<li>\n        <input type=' + type + ' name="simple' + count + '" value="' + data.descripcion + '"\n            disabled="true"  style="float:none" id="' + data._id + '" />\n        <span>' + data.descripcion + '<span>\n    </li>';
+function templateCheckType(data, count, type, alumno) {
+    var item = '<li style="margin-bottom:.1em;list-style:none">\n        <input type=' + type + ' name="simple' + count + '" value="' + data.descripcion + '"\n            disabled="true"  style="float:none" id="' + data._id + '" />\n        <label for="' + data._id + '">' + data.descripcion + '</label>\n    </li>';
     (0, _jquery2['default'])('.lista-posibi-' + count).append(item);
-    selectRespuestas(data.rel_pregunta, data._id);
+    selectRespuestas(data.rel_pregunta, data._id, alumno);
 }
 
-function selectRespuestas(id, idItem) {
-    _jquery2['default'].get('/respuesta/' + id).done(function (respuestas) {
+function selectRespuestas(id, idItem, alumno) {
+    _jquery2['default'].get('/respuesta/' + id + '/' + alumno).done(function (respuestas) {
 
         for (var i = 0; i < respuestas.length; i++) {
             if (idItem == respuestas[i].descripcion) {
@@ -12148,11 +12167,11 @@ function selectRespuestas(id, idItem) {
     });
 }
 
-function completar(id, count) {
-    _jquery2['default'].get('/respuesta/' + id).done(function (respuesta) {
+function completar(id, count, alumno) {
+    _jquery2['default'].get('/respuesta/' + id + '/' + alumno).done(function (respuesta) {
 
         for (var i = 0; i < respuesta.length; i++) {
-            var tpl = '<p>' + respuesta[i].descripcion + '</p>';
+            var tpl = '<p class="md-respuesta">' + respuesta[i].descripcion + '</p>';
             (0, _jquery2['default'])('.respuesta-container-' + count).append(tpl);
         }
     });
@@ -12621,6 +12640,10 @@ var _templatesBoxHbs = require('./templates/box.hbs');
 
 var _templatesBoxHbs2 = _interopRequireDefault(_templatesBoxHbs);
 
+var _templatesRespuestasHbs = require('./templates/respuestas.hbs');
+
+var _templatesRespuestasHbs2 = _interopRequireDefault(_templatesRespuestasHbs);
+
 var _templatesFormHbs = require('./templates/form.hbs');
 
 var _templatesFormHbs2 = _interopRequireDefault(_templatesFormHbs);
@@ -12810,6 +12833,7 @@ function streamingCameraTeacher() {
   if (pathName === '/lessons/') {
     console.log("pathName cumplio", pathName);
     (0, _streaming2['default'])(socket);
+    chatPreguntasLoad();
   }
   if (pathName.startsWith('/lessons/')) {
     (function () {
@@ -12848,9 +12872,13 @@ function streamingCameraTeacher() {
 
 function boxTmpl() {
   var box = (0, _templatesBoxHbs2['default'])();
+  var respuesta = (0, _templatesRespuestasHbs2['default'])();
   chat.appendChild((0, _domify2['default'])(box));
+  chat.appendChild((0, _domify2['default'])(respuesta));
   formularioTmpl();
   listTmpl();
+  var atras = document.querySelector(".atras");
+  atras.addEventListener("click", onAtras);
 }
 
 function formularioTmpl() {
@@ -12872,25 +12900,31 @@ var listTmpl = function listTmpl() {
 var sendQuestion = function sendQuestion(e) {
   e.preventDefault();
   var question = document.getElementById("question").value;
-  socket.emit("send::question", question);
-  document.getElementById("question").value = "";
+  var bitacora = document.getElementById("clase_id").value;
+  if (question == "") alert("Debe ingresar un preguta");else {
+    socket.emit("send::question", { "question": question, "bitacora": bitacora });
+    document.getElementById("question").value = "";
+  }
 };
+
 socket.on("question::recieve", addQuestion);
 
 //< menor que || > mayor que
 function addQuestion(question) {
+  console.log(question);
   var q = (0, _templatesItemHbs2['default'])({ question: question });
   listQuestion.appendChild((0, _domify2['default'])(q));
 
   var like = document.querySelectorAll(".like");
   var noLike = document.querySelectorAll('.no-like');
+  var respues = document.querySelectorAll(".responder-pregunta");
 
   for (var i = 0; i < like.length; i++) {
     like[i].addEventListener("click", plus);
-  }
-
-  for (var i = 0; i < noLike.length; i++) {
+  }for (var i = 0; i < noLike.length; i++) {
     noLike[i].addEventListener("click", minus);
+  }for (var i = 0; i < respues.length; i++) {
+    respues[i].addEventListener("click", responder);
   }
 }
 
@@ -12966,7 +13000,77 @@ function eventos() {
   });
 }
 
-},{"./ahorcado":22,"./buscamina":23,"./calificar":24,"./calificar_leccion":25,"./cronometro":27,"./cursos-admin":28,"./delet-admin":29,"./grupos":30,"./leccion":32,"./opciones":33,"./pizarra":34,"./reportes":35,"./streaming":36,"./tarea":37,"./templates/box.hbs":38,"./templates/deber.hbs":39,"./templates/flagClass.hbs":40,"./templates/form.hbs":41,"./templates/games/ahorcado.hbs":42,"./templates/games/buscamina.hbs":43,"./templates/games/trestis.hbs":44,"./templates/item.hbs":45,"./templates/list.hbs":46,"./templates/pizarra.hbs":47,"./trestis":48,"./validate":49,"domify":1,"jquery":21}],32:[function(require,module,exports){
+function chatPreguntasLoad() {
+  var bitacora = document.getElementById("clase_id").value;
+  _jquery2['default'].get('/preguntas/chat/' + bitacora).done(function (preguntas) {
+    for (var i = 0; i < preguntas.length; i++) {
+      var preg = preguntas[i];
+      var q = (0, _templatesItemHbs2['default'])({ question: preg });
+      listQuestion.appendChild((0, _domify2['default'])(q));
+      count__questions(preg._id);
+      var respuesta = document.querySelectorAll(".responder-pregunta");
+      respuesta[i].addEventListener("click", responder);
+    }
+  });
+}
+
+function count__questions(id) {
+  console.log(id);
+  _jquery2['default'].get('/respuestas/count/' + id).done(function (respuestas) {
+    console.log(respuestas);
+    console.log(id);
+    (0, _jquery2['default'])('.count_repuesta span[data-id="' + id + '"]').html(respuestas.count);
+  });
+}
+
+function responder(event) {
+  var id = event.target.dataset.id;
+  var pregunta = (0, _jquery2['default'])('.discussion-text p[data-id="' + id + '"]').html();
+  document.querySelector("#form-responder").dataset.id = id;
+  (0, _jquery2['default'])(".question__respuesta").html(pregunta);
+  (0, _jquery2['default'])("#box").addClass("removeChat");
+  (0, _jquery2['default'])("#respuestas").removeClass("none");
+  var responder_pregunta = document.querySelector("#form-responder");
+  responder_pregunta.addEventListener("click", onResponderPregunta, false);
+  respuestasTemplate(id);
+}
+
+function onAtras() {
+  (0, _jquery2['default'])("#box").removeClass("removeChat");
+  (0, _jquery2['default'])("#respuestas").addClass("none");
+  (0, _jquery2['default'])(".lista_respuesta").html("");
+}
+
+function onResponderPregunta(e) {
+  var id = e.target.dataset.id;
+  var respuesta = (0, _jquery2['default'])("#form-respuesta");
+  var data = { "respuesta": respuesta.val(), "id_pregunta": id };
+  socket.emit("responder::pregunta", data);
+  onAtras();
+  respuesta.val("");
+}
+
+socket.on("count::respuesta", onCount);
+
+function onCount(data) {
+  (0, _jquery2['default'])('.count_repuesta span[data-id="' + data.id + '"]').html(data.count);
+}
+
+function respuestasTemplate(id) {
+  _jquery2['default'].get('/respuestas/preguntas/' + id).done(function (respuestas) {
+    for (var i = 0; i < respuestas.length; i++) {
+      var item = template_respuesta(respuestas[i]);
+      (0, _jquery2['default'])(".lista_respuesta").prepend(item);
+    }
+  });
+}
+
+function template_respuesta(respuesta) {
+  var item = '<div class="item" id="item-question" style="width: 86.1% !important;">\n    <div class="top-details">\n      <div class="user">\n        <span class="avatar-discussion">\n          <img src="' + respuesta.avatar + '" alt="' + respuesta.name + '" height="20" width="20">\n        </span>\n        <a class="author-discussion">' + respuesta.name + '</a>\n      </div>\n    </div>\n    <div class="discussion-text">\n      <p class="btn-q" data-id="' + respuesta._id + '">' + respuesta.respuesta + '</p>\n    </div>\n  </div>';
+  return item;
+}
+
+},{"./ahorcado":22,"./buscamina":23,"./calificar":24,"./calificar_leccion":25,"./cronometro":27,"./cursos-admin":28,"./delet-admin":29,"./grupos":30,"./leccion":32,"./opciones":33,"./pizarra":34,"./reportes":35,"./streaming":36,"./tarea":37,"./templates/box.hbs":38,"./templates/deber.hbs":39,"./templates/flagClass.hbs":40,"./templates/form.hbs":41,"./templates/games/ahorcado.hbs":42,"./templates/games/buscamina.hbs":43,"./templates/games/trestis.hbs":44,"./templates/item.hbs":45,"./templates/list.hbs":46,"./templates/pizarra.hbs":47,"./templates/respuestas.hbs":48,"./trestis":49,"./validate":50,"domify":1,"jquery":21}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13055,6 +13159,7 @@ function Leccion(socket) {
             var lec = document.querySelector(".new-leccion");
             lec.disabled = true;
             lec.style = "cursor:no-drop";
+            closeLeccion();
         }
     }
 
@@ -13097,8 +13202,9 @@ function Leccion(socket) {
         }
 
         console.log(json);
-        document.querySelector("#question").value = JSON.stringify(json);
         socket.emit("presentar::leccion", json);
+        (0, _jquery2['default'])(".LeccionPapperBody").empty();
+        (0, _jquery2['default'])(".LeccionPaper").fadeOut();
         alert("La leccion ha sido presentada..");
     }
 
@@ -13548,13 +13654,18 @@ var _jquery2 = _interopRequireDefault(_jquery);
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 function streamingTeacher(socket) {
-    document.querySelector("#startClass").style = "display:none";
 
     var configuration = { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] };
-    var selfView = document.querySelector("#selfView");
+    var type_user = document.querySelector("#type_user").value;
+    var tipo_usuario = null;
 
-    socket.emit("join::video::chat", { "channel": getChannel() });
+    socket.emit("type::user", { "type_user": type_user });
+    socket.emit("join::video::chat", { "channel": getChannel(), "type_user": type_user });
     socket.on("addPeer", start);
+
+    socket.on("user::typo", function (data) {
+        tipo_usuario = data.type_user;
+    });
 
     var local_media_stream = null;
     var peer_connection = null;
@@ -13563,13 +13674,26 @@ function streamingTeacher(socket) {
 
     navigator.getUserMedia({ "audio": true, "video": true }, function (stream) {
         local_media_stream = stream;
-        selfView.src = URL.createObjectURL(local_media_stream);
+        var local_media = (0, _jquery2['default'])("<video>");
+        local_media.attr("autoplay", "autoplay");
+        local_media.attr("controls", "");
+        local_media.attr("muted", "true");
+
+        if (type_user == "Student") {
+            local_media.addClass("estudianteLocalView");
+            (0, _jquery2['default'])('.LayoutRemoteEstudiante').append(local_media);
+        } else {
+            local_media.addClass("profesorLocalView");
+            (0, _jquery2['default'])('.LayoutRemoteProfesor').append(local_media);
+        }
+        attachMediaStream(local_media[0], local_media_stream);
     }, function (err) {
         console.log(err);
     });
 
     function start(config) {
         var peer_id = config.peer_id;
+        var type_usuario = config.type_user;
 
         if (peer_id in peers) {
             console.log("Already connected to peer ", peer_id);
@@ -13595,18 +13719,22 @@ function streamingTeacher(socket) {
             var remote_media = (0, _jquery2['default'])("<video>");
             remote_media.attr("autoplay", "autoplay");
             remote_media.attr("controls", "");
+
             peer_media_elements[peer_id] = remote_media;
-            (0, _jquery2['default'])('.containerVideoRemote').append(remote_media);
-            attachMediaStream(remote_media[0], event.stream);
+            if (tipo_usuario == "Student") {
+                remote_media.addClass("estudianteRemoteView");
+                (0, _jquery2['default'])('.LayoutRemoteEstudiante').append(remote_media);
+                attachMediaStream(remote_media[0], event.stream);
+            } else {
+                remote_media.addClass("profesorRemoteView");
+                (0, _jquery2['default'])('.LayoutRemoteProfesor').append(remote_media);
+                attachMediaStream(remote_media[0], event.stream);
+            }
         };
 
         peer_connection.addStream(local_media_stream);
 
-        alert(config.should_offer);
-
         if (config.should_offer) {
-            alert("dentro del if");
-            alert(peer_id);
 
             peer_connection.createOffer(function (local_description) {
                 peer_connection.setLocalDescription(local_description, function () {
@@ -13771,19 +13899,29 @@ var templater = require("handlebars/runtime")["default"].template;module.exports
 },"useData":true});
 },{"handlebars/runtime":20}],45:[function(require,module,exports){
 var templater = require("handlebars/runtime")["default"].template;module.exports = templater({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+    var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "<div class=\"item\" id=\"item-question\">\n  <div class=\"top-details\">\n    <div class=\"user\">\n      <span class=\"avatar-discussion\">\n        <img src=\""
-    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1.user : stack1)) != null ? stack1.avatar : stack1), depth0))
+  return "<div class=\"item\" id=\"item-question\">\n<input type=\"hidden\", value=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1._id : stack1), depth0))
+    + "\" class=\"ids_preguntas\">\n  <div class=\"top-details\">\n    <div class=\"user\">\n      <span class=\"avatar-discussion\">\n        <img src=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1.avatar : stack1), depth0))
     + "\" alt=\""
-    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1.user : stack1)) != null ? stack1.name : stack1), depth0))
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1.name : stack1), depth0))
     + "\" height=\"20\" width=\"20\">\n      </span>\n      <a class=\"author-discussion\">"
-    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1.user : stack1)) != null ? stack1.name : stack1), depth0))
-    + "</a>\n    </div>\n    <span class=\"date\">"
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1.now : stack1), depth0))
-    + "</span>\n  </div>\n  <div class=\"discussion-text\">\n    <p class=\"btn-q\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1.name : stack1), depth0))
+    + "</a>\n    </div>\n    <span class=\"date none\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1.date : stack1), depth0))
+    + "</span>\n  </div>\n  <div class=\"discussion-text\">\n    <p class=\"btn-q\" data-id=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1._id : stack1), depth0))
+    + "\">"
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1.question : stack1), depth0))
-    + "</p>\n  </div>\n  <div class=\"bottom-details\">\n    <div class=\"action\">\n      <a class=\"icon-smile2 like\">0</a>\n      <a class=\"icon-crying2 no-like\">0</a>\n    </div>\n  </div>\n</div>\n\n";
+    + "</p>\n  </div>\n  <div class=\"bottom-details\">\n    <div class=\"action\">\n      <a class=\"icon-smile2 like none\">0</a>\n      <a class=\"icon-crying2 no-like none\">0</a>\n      <a class=\"count_repuesta\">\n        <span data-id=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1._id : stack1), depth0))
+    + "\">"
+    + alias2(((helper = (helper = helpers.count || (depth0 != null ? depth0.count : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"count","hash":{},"data":data}) : helper)))
+    + "</span>\n        Respuestas\n      </a>\n      <a class=\"responder-pregunta\" data-id=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.question : depth0)) != null ? stack1._id : stack1), depth0))
+    + "\">Responder</a>\n    </div>\n  </div>\n</div>\n\n";
 },"useData":true});
 },{"handlebars/runtime":20}],46:[function(require,module,exports){
 var templater = require("handlebars/runtime")["default"].template;module.exports = templater({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -13794,6 +13932,10 @@ var templater = require("handlebars/runtime")["default"].template;module.exports
     return "\r\n<section id=\"contentPizarra\">\r\n	\r\n  <div id=\"cursors\">\r\n    <!-- Aqui pondremos los cursores de nuestros amigos -->\r\n  </div>\r\n\r\n  <canvas id=\"paper\" width=\"1900\" height=\"1000\">\r\n      Tu navegador debe soportar canvas\r\n  </canvas>\r\n\r\n  <hgroup id=\"instructions\">\r\n      <h1>¡Dibujemos!</h1>\r\n      <h2>Dibuja en cualquier lugar con tu cursor</h2>\r\n  </hgroup>\r\n\r\n </section>\r\n";
 },"useData":true});
 },{"handlebars/runtime":20}],48:[function(require,module,exports){
+var templater = require("handlebars/runtime")["default"].template;module.exports = templater({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<section id=\"respuestas\" class=\"none\">\r\n	<a class=\"atras\">Atras</a>\r\n	<p class=\"question__respuesta\"></p>\r\n	<article class=\"box-form\">\r\n		<textarea id=\"form-respuesta\" placeholder=\"Escribe tu respuesta\"></textarea>\r\n		<button id=\"form-responder\" data-id=\"\">Responder</button>\r\n	</article>\r\n	<ul class=\"lista_respuesta\"></ul>\r\n</section>\r\n";
+},"useData":true});
+},{"handlebars/runtime":20}],49:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15407,7 +15549,7 @@ function aleatorio(inferior, superior) {
 exports['default'] = startTretis;
 module.exports = exports['default'];
 
-},{"jquery":21}],49:[function(require,module,exports){
+},{"jquery":21}],50:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
