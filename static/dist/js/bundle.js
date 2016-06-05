@@ -13651,9 +13651,13 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
 function streamingTeacher(socket) {
+    // navigator.getUserMedia = (
+    //   navigator.getUserMedia ||
+    //   navigator.webkitGetUserMedia ||
+    //   navigator.mozGetUserMedia ||
+    //   navigator.msGetUserMedia
+    // )
 
     var configuration = { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] };
     var type_user = document.querySelector("#type_user").value;
@@ -13689,6 +13693,7 @@ function streamingTeacher(socket) {
         attachMediaStream(local_media[0], local_media_stream);
     }, function (err) {
         console.log(err);
+        alert("No Funciona!!");
     });
 
     function start(config) {

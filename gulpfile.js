@@ -3,6 +3,7 @@
 var gulp = require('gulp')
 var browserify = require('browserify')
 var babelify = require('babelify')
+// var uglify = require('gulp-uglify')
 var source = require('vinyl-source-stream')
 // var minify = require('gulp-minify-css')
 var hbsfy = require('browserify-handlebars')
@@ -16,7 +17,6 @@ gulp.task('build', function(){
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(gulp.dest('./static/dist/js'))
-
 })
 
 gulp.task('watch', function(){

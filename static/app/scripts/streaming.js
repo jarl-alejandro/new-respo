@@ -2,14 +2,13 @@
 
 import $ from  'jquery'
 
-navigator.getUserMedia = (
-  navigator.getUserMedia ||
-  navigator.webkitGetUserMedia ||
-  navigator.mozGetUserMedia ||
-  navigator.msGetUserMedia
-)
-
 function streamingTeacher(socket){
+    // navigator.getUserMedia = (
+    //   navigator.getUserMedia ||
+    //   navigator.webkitGetUserMedia ||
+    //   navigator.mozGetUserMedia ||
+    //   navigator.msGetUserMedia
+    // )
 
     const configuration = {'iceServers':[{'url': 'stun:stun.l.google.com:19302'}]}
     let type_user = document.querySelector("#type_user").value
@@ -47,6 +46,7 @@ function streamingTeacher(socket){
     },
     function (err) {
         console.log(err)
+        alert("No Funciona!!")
     })
 
     function start (config) {
