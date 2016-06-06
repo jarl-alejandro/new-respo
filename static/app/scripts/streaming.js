@@ -58,7 +58,8 @@ function streamingTeacher(socket){
             return;
         }
 
-        peer_connection = new RTCPeerConnection(configuration, {"optional": [{"DtlsSrtpKeyAgreement": true}]} )
+        peer_connection = new RTCPeerConnection(configuration)
+        // , {"optional": [{"DtlsSrtpKeyAgreement": true}]} 
         peers[peer_id] = peer_connection
 
         peer_connection.onicecandidate = function (event) {
