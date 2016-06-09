@@ -31,7 +31,7 @@ block content
           div(class="form-group subjectSelect")
             select(name="subject" required)
               each subject in subjects
-                option(value="#{ subject._id }") #{ subject.subject }
+                option(value="#{ subject.materia._id }") #{ subject.materia.subject }
           div(class="form-group subjectSelect")
             select(name="courses" required)
               each course in courses

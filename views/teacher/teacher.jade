@@ -56,9 +56,10 @@ block content
             li.margin-bottom 
                 span(class="icon-profile margin-bottom")
                 span.padding-left #{ user.cedula }
-            li.margin-bottom  
+            each materia in materias
+              li.margin-bottom  
                 span(class="icon-books margin-bottom")
-                span.padding-left #{ user.subjects }
+                  span.padding-left #{materia.materia.subject}
 
         aside(class="card courses-aside")
           h2(class="title-aside") Cursos

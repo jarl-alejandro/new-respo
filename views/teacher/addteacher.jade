@@ -27,7 +27,7 @@ block content
           div()
             each subject in subjects
               label(for="#{ subject.subject }") #{ subject.subject }
-              input(type="checkbox" name="subjects" value="#{ subject.subject }" id="#{ subject.subject }")
+              input(type="checkbox" name="subjects" value="#{ subject._id }" id="#{ subject.subject }")
               br
           if info_materias && info_materias != ""
             p.info #{ info_materias }
