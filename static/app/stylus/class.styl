@@ -1,3 +1,68 @@
+.card_deber_card
+    position absolute
+    z-index 10000
+    background blue_gray
+    box-shadow sombra
+    border-radius 3px
+    padding .5em
+    left 37%
+    top 7em
+    width 23em
+    display flex
+    flex-wrap wrap
+    justify-content flex-end
+
+.card_deber_card_name
+    font-weight bold
+    text-align center
+    color #F0F0F0
+    margin 0
+    padding 2px
+    border-bottom 1px solid #ced1d2
+    margin-bottom .5em
+    margin-top .5em
+
+.card_deber_card_button
+    font-weight bold
+    border none
+    box-shadow sombra
+    border-radius 3px
+    background #D2527F
+    color white
+    padding .4em 1em
+    transition all ease .3s
+    float right
+    &:hover
+        background rojo_porque_agua
+.card_tarea
+    box-shadow sombra
+    background #fffbec
+    position absolute
+    z-index 10000
+    width 30em
+    left 18%
+    padding .5em
+.card_tarea_title
+    color #87620a
+    margin 0
+    text-align center
+    margin-bottom 1em
+
+.card_tarea_input
+    width 95%
+    height 6em
+    resize none
+    border 1px solid #bbbec0
+    font-family "Open Sans",Arial
+    transition all ease 1s
+    outline-color #f00
+    box-shadow 0 0 10px rgba(187,190,192,0.8) inset
+    color black
+    border-radius 6px
+    transition all ease .3s
+    &:focus
+        border 1px solid #87620a
+
 .TerminarLeccionBoton
   border 0
   color #F0F0F0
@@ -9,7 +74,18 @@
   display block
   margin 0 auto
   margin-bottom 2em
-  
+.card_tarea_button
+    box-shadow sombra
+    border 0
+    border-radius 4px
+    font-weight bold
+    background rgba(255,193,7,0.9)
+    color #87620a
+    box-shadow inset 0 -.2em rgba(0,0,0,0.3)
+    padding .6em 1em
+    border 1px solid #87620a
+    &:hover
+        background #ffc107
 #box
   transition all ease .3s
 
@@ -23,7 +99,7 @@
   left 28em
 .removeChat
     position fixed
-    right -56%  
+    right -56%
 .LayoutRemoteEstudiante
     display flex
     position absolute

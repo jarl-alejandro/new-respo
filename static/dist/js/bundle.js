@@ -12704,14 +12704,14 @@ function initialize() {
   (0, _calificar2['default'])(socket);
   (0, _leccion2['default'])(socket);
   (0, _calificar_leccion2['default'])(socket);
-  (0, _opciones2['default'])();
-
-  document.querySelector(".tai-cal").addEventListener("click", function (e) {
-    alert("Se a habilitado para que los estudiantes suban su tarea");
-    socket.emit("show::tarea", "tarea");
-  }, false);
+  (0, _opciones2['default'])(socket);
 
   socket.on("show::deber", function (data) {
+    (0, _jquery2['default'])(".card_deber_card_name").html(data);
+    (0, _jquery2['default'])(".card_deber_card").fadeIn();
+  });
+
+  function loadTask() {
     document.querySelector("#agc").style = "display:none";
     document.querySelector("#aic").style = "display:none";
     document.querySelector(".title-play").innerHTML = "Sube tu tarea";
@@ -12723,7 +12723,7 @@ function initialize() {
     (0, _jquery2['default'])("#segundos").html("0");
     (0, _cronometro2['default'])();
     (0, _tarea2['default'])(socket);
-  });
+  }
 
   var opc = document.querySelector(".Opciones");
 
@@ -12734,6 +12734,7 @@ function initialize() {
       materia: (0, _jquery2['default'])("#materia").val(),
       profesor: (0, _jquery2['default'])("#profesor").val(),
       clase: (0, _jquery2['default'])("#clase_id").val(),
+      task: (0, _jquery2['default'])("#task").val(),
       data: "AIC"
     };
     socket.emit("aic", data);
@@ -12769,7 +12770,7 @@ function initialize() {
     wrapcp.appendChild((0, _domify2['default'])(tpl));
 
     (0, _pizarra2['default'])(socket);
-
+    (0, _jquery2['default'])("#task").val("pizarra");
     (0, _jquery2['default'])("#minutos").html("0");
     (0, _jquery2['default'])("#segundos").html("0");
     (0, _cronometro2['default'])();
@@ -12782,7 +12783,8 @@ function initialize() {
       curso: (0, _jquery2['default'])("#curso").val(),
       materia: (0, _jquery2['default'])("#materia").val(),
       profesor: (0, _jquery2['default'])("#profesor").val(),
-      clase: (0, _jquery2['default'])("#clase_id").val()
+      clase: (0, _jquery2['default'])("#clase_id").val(),
+      task: (0, _jquery2['default'])("#task").val()
     };
     socket.emit("agc", data);
   }, false);
@@ -12803,6 +12805,7 @@ function playToEst(data) {
     var tpl = (0, _templatesGamesAhorcadoHbs2['default'])();
     wrap.appendChild((0, _domify2['default'])(tpl));
     (0, _ahorcado2['default'])();
+    (0, _jquery2['default'])("#task").val("ahorcado");
     (0, _jquery2['default'])("#minutos").html("0");
     (0, _jquery2['default'])("#segundos").html("0");
     (0, _cronometro2['default'])();
@@ -12811,6 +12814,7 @@ function playToEst(data) {
     var tpl = (0, _templatesGamesBuscaminaHbs2['default'])();
     wrap.appendChild((0, _domify2['default'])(tpl));
     (0, _buscamina2['default'])();
+    (0, _jquery2['default'])("#task").val("buscamina");
     (0, _jquery2['default'])("#minutos").html("0");
     (0, _jquery2['default'])("#segundos").html("0");
     (0, _cronometro2['default'])();
@@ -12819,6 +12823,7 @@ function playToEst(data) {
     var tpl = (0, _templatesGamesTrestisHbs2['default'])();
     wrap.appendChild((0, _domify2['default'])(tpl));
     (0, _trestis2['default'])();
+    (0, _jquery2['default'])("#task").val("tetris");
     (0, _jquery2['default'])("#minutos").html("0");
     (0, _jquery2['default'])("#segundos").html("0");
     (0, _cronometro2['default'])();
@@ -12832,8 +12837,13 @@ function streamingCameraTeacher() {
 
   if (pathName === '/lessons/') {
     console.log("pathName cumplio", pathName);
-    (0, _streaming2['default'])(socket);
+    // streamingT(socket)
     chatPreguntasLoad();
+    var deber = (0, _jquery2['default'])(".deber_enviado").val();
+    if (deber.length > 0) {
+      (0, _jquery2['default'])(".card_deber_card_name").html(deber);
+      (0, _jquery2['default'])(".card_deber_card").fadeIn();
+    }
   }
   if (pathName.startsWith('/lessons/')) {
     (function () {
@@ -13444,18 +13454,38 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var Opciones = function Opciones() {
+var Opciones = function Opciones(socket) {
 
     var $CerrarOpciones = (0, _jquery2['default'])(".cerrar-opciones");
     var $OpcionesActividades = (0, _jquery2['default'])("#OpcionesActividades");
     var $OpcionesDeberes = (0, _jquery2['default'])("#OpcionesDeberes");
     var $OpcionesLecciones = (0, _jquery2['default'])("#OpcionesLecciones");
+    var $button_deber = (0, _jquery2['default'])(".card_tarea_button");
+    var $tai = document.querySelector(".tai-cal");
 
     $CerrarOpciones.on("click", cerrar_opciones);
     $OpcionesActividades.on("click", opciones_actividades);
     $OpcionesDeberes.on("click", opciones_deberes);
     $OpcionesLecciones.on("click", opciones_lecciones);
+    $button_deber.on("click", onSendTask);
+    $tai.addEventListener("click", show_card_tarea, false);
+
+    function onSendTask(e) {
+        var deber = (0, _jquery2['default'])(".card_tarea_input");
+        var materia = (0, _jquery2['default'])("#materia").val();
+        var clase = (0, _jquery2['default'])("#clase_id").val();
+
+        if (deber.val() == "" || deber.val().length == 0) alert("Debe ingresar la tarea");else {
+            (0, _jquery2['default'])(".card_tarea").fadeOut();
+            socket.emit("show::tarea", { deber: deber.val(), materia: materia, clase: clase });
+            deber.val("");
+        }
+    }
 };
+
+function show_card_tarea(e) {
+    (0, _jquery2['default'])(".card_tarea").fadeIn();
+}
 
 function opciones_actividades() {
     (0, _jquery2['default'])(".ActividadesOpcion").addClass("active-opcion");
@@ -13652,14 +13682,9 @@ var _jquery = require('jquery');
 var _jquery2 = _interopRequireDefault(_jquery);
 
 function streamingTeacher(socket) {
-    // navigator.getUserMedia = (
-    //   navigator.getUserMedia ||
-    //   navigator.webkitGetUserMedia ||
-    //   navigator.mozGetUserMedia ||
-    //   navigator.msGetUserMedia
-    // )
+    // const configuration = {'iceServers':[{'url': 'stun:stun.l.google.com:19302'}]}
+    var pc_config = { "rtcpMuxPolicy": "require", "bundlePolicy": "max-bundle", "iceServers": [{ "urls": ["turn:64.233.177.127:19305?transport=udp", "turn:64.233.177.127:19305?transport=tcp", "turn:74.125.134.127:19305?transport=udp"], "username": "1466084271:CAAeb7CH", "credential": "nXD4TYUK4+p9WN6o4Dkmr97JH/Y=" }, { "urls": ["stun:stun.l.google.com:19302"] }] };
 
-    var configuration = { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] };
     var type_user = document.querySelector("#type_user").value;
     var tipo_usuario = null;
 
@@ -13705,7 +13730,7 @@ function streamingTeacher(socket) {
             return;
         }
 
-        peer_connection = new RTCPeerConnection(configuration);
+        peer_connection = new RTCPeerConnection(pc_config);
         // , {"optional": [{"DtlsSrtpKeyAgreement": true}]}
         peers[peer_id] = peer_connection;
 

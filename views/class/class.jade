@@ -43,6 +43,7 @@ block content
           div.botonTAI
             button#aic Grabar
             button#agc Grabar
+            input(type="hidden", id="task")
           div.wrap-juego
         article#card__leccion
             button(id="closeLeccion")
@@ -185,7 +186,7 @@ block content
             button(class="calificar-aic") 
               p AIC
             button(class="tai-cal") 
-              p SUBIR TAI
+              p ENVIAR TAI
             button(class="tai-ver") 
               p TAI
             button(class="agc-ver")
@@ -199,3 +200,12 @@ block content
         button(class="cerrar-opciones") Cerrar
   div.poppu-message
     p Debe ingresar minimo 3 opciones
+  artile.card_tarea.none
+    h3.card_tarea_title Ingrese la tarea que se le enviara al estudiante
+    textarea.card_tarea_input(placeholder="Ejemp: Realizar un resumen de la clase en word")
+    button.card_tarea_button Enviar Trabajo
+  if user.type == "Student"
+    input.deber_enviado(value="#{ nota.deber }", type="hidden")
+  article.card_deber_card.none
+    p.card_deber_card_name
+    button.card_deber_card_button Subir tarea

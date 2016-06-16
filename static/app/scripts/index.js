@@ -49,27 +49,26 @@ function initialize(){
   calificar(socket)
   Leccion(socket)
   CalificarLeccion(socket)
-  Opciones()
-
-  document.querySelector(".tai-cal").addEventListener("click", function(e){
-    alert("Se a habilitado para que los estudiantes suban su tarea")
-    socket.emit("show::tarea", "tarea")
-  }, false)
-
+  Opciones(socket)
 
   socket.on("show::deber", function(data) {
-    document.querySelector("#agc").style = "display:none"
-    document.querySelector("#aic").style = "display:none"
-    document.querySelector(".title-play").innerHTML = "Sube tu tarea"
-    document.querySelector(".card-play").style = "display:block"
-    const wrap = document.querySelector(".wrap-juego")
-    let tpl = deberTemplate()
-    wrap.appendChild(domify(tpl))
-    $("#minutos").html("0")
-    $("#segundos").html("0")
-    cronometro()
-    tarea_subir(socket)
+      $(".card_deber_card_name").html(data)
+      $(".card_deber_card").fadeIn()
   })
+
+  function loadTask() {
+      document.querySelector("#agc").style = "display:none"
+      document.querySelector("#aic").style = "display:none"
+      document.querySelector(".title-play").innerHTML = "Sube tu tarea"
+      document.querySelector(".card-play").style = "display:block"
+      const wrap = document.querySelector(".wrap-juego")
+      let tpl = deberTemplate()
+      wrap.appendChild(domify(tpl))
+      $("#minutos").html("0")
+      $("#segundos").html("0")
+      cronometro()
+      tarea_subir(socket)
+  }
 
   const opc = document.querySelector(".Opciones")
 
@@ -80,6 +79,7 @@ function initialize(){
       materia: $("#materia").val(),
       profesor: $("#profesor").val(),
       clase: $("#clase_id").val(),
+      task:$("#task").val(),
       data:"AIC"
     }
     socket.emit("aic", data)
@@ -117,7 +117,7 @@ function initialize(){
     wrapcp.appendChild(domify(tpl))
 
     pizarra(socket)
-
+    $("#task").val("pizarra")
     $("#minutos").html("0")
     $("#segundos").html("0")
     cronometro()
@@ -131,7 +131,8 @@ function initialize(){
       curso: $("#curso").val(),
       materia: $("#materia").val(),
       profesor: $("#profesor").val(),
-      clase: $("#clase_id").val()
+      clase: $("#clase_id").val(),
+      task:$("#task").val(),
     }
     socket.emit("agc", data)
   }, false)
@@ -153,6 +154,7 @@ function playToEst(data) {
     let tpl = ahorcadoTemplate()
     wrap.appendChild(domify(tpl))
     ahorcado()
+    $("#task").val("ahorcado")
     $("#minutos").html("0")
     $("#segundos").html("0")
     cronometro()
@@ -161,6 +163,7 @@ function playToEst(data) {
     let tpl = buscaminaTemplate()
     wrap.appendChild(domify(tpl))
     buscamina()
+    $("#task").val("buscamina")
     $("#minutos").html("0")
     $("#segundos").html("0")
     cronometro()
@@ -169,6 +172,7 @@ function playToEst(data) {
     let tpl = tretisTemplate()
     wrap.appendChild(domify(tpl))
     tretis()
+    $("#task").val("tetris")
     $("#minutos").html("0")
     $("#segundos").html("0")
     cronometro()
@@ -184,8 +188,13 @@ function streamingCameraTeacher(){
 
   if(pathName === '/lessons/'){
     console.log("pathName cumplio", pathName)
-    streamingT(socket)
+    // streamingT(socket)
     chatPreguntasLoad()
+    var deber = $(".deber_enviado").val()
+    if(deber.length  > 0){
+        $(".card_deber_card_name").html(deber)
+        $(".card_deber_card").fadeIn()
+    }
   }
   if(pathName.startsWith('/lessons/')){
 
@@ -251,12 +260,12 @@ var listTmpl = function(){
 var sendQuestion = function(e){
   e.preventDefault()
   let question = document.getElementById("question").value
-  let bitacora = document.getElementById("clase_id").value 
+  let bitacora = document.getElementById("clase_id").value
   if (question == "")
     alert("Debe ingresar un preguta")
   else{
     socket.emit("send::question", { "question":question, "bitacora":bitacora })
-    document.getElementById("question").value = ""    
+    document.getElementById("question").value = ""
   }
 }
 
@@ -354,7 +363,7 @@ function eventos(){
 }
 
 function chatPreguntasLoad(){
-  let bitacora = document.getElementById("clase_id").value 
+  let bitacora = document.getElementById("clase_id").value
   $.get(`/preguntas/chat/${ bitacora }`)
     .done(function (preguntas) {
       for (var i = 0; i < preguntas.length; i++) {
@@ -363,7 +372,7 @@ function chatPreguntasLoad(){
         listQuestion.appendChild(domify(q))
         count__questions(preg._id)
         const respuesta = document.querySelectorAll(".responder-pregunta")
-        respuesta[i].addEventListener("click", responder)        
+        respuesta[i].addEventListener("click", responder)
       }
     })
 }
@@ -392,7 +401,7 @@ function responder (event) {
 
 function onAtras() {
   $("#box").removeClass("removeChat")
-  $("#respuestas").addClass("none")  
+  $("#respuestas").addClass("none")
   $(".lista_respuesta").html("")
 }
 
@@ -440,4 +449,3 @@ function template_respuesta(respuesta) {
   </div>`
   return item
 }
-

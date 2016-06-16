@@ -3,14 +3,9 @@
 import $ from  'jquery'
 
 function streamingTeacher(socket){
-    // navigator.getUserMedia = (
-    //   navigator.getUserMedia ||
-    //   navigator.webkitGetUserMedia ||
-    //   navigator.mozGetUserMedia ||
-    //   navigator.msGetUserMedia
-    // )
+    // const configuration = {'iceServers':[{'url': 'stun:stun.l.google.com:19302'}]}
+    const pc_config = {"rtcpMuxPolicy":"require","bundlePolicy":"max-bundle","iceServers":[{"urls":["turn:64.233.177.127:19305?transport=udp","turn:64.233.177.127:19305?transport=tcp","turn:74.125.134.127:19305?transport=udp"],"username":"1466084271:CAAeb7CH","credential":"nXD4TYUK4+p9WN6o4Dkmr97JH/Y="},{"urls":["stun:stun.l.google.com:19302"]}]}
 
-    const configuration = {'iceServers':[{'url': 'stun:stun.l.google.com:19302'}]}
     let type_user = document.querySelector("#type_user").value
     let tipo_usuario = null
 
@@ -58,8 +53,8 @@ function streamingTeacher(socket){
             return;
         }
 
-        peer_connection = new RTCPeerConnection(configuration)
-        // , {"optional": [{"DtlsSrtpKeyAgreement": true}]} 
+        peer_connection = new RTCPeerConnection(pc_config)
+        // , {"optional": [{"DtlsSrtpKeyAgreement": true}]}
         peers[peer_id] = peer_connection
 
         peer_connection.onicecandidate = function (event) {
