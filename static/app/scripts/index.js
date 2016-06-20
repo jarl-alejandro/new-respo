@@ -56,24 +56,25 @@ function initialize(){
       $(".card_deber_card").fadeIn()
   })
 
+  $(".card_deber_card_button").on("click", loadTask)
+
   function loadTask() {
-      document.querySelector("#agc").style = "display:none"
-      document.querySelector("#aic").style = "display:none"
-      document.querySelector(".title-play").innerHTML = "Sube tu tarea"
-      document.querySelector(".card-play").style = "display:block"
-      const wrap = document.querySelector(".wrap-juego")
-      let tpl = deberTemplate()
-      wrap.appendChild(domify(tpl))
-      $("#minutos").html("0")
-      $("#segundos").html("0")
-      cronometro()
-      tarea_subir(socket)
+      $(".card_upload_task").fadeIn()
   }
+  tarea_subir(socket)
 
   const opc = document.querySelector(".Opciones")
 
   document.querySelector("#aic").addEventListener("click", function(){
     alert("Se ha guardo con exito")
+    if($("#task").val() == "tetris"){
+        // var sonidoBorrar = document.getElementById("sonidoBorrar");
+        // var sonidoLlego = document.getElementById("sonidoLlego");
+        // console.log(sonidoLlego);
+        // sonidoLlego.pause()
+        // sonidoBorrar.pause()
+    }
+
     var data = {
       tiempo : $("#minutos").html() + ":"+$("#segundos").html(),
       materia: $("#materia").val(),
@@ -82,6 +83,7 @@ function initialize(){
       task:$("#task").val(),
       data:"AIC"
     }
+
     socket.emit("aic", data)
     $(".wrap-juego").empty()
     $("#minutos").html("0")
@@ -107,32 +109,22 @@ function initialize(){
   })
 
   socket.on("pizarra", function(data) {
-    document.querySelector("#aic").style = "display:none"
-    document.querySelector("#agc").style = "display:block"
-    document.querySelector(".title-play").innerHTML = data.play
-    document.querySelector(".card-play").style = "display:block"
-    var wrapcp = document.querySelector(".wrap-juego")
-
-    let tpl = pizarraTemplate()
-    wrapcp.appendChild(domify(tpl))
-
     pizarra(socket)
     $("#task").val("pizarra")
-    $("#minutos").html("0")
-    $("#segundos").html("0")
-    cronometro()
   })
 
 
   document.querySelector("#agc").addEventListener("click", function(e) {
     alert("Se ha guardodo con exito.")
+    $("#PizarraLayout").fadeOut()
+
     var data = {
       tiempo: $("#minutos").html() + ":"+$("#segundos").html(),
       curso: $("#curso").val(),
       materia: $("#materia").val(),
       profesor: $("#profesor").val(),
       clase: $("#clase_id").val(),
-      task:$("#task").val(),
+      task:"pizarra",
     }
     socket.emit("agc", data)
   }, false)
@@ -157,6 +149,8 @@ function playToEst(data) {
     $("#task").val("ahorcado")
     $("#minutos").html("0")
     $("#segundos").html("0")
+    $(".card-play").css("height","94.1vh")
+    $(".card-play").css("width","54.1em")
     cronometro()
   }
   if(data.play == "buscamina"){

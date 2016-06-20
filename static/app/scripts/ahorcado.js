@@ -8,7 +8,7 @@ import ahorcadoTemplate from './templates/games/ahorcado.hbs'
 	var divClassLetra='<div class="letra alinearHorizontal centrarDiv">';
 	var respuesta=[];
 	var palabra='';
-	var letra='';
+	var letra="";
 	var errores=0;
 	var intentos=4;
 	var letras=document.getElementsByClassName('botonLetra');
@@ -16,27 +16,36 @@ import ahorcadoTemplate from './templates/games/ahorcado.hbs'
 function iniciar(){
 	var noIntentos=document.getElementById('noIntentos');
 	for(var i=65;i<91;i++){
-		var contenedorLetras=document.getElementById('contenedorLetras');
-		var letra=letra+'<div class="botonLetra alinearHorizontal cursorPointer centrarTexto borderBox" id="letra'+String.fromCharCode(i)+'">'+String.fromCharCode(i)+'</div>';
-			contenedorLetras.innerHTML=letra;
+			var contenedorLetras=document.getElementById('contenedorLetras');
+			var letra_p = '<div class="botonLetra alinearHorizontal cursorPointer centrarTexto borderBox" id="letra'+String.fromCharCode(i)+'">'+String.fromCharCode(i)+'</div>';
+			contenedorLetras.innerHTML += letra_p;
 	}
+
 	for(var i=0;i<letras.length;i++){
 		agregarEvento(letras[i],'click',jugar,false);
 	}
+
 	for(var i=0;i<palabras[numeroAzar].length;i++){
 		respuesta[i]=divClassLetra+'_</div> ';
 		palabra=palabra+respuesta[i];
-		//contenedorPalabra.innerHTML=respuesta[i];
+		// contenedorPalabra.innerHTML=respuesta[i];
 	}
+
+
 	var palabraSecreta=document.getElementById('palabraSecreta');
 	palabraSecreta.innerHTML=palabra;
 	var botonJugar=document.getElementById('botonJugar');
-	agregarEvento(botonJugar,'click', function(){ 
-		// location.href='juego.html';
+
+	llenar_palabras(palabraSecreta)
+
+	agregarEvento(botonJugar,'click', function(){
+
 	  const wrap = document.querySelector(".wrap-juego")
 	  $(".wrap-juego").empty()
+
     var tpl = ahorcadoTemplate()
     wrap.appendChild(domify(tpl))
+
     	numeroAzar=Math.floor(Math.random()*10);
     	respuesta=[];
 			palabra='';
@@ -46,6 +55,7 @@ function iniciar(){
     iniciar()
 	},false);
 }
+
 function jugar(e){
 	if(e){
 		var id=e.target.id;
@@ -57,18 +67,21 @@ function jugar(e){
 	var letraCorrecta=false;
 	var palabra='';
 	var letraPulsada=id.charAt(5);
-	console.log(palabras)
-	console.log(palabras[numeroAzar])
+
+
 	for(var i=0;i<palabras[numeroAzar].length;i++){
+
 		if(palabras[numeroAzar].toUpperCase().charAt(i)==letraPulsada){
 			respuesta[i]=divClassLetra+letraPulsada+'</div>';
 			letraCorrecta=true;
 		}
 		palabra=palabra+respuesta[i];
-		//contenedorPalabra.innerHTML=respuesta[i];
+		// contenedorPalabra.innerHTML=respuesta[i];
 	}
+
 	var imagen=document.getElementById('imagen');
 	palabraSecreta.innerHTML=palabra;
+
 	if(letraCorrecta==false){
 		var colorLetra='';
 		errores++;
@@ -93,7 +106,8 @@ function jugar(e){
 			}
 			palabraSecreta.innerHTML=palabra;
 		}
-	}else{
+	}
+	else{
 		var palabraCompleta=true;
 		for(var i=0;i<palabras[numeroAzar].length;i++){
 			if(respuesta[i]==divClassLetra+'_</div> '){
@@ -108,6 +122,7 @@ function jugar(e){
 		}
 	}
 }
+
 function agregarEvento(elemento,evento,funcion,captura){
 	if(window.addEventListener){
 		elemento.addEventListener(evento,funcion,captura);
@@ -117,6 +132,7 @@ function agregarEvento(elemento,evento,funcion,captura){
 		alert('Error al agregar el evento');
 	}
 }
+
 function removerEvento(elemento,evento,funcion){
 	if(window.removeEventListener){
 		elemento.removeEventListener(evento,funcion);
@@ -127,5 +143,27 @@ function removerEvento(elemento,evento,funcion){
 	}
 }
 
+function llenar_palabras(palabraSecreta) {
+	var letra_palabra = document.querySelectorAll(".letra")
+	var palabra_select = palabras[numeroAzar]
+	var len_palabra = palabra_select.length
+	var array_palabra = palabra_select.split("")
+	var first_letter = array_palabra[0].toUpperCase()
+	var last_letter = array_palabra[len_palabra - 1].toUpperCase()
+	var palabra=''
+
+	for(var i=0;i<palabras[numeroAzar].length;i++){
+		if(palabras[numeroAzar].toUpperCase().charAt(i) == first_letter){
+			respuesta[i]=divClassLetra+first_letter+'</div>';
+		}
+		if(palabras[numeroAzar].toUpperCase().charAt(i) == last_letter){
+			respuesta[i]=divClassLetra+last_letter+'</div>';
+		}
+		palabra=palabra+respuesta[i];
+	}
+	console.log(palabra_select);
+	palabraSecreta.innerHTML=palabra;
+
+}
 
 export default iniciar

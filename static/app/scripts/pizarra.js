@@ -6,10 +6,16 @@ function pizarra(socket) {
 	    return false;
 	  }
 
+	  $("#PizarraLayout").fadeIn()
+	  var type_user = $("#type_user").val()
+	  if(type_user == "Teacher")
+		  $("#agc").fadeIn()
+	  console.log(type_user);
+
 	  // cache de objetos de jQuery
-	  var doc = $("#contentPizarra");
+	  var doc = $(".PizarraLayoutCanvas");
 	  var win = $(window);
-	  var canvas = $('#paper');
+	  var canvas = $('#PizarraCanvas');
 	  var instructions = $('#instructions');
 	  var connections = $('#connections');
 	  var ctx = canvas[0].getContext('2d');
@@ -51,6 +57,7 @@ function pizarra(socket) {
 	  }
 
 	  function mousedownHandler(e) {
+		  console.log("estoy en el mousedownHandler")
 	    e.preventDefault();
 	    drawing = true;
 	    prev.x = e.pageX;
@@ -61,9 +68,11 @@ function pizarra(socket) {
 	  }
 
 	  function mousemoveHandler(e) {
+		  console.log("estoy en el mousemoveHandler")
+
 	    if($.now() - lastEmit > 30){
 	      var movement = {
-	        'x': e.pageX,
+			  'x': e.pageX,
 	        'y': e.pageY,
 	        'drawing': drawing,
 	        'color': cursorColor,
@@ -107,6 +116,7 @@ function pizarra(socket) {
 	   */
 	  socket.on('move', moveHandler);
 	  socket.on('connections', connectionHandler);
+
 	  canvas.on('mousedown', mousedownHandler);
 	  doc.on('mousemove', mousemoveHandler);
 

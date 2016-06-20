@@ -1,3 +1,86 @@
+#PizarraLayout
+    background blue_gray
+    box-shadow sombra
+    position absolute
+    top 0em
+    left 0em
+    width 56em
+    z-index 1000000
+    height 92.5vh
+.BotonAgc
+    display flex
+    justify-content center
+    height 4em
+    align-items center
+    position absolute
+    top 34em
+    width 100%
+.PizarraLayoutCanvas
+    height 29em
+    width 50em
+    background white
+#PizarraCanvas
+    background white
+
+.card_upload_task
+    background blue_gray
+    box-shadow sombra
+    border-radius 3px
+    z-index 100000
+    position absolute
+    top 15em
+    left 20%
+    width 22em
+    padding 5px 1em .7em 1em
+    &:after
+        content ""
+        width 0
+        height 0
+        position absolute
+        border-right 2px solid transparent
+        border-top 29px solid #36474f
+        border-left 35px solid transparent
+        bottom -1.8em
+        left 20em
+.card_upload_task_title
+    color #F0F0F0
+    font-weight bold
+    text-align center
+    border-bottom 1px solid #ced1d2
+    margin 0
+.card_upload_task_form
+    display flex
+    justify-content center
+    align-items center
+    margin-top 3px
+    color white
+    transition all ease .6s
+    margin-bottom 4px
+    &:hover
+        box-shadow 22em 0 rgba(255, 255, 255, 0.4) inset;
+
+.task_form_label
+    cursor pointer
+    font-weight bold
+    margin .3em 0
+    display flex
+    justify-content center
+    width 100%
+    i
+        margin-right .5em
+.card_upload_task_button
+    background rojo_porque
+    box-shadow sombra
+    border 0
+    border-radius 3px
+    padding .5em 1em
+    transition all ease .3s
+    color white
+    font-weight bold
+    float right
+    &:hover
+        box-shadow 1px 2px 3px rgba(black, 0.5);
+        background rojo_porque_agua
 .card_deber_card
     position absolute
     z-index 10000
@@ -6,11 +89,21 @@
     border-radius 3px
     padding .5em
     left 37%
-    top 7em
+    top 8em
     width 23em
     display flex
     flex-wrap wrap
     justify-content flex-end
+    &:after
+        content ""
+        width 0
+        height 0
+        position absolute
+        border-right 2px solid transparent
+        border-top 29px solid #36474f
+        border-left 35px solid transparent
+        bottom -1.8em
+        left 20em
 
 .card_deber_card_name
     font-weight bold
@@ -124,10 +217,21 @@
     padding 1em
     box-shadow 0px 1px 1.5px rgba(0,0,0,0.5)
     position absolute
-    top 13em
-    right 16em
+    top 2em
+    right 19em
     border-radius 3px
     display none
+    z-index 100
+    &:after
+        content ""
+        width 0
+        height 0
+        position absolute
+        top 4em
+        left 9em
+        border-right 6px solid transparent
+        border-left 34px solid transparent
+        border-top 28px solid #444444
     p
         margin 0
 
@@ -210,12 +314,14 @@
 
 //lessons
 .title-lesson
-  background cyan_oscuro
+  background blue_gray
   color white
   text-align center
   width 39em
   position relative
-  left 11em
+  left 10em
+  top 3em
+  z-index 100000
   h2
     padding 3px
 
@@ -489,12 +595,12 @@
 .card-play
     background white
     box-shadow 0px 1px 1.5px rgba(0, 0, 0, 0.5)
-    width 50.2em
+    width 55.2em
     position absolute
     top -0.6em
-    left 4em
+    left -2.5em
     z-index 100000000
-    height 100vh
+    height 84.3vh
     display none
     border 9px solid #1a71a9
 .botonTAI

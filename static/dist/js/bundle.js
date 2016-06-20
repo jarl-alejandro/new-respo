@@ -11083,7 +11083,7 @@ var numeroAzar = Math.floor(Math.random() * 10);
 var divClassLetra = '<div class="letra alinearHorizontal centrarDiv">';
 var respuesta = [];
 var palabra = '';
-var letra = '';
+var letra = "";
 var errores = 0;
 var intentos = 4;
 var letras = document.getElementsByClassName('botonLetra');
@@ -11092,26 +11092,34 @@ function iniciar() {
 	var noIntentos = document.getElementById('noIntentos');
 	for (var i = 65; i < 91; i++) {
 		var contenedorLetras = document.getElementById('contenedorLetras');
-		var letra = letra + '<div class="botonLetra alinearHorizontal cursorPointer centrarTexto borderBox" id="letra' + String.fromCharCode(i) + '">' + String.fromCharCode(i) + '</div>';
-		contenedorLetras.innerHTML = letra;
+		var letra_p = '<div class="botonLetra alinearHorizontal cursorPointer centrarTexto borderBox" id="letra' + String.fromCharCode(i) + '">' + String.fromCharCode(i) + '</div>';
+		contenedorLetras.innerHTML += letra_p;
 	}
+
 	for (var i = 0; i < letras.length; i++) {
 		agregarEvento(letras[i], 'click', jugar, false);
 	}
+
 	for (var i = 0; i < palabras[numeroAzar].length; i++) {
 		respuesta[i] = divClassLetra + '_</div> ';
 		palabra = palabra + respuesta[i];
-		//contenedorPalabra.innerHTML=respuesta[i];
+		// contenedorPalabra.innerHTML=respuesta[i];
 	}
+
 	var palabraSecreta = document.getElementById('palabraSecreta');
 	palabraSecreta.innerHTML = palabra;
 	var botonJugar = document.getElementById('botonJugar');
+
+	llenar_palabras(palabraSecreta);
+
 	agregarEvento(botonJugar, 'click', function () {
-		// location.href='juego.html';
+
 		var wrap = document.querySelector(".wrap-juego");
 		(0, _jquery2['default'])(".wrap-juego").empty();
+
 		var tpl = (0, _templatesGamesAhorcadoHbs2['default'])();
 		wrap.appendChild((0, _domify2['default'])(tpl));
+
 		numeroAzar = Math.floor(Math.random() * 10);
 		respuesta = [];
 		palabra = '';
@@ -11121,6 +11129,7 @@ function iniciar() {
 		iniciar();
 	}, false);
 }
+
 function jugar(e) {
 	if (e) {
 		var id = e.target.id;
@@ -11132,18 +11141,20 @@ function jugar(e) {
 	var letraCorrecta = false;
 	var palabra = '';
 	var letraPulsada = id.charAt(5);
-	console.log(palabras);
-	console.log(palabras[numeroAzar]);
+
 	for (var i = 0; i < palabras[numeroAzar].length; i++) {
+
 		if (palabras[numeroAzar].toUpperCase().charAt(i) == letraPulsada) {
 			respuesta[i] = divClassLetra + letraPulsada + '</div>';
 			letraCorrecta = true;
 		}
 		palabra = palabra + respuesta[i];
-		//contenedorPalabra.innerHTML=respuesta[i];
+		// contenedorPalabra.innerHTML=respuesta[i];
 	}
+
 	var imagen = document.getElementById('imagen');
 	palabraSecreta.innerHTML = palabra;
+
 	if (letraCorrecta == false) {
 		var colorLetra = '';
 		errores++;
@@ -11183,6 +11194,7 @@ function jugar(e) {
 		}
 	}
 }
+
 function agregarEvento(elemento, evento, funcion, captura) {
 	if (window.addEventListener) {
 		elemento.addEventListener(evento, funcion, captura);
@@ -11192,6 +11204,7 @@ function agregarEvento(elemento, evento, funcion, captura) {
 		alert('Error al agregar el evento');
 	}
 }
+
 function removerEvento(elemento, evento, funcion) {
 	if (window.removeEventListener) {
 		elemento.removeEventListener(evento, funcion);
@@ -11200,6 +11213,28 @@ function removerEvento(elemento, evento, funcion) {
 	} else {
 		alert('Error al remover el evento');
 	}
+}
+
+function llenar_palabras(palabraSecreta) {
+	var letra_palabra = document.querySelectorAll(".letra");
+	var palabra_select = palabras[numeroAzar];
+	var len_palabra = palabra_select.length;
+	var array_palabra = palabra_select.split("");
+	var first_letter = array_palabra[0].toUpperCase();
+	var last_letter = array_palabra[len_palabra - 1].toUpperCase();
+	var palabra = '';
+
+	for (var i = 0; i < palabras[numeroAzar].length; i++) {
+		if (palabras[numeroAzar].toUpperCase().charAt(i) == first_letter) {
+			respuesta[i] = divClassLetra + first_letter + '</div>';
+		}
+		if (palabras[numeroAzar].toUpperCase().charAt(i) == last_letter) {
+			respuesta[i] = divClassLetra + last_letter + '</div>';
+		}
+		palabra = palabra + respuesta[i];
+	}
+	console.log(palabra_select);
+	palabraSecreta.innerHTML = palabra;
 }
 
 exports['default'] = iniciar;
@@ -12711,24 +12746,25 @@ function initialize() {
     (0, _jquery2['default'])(".card_deber_card").fadeIn();
   });
 
+  (0, _jquery2['default'])(".card_deber_card_button").on("click", loadTask);
+
   function loadTask() {
-    document.querySelector("#agc").style = "display:none";
-    document.querySelector("#aic").style = "display:none";
-    document.querySelector(".title-play").innerHTML = "Sube tu tarea";
-    document.querySelector(".card-play").style = "display:block";
-    var wrap = document.querySelector(".wrap-juego");
-    var tpl = (0, _templatesDeberHbs2['default'])();
-    wrap.appendChild((0, _domify2['default'])(tpl));
-    (0, _jquery2['default'])("#minutos").html("0");
-    (0, _jquery2['default'])("#segundos").html("0");
-    (0, _cronometro2['default'])();
-    (0, _tarea2['default'])(socket);
+    (0, _jquery2['default'])(".card_upload_task").fadeIn();
   }
+  (0, _tarea2['default'])(socket);
 
   var opc = document.querySelector(".Opciones");
 
   document.querySelector("#aic").addEventListener("click", function () {
     alert("Se ha guardo con exito");
+    if ((0, _jquery2['default'])("#task").val() == "tetris") {
+      // var sonidoBorrar = document.getElementById("sonidoBorrar");
+      // var sonidoLlego = document.getElementById("sonidoLlego");
+      // console.log(sonidoLlego);
+      // sonidoLlego.pause()
+      // sonidoBorrar.pause()
+    }
+
     var data = {
       tiempo: (0, _jquery2['default'])("#minutos").html() + ":" + (0, _jquery2['default'])("#segundos").html(),
       materia: (0, _jquery2['default'])("#materia").val(),
@@ -12737,6 +12773,7 @@ function initialize() {
       task: (0, _jquery2['default'])("#task").val(),
       data: "AIC"
     };
+
     socket.emit("aic", data);
     (0, _jquery2['default'])(".wrap-juego").empty();
     (0, _jquery2['default'])("#minutos").html("0");
@@ -12760,31 +12797,21 @@ function initialize() {
   });
 
   socket.on("pizarra", function (data) {
-    document.querySelector("#aic").style = "display:none";
-    document.querySelector("#agc").style = "display:block";
-    document.querySelector(".title-play").innerHTML = data.play;
-    document.querySelector(".card-play").style = "display:block";
-    var wrapcp = document.querySelector(".wrap-juego");
-
-    var tpl = (0, _templatesPizarraHbs2['default'])();
-    wrapcp.appendChild((0, _domify2['default'])(tpl));
-
     (0, _pizarra2['default'])(socket);
     (0, _jquery2['default'])("#task").val("pizarra");
-    (0, _jquery2['default'])("#minutos").html("0");
-    (0, _jquery2['default'])("#segundos").html("0");
-    (0, _cronometro2['default'])();
   });
 
   document.querySelector("#agc").addEventListener("click", function (e) {
     alert("Se ha guardodo con exito.");
+    (0, _jquery2['default'])("#PizarraLayout").fadeOut();
+
     var data = {
       tiempo: (0, _jquery2['default'])("#minutos").html() + ":" + (0, _jquery2['default'])("#segundos").html(),
       curso: (0, _jquery2['default'])("#curso").val(),
       materia: (0, _jquery2['default'])("#materia").val(),
       profesor: (0, _jquery2['default'])("#profesor").val(),
       clase: (0, _jquery2['default'])("#clase_id").val(),
-      task: (0, _jquery2['default'])("#task").val()
+      task: "pizarra"
     };
     socket.emit("agc", data);
   }, false);
@@ -12808,6 +12835,8 @@ function playToEst(data) {
     (0, _jquery2['default'])("#task").val("ahorcado");
     (0, _jquery2['default'])("#minutos").html("0");
     (0, _jquery2['default'])("#segundos").html("0");
+    (0, _jquery2['default'])(".card-play").css("height", "94.1vh");
+    (0, _jquery2['default'])(".card-play").css("width", "54.1em");
     (0, _cronometro2['default'])();
   }
   if (data.play == "buscamina") {
@@ -13532,10 +13561,15 @@ function pizarra(socket) {
 		return false;
 	}
 
+	(0, _jquery2['default'])("#PizarraLayout").fadeIn();
+	var type_user = (0, _jquery2['default'])("#type_user").val();
+	if (type_user == "Teacher") (0, _jquery2['default'])("#agc").fadeIn();
+	console.log(type_user);
+
 	// cache de objetos de jQuery
-	var doc = (0, _jquery2['default'])("#contentPizarra");
+	var doc = (0, _jquery2['default'])(".PizarraLayoutCanvas");
 	var win = (0, _jquery2['default'])(window);
-	var canvas = (0, _jquery2['default'])('#paper');
+	var canvas = (0, _jquery2['default'])('#PizarraCanvas');
 	var instructions = (0, _jquery2['default'])('#instructions');
 	var connections = (0, _jquery2['default'])('#connections');
 	var ctx = canvas[0].getContext('2d');
@@ -13577,6 +13611,7 @@ function pizarra(socket) {
 	}
 
 	function mousedownHandler(e) {
+		console.log("estoy en el mousedownHandler");
 		e.preventDefault();
 		drawing = true;
 		prev.x = e.pageX;
@@ -13587,6 +13622,8 @@ function pizarra(socket) {
 	}
 
 	function mousemoveHandler(e) {
+		console.log("estoy en el mousemoveHandler");
+
 		if (_jquery2['default'].now() - lastEmit > 30) {
 			var movement = {
 				'x': e.pageX,
@@ -13634,6 +13671,7 @@ function pizarra(socket) {
   */
 	socket.on('move', moveHandler);
 	socket.on('connections', connectionHandler);
+
 	canvas.on('mousedown', mousedownHandler);
 	doc.on('mousemove', mousemoveHandler);
 
@@ -13852,7 +13890,7 @@ module.exports = exports['default'];
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -13862,29 +13900,50 @@ var _jquery = require('jquery');
 var _jquery2 = _interopRequireDefault(_jquery);
 
 function tarea(socket) {
+	var button = document.querySelector(".card_upload_task_button");
 
-    document.querySelector("#guardar_tarea").addEventListener("click", function (e) {
-        e.preventDefault();
-        var archivo = document.querySelector("#tarea").files[0];
-        var formData = new FormData();
-        formData.append("tarea", archivo);
-        formData.append("profesor", (0, _jquery2["default"])("#profesor").val());
-        formData.append("alumno", (0, _jquery2["default"])("#curso").val());
-        formData.append("materia", (0, _jquery2["default"])("#materia").val());
-        formData.append("clase", (0, _jquery2["default"])("#clase_id").val());
+	button.addEventListener("click", function (e) {
+		e.preventDefault();
+		if (validar_deber()) {
+			var archivo = document.querySelector("#task_form_file").files[0];
+			var name_task = (0, _jquery2["default"])(".card_deber_card_name").html();
+			console.log(name_task);
+			var formData = new FormData();
 
-        _jquery2["default"].ajax({
-            type: "POST",
-            url: "/subir/tarea",
-            dataType: "html",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false
-        }).done(function (data) {
-            location.reload();
-        });
-    });
+			formData.append("tarea", archivo);
+			formData.append("profesor", (0, _jquery2["default"])("#profesor").val());
+			formData.append("alumno", (0, _jquery2["default"])("#curso").val());
+			formData.append("materia", (0, _jquery2["default"])("#materia").val());
+			formData.append("clase", (0, _jquery2["default"])("#clase_id").val());
+			formData.append("task_name", name_task);
+
+			_jquery2["default"].ajax({
+				type: "POST",
+				url: "/subir/tarea",
+				dataType: "html",
+				data: formData,
+				cache: false,
+				contentType: false,
+				processData: false
+			}).done(function (data) {
+				console.log(data);
+				(0, _jquery2["default"])(".card_upload_task").fadeOut();
+				(0, _jquery2["default"])(".card_deber_card").fadeOut();
+				document.querySelector("#task_form_file").value = "";
+			});
+		}
+	});
+}
+
+function validar_deber() {
+	var archivo = document.querySelector("#task_form_file");
+	var flag = null;
+
+	if (archivo.value == "") {
+		flag = false;
+		alert("Porfavor ingrese la tarea");
+	} else flag = true;
+	return flag;
 }
 
 exports["default"] = tarea;
@@ -14043,7 +14102,7 @@ function startTretis() {
     document.onkeydown = function (e) {
         if (listo) {
             if (e.which == 37) {
-                //izquierda             
+                //izquierda
 
                 if (!colisionoIzquierda()) {
                     limpiarFigura();
@@ -14069,7 +14128,7 @@ function startTretis() {
                             limpiarFigura();
                             moverFigura("aba");
                         } else {
-                            //en caso q haya colisionado se guarda la figura en el vector y luego se borran las lineas que se hayan completado                          
+                            //en caso q haya colisionado se guarda la figura en el vector y luego se borran las lineas que se hayan completado
 
                             for (var x = 0; x < tamFigura; x++) {
                                 var i = parseInt(figura[x].split('p')[0]) / 20;
@@ -14077,7 +14136,7 @@ function startTretis() {
 
                                 //se guarda el cuadro q corresponde a la figura
                                 matriz[j][i] = figura[4]; //para guardar la figura, j hace referencia al valor de Y del cuadro por lo tanto debe ser guardado en las filas
-                                //ctx.drawImage(cuadro8,i*20,j*20,cuadroW,cuadroW); //poner de nuevo la figura pero con el color q indica q ya en estatica                              
+                                //ctx.drawImage(cuadro8,i*20,j*20,cuadroW,cuadroW); //poner de nuevo la figura pero con el color q indica q ya en estatica
                             }
 
                             if (perdio()) {
@@ -14114,7 +14173,7 @@ function startTretis() {
                             posDerecha = true;
                         }
                     } else if (e.which == 90) {
-                        //z para girar figura                                         
+                        //z para girar figura
                         girarFigura();
                     }
         }
@@ -14199,7 +14258,7 @@ function loop() {
             moverFigura("aba");
         }
     } else {
-        //en caso que haya llegado al limite inferior, guardar la figura en la matriz             
+        //en caso que haya llegado al limite inferior, guardar la figura en la matriz
 
         for (var x = 0; x < tamFigura; x++) {
             var i = parseInt(figura[x].split('p')[0]) / 20;
@@ -14547,7 +14606,7 @@ function girarFigura() {
                 }
             }
 
-            //poner figura                   
+            //poner figura
             for (var i = 0; i < tamFigura; i++) {
                 var x = figura[i].split('p')[0];
                 var y = figura[i].split('p')[1];
@@ -14588,7 +14647,7 @@ function girarFigura() {
                     derecha = 40;
                 }
 
-                //validar si la figura tiene espacio para volver a su posicion inicial, se valida la posicion 1 y 3 de figura                       
+                //validar si la figura tiene espacio para volver a su posicion inicial, se valida la posicion 1 y 3 de figura
                 if (derecha == 20) {
                     var i = parseInt(figura[3].split('p')[0]) / 20;
                     var j = parseInt(figura[3].split('p')[1]) / 20;
@@ -14636,7 +14695,7 @@ function girarFigura() {
                 }
             }
 
-            //poner figura                   
+            //poner figura
             for (var i = 0; i < tamFigura; i++) {
                 var x = figura[i].split('p')[0];
                 var y = figura[i].split('p')[1];
@@ -14710,7 +14769,7 @@ function girarFigura() {
                     posicion = 4;
                 }
             } else if (posicion == 4) {
-                //cuando la t gira hacia la izquierda                                               
+                //cuando la t gira hacia la izquierda
 
                 for (var i = 0; i < tamFigura; i++) {
                     var x = parseInt(figura[i].split('p')[0]);
@@ -14784,7 +14843,7 @@ function girarFigura() {
             break;
         case 5:
             if (posicion == 2) {
-                //inclinar palo                       
+                //inclinar palo
                 var sum = 0; // este valor se resta al X actual y se suma al Y actual (aumenta en 20)
                 var mover = true;
                 var i = parseInt(figura[1].split('p')[0]) / 20;
@@ -15288,7 +15347,7 @@ function colisionoAbajo() {
         var y = parseInt(figura[i].split('p')[1]);
 
         if (y == canvas.height - cuadroW) {
-            //posCuadroColision = y/20; //posicion en y del cuadro q colisono                   
+            //posCuadroColision = y/20; //posicion en y del cuadro q colisono
             return true;
         }
     }
@@ -15298,9 +15357,9 @@ function colisionoAbajo() {
         var i = parseInt(figura[x].split('p')[0]) / 20;
         var j = parseInt(figura[x].split('p')[1]) / 20;
 
-        //si existe un numero mayor a 0 en columna siguiente significa q la figura ya llego al limite               
+        //si existe un numero mayor a 0 en columna siguiente significa q la figura ya llego al limite
         if (matriz[j + 1][i] > 0) {
-            //posCuadroColision = j; //posicion en y del cuadro q colisiono                   
+            //posCuadroColision = j; //posicion en y del cuadro q colisiono
             return true;
         }
     }
@@ -15354,14 +15413,14 @@ function colisionoDerecha() {
 
 //borra la cantidad de lineas q hizo el usuario, en caso q existan
 function borrarLineas() {
-    lineasBorrar = 0; //permite saber la cantidad de lineas q se borraran           
+    lineasBorrar = 0; //permite saber la cantidad de lineas q se borraran
     var cont = 0; //permite contar la cantidad de bloques en una fila
 
     for (var k = 0; k < 4; k++) {
         for (var x = 0; x < 10; x++) {
             //10 es la cantidad de cuadros a lo ancho
             if (matriz[posCuadroColision - k][x] > 0) {
-                //desplazar la validacion hacia arriba                 
+                //desplazar la validacion hacia arriba
                 cont++;
             }
         }
@@ -15375,7 +15434,7 @@ function borrarLineas() {
     //$('#texto').empty().append(lineas);
     if (lineasBorrar == 0) {
         if (sonidoActivo) {
-            sonidoLlego.play();
+            // sonidoLlego.play();
         }
         return;
     } else {
@@ -15383,7 +15442,7 @@ function borrarLineas() {
         lineas += lineasBorrar;
         (0, _jquery2['default'])('#lineas').empty().append(lineas);
         if (sonidoActivo) {
-            sonidoBorrar.play();
+            // sonidoBorrar.play();
         }
     }
 

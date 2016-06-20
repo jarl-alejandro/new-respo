@@ -42,7 +42,6 @@ block content
             span(id="segundos") 0
           div.botonTAI
             button#aic Grabar
-            button#agc Grabar
             input(type="hidden", id="task")
           div.wrap-juego
         article#card__leccion
@@ -209,3 +208,17 @@ block content
   article.card_deber_card.none
     p.card_deber_card_name
     button.card_deber_card_button Subir tarea
+  article.card_upload_task.none
+    h2.card_upload_task_title Sube tu tarea.
+    div.card_upload_task_form
+        input(type="file" id="task_form_file").none
+        label.task_form_label(for="task_form_file")
+            i.icon-cloud-upload
+            span Ingresa la tarea
+    button.card_upload_task_button Enviar tarea
+  article#PizarraLayout.none
+    div.BotonAgc
+        button#agc.none Grabar
+    div.PizarraLayoutCanvas
+        canvas#PizarraCanvas(width="895", height="540")
+        #cursors

@@ -39,12 +39,6 @@
   background:url('../img/pointer.png') no-repeat -4px 0;
 }
 
-canvas {
-  background: white;
-    border: 5px solid #444;
-    width: 100%;
-}
-
 #instructions{
   position: absolute;
     top: 25em;

@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
-body{	
+body{
 	width:100%;
 	height:100%;
 	margin:0px;
@@ -33,7 +33,7 @@ body{
 	width:30%;
 	height:300px;
 	margin-left:20%;
-	margin-top:7%;
+	margin-top:2%;
 	min-width:200px;
 }
 .contenedorImagen img{
@@ -44,11 +44,10 @@ body{
 	width:30%;
 	height:300px;
 	background-color:white;
-	margin-top:7%;
+	margin-top:2%;
 	min-width:200px;
 }
 .palabraSecreta{
-	width:80%;
 	height:50px;
 	margin-top:7%;
 }
@@ -83,9 +82,9 @@ body{
 	color:white;
 }
 .contenedorLetras{
-	width:80%;
-	height:193px;
-	margin-top:3%;
+	/*width:80%;*/
+	height:197px;
+	margin-top:1%;
   background: #444444;
   padding: .5em;
 }
