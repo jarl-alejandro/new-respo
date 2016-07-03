@@ -84,7 +84,7 @@ block content
         div.btn-clas-active
             if user.type == "Teacher"
               div(class="btn-end")
-                a(href="/post/class/#{ lessons._id }") Terminar la clase
+                a(data-id="#{ lessons._id }" id="terminar-clase") Terminar la clase
               button.Opciones Opciones
       section(class="chat" id="chat")
   section(class="card__preguntas-create")

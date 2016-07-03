@@ -3,22 +3,15 @@
 var port = process.env.PORT || 5000
 var http = require('http')
 var path = require('path')
-// var redis = require('redis')
 var mongoose = require('mongoose')
 var session = require('express-session')
-// var RedisStore = require('connect-redis')(session)
 var socketIO = require('./lib/socket.io')
 
 var app = require('./lib')
 
-// var redisClient = redis.createClient()
-// var redisStore = new RedisStore({ client:redisClient })
-// store:redisStore,
-// redisStore:redisStore,
-
 var sessionMiddleware = session({
   key:"KEY",
-  secret:"SECRET"
+  secret:"SECRET",
 })
 
 // const db = "mongodb://localhost/schoolBook"

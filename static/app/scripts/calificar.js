@@ -106,10 +106,10 @@ function calificar(socket) {
 
 		$.get(`/listado/agc/${ clase }`,  function(data) {
 			for (var i=0; data.length > i; i++) {
+				// <li class="lrem-time">${ data[i].tiempo }</li>
 
 				let tpl = `<ul class="estud_califi lrem">
 						<li class="lrem-name">${ data[i].rel_alumno.name }</li>
-						<li class="lrem-time">${ data[i].tiempo }</li>
 						<li class="lrem-nota"><input id="nota_agc_cal" name="${ data[i].rel_alumno._id }" value="${ data[i].nota }" /><li>
 				</ul>`
 

@@ -12004,8 +12004,9 @@ function calificar(socket) {
 
 		_jquery2['default'].get('/listado/agc/' + clase, function (data) {
 			for (var i = 0; data.length > i; i++) {
+				// <li class="lrem-time">${ data[i].tiempo }</li>
 
-				var tpl = '<ul class="estud_califi lrem">\n\t\t\t\t\t\t<li class="lrem-name">' + data[i].rel_alumno.name + '</li>\n\t\t\t\t\t\t<li class="lrem-time">' + data[i].tiempo + '</li>\n\t\t\t\t\t\t<li class="lrem-nota"><input id="nota_agc_cal" name="' + data[i].rel_alumno._id + '" value="' + data[i].nota + '" /><li>\n\t\t\t\t</ul>';
+				var tpl = '<ul class="estud_califi lrem">\n\t\t\t\t\t\t<li class="lrem-name">' + data[i].rel_alumno.name + '</li>\n\t\t\t\t\t\t<li class="lrem-nota"><input id="nota_agc_cal" name="' + data[i].rel_alumno._id + '" value="' + data[i].nota + '" /><li>\n\t\t\t\t</ul>';
 
 				listado.innerHTML += tpl;
 			}
@@ -12794,6 +12795,7 @@ function initialize() {
   socket.on("term::pizarra", function (data) {
     document.querySelector(".card-play").style = "display:none";
     (0, _jquery2['default'])(".wrap-juego").empty();
+    (0, _jquery2['default'])("#PizarraLayout").fadeOut();
   });
 
   socket.on("pizarra", function (data) {
@@ -12803,7 +12805,6 @@ function initialize() {
 
   document.querySelector("#agc").addEventListener("click", function (e) {
     alert("Se ha guardodo con exito.");
-    (0, _jquery2['default'])("#PizarraLayout").fadeOut();
 
     var data = {
       tiempo: (0, _jquery2['default'])("#minutos").html() + ":" + (0, _jquery2['default'])("#segundos").html(),
@@ -12866,10 +12867,11 @@ function streamingCameraTeacher() {
 
   if (pathName === '/lessons/') {
     console.log("pathName cumplio", pathName);
-    // streamingT(socket)
+    (0, _streaming2['default'])(socket);
     chatPreguntasLoad();
     var deber = (0, _jquery2['default'])(".deber_enviado").val();
-    if (deber.length > 0) {
+
+    if (deber.length > 0 && deber !== "undefined") {
       (0, _jquery2['default'])(".card_deber_card_name").html(deber);
       (0, _jquery2['default'])(".card_deber_card").fadeIn();
     }
@@ -13056,8 +13058,6 @@ function chatPreguntasLoad() {
 function count__questions(id) {
   console.log(id);
   _jquery2['default'].get('/respuestas/count/' + id).done(function (respuestas) {
-    console.log(respuestas);
-    console.log(id);
     (0, _jquery2['default'])('.count_repuesta span[data-id="' + id + '"]').html(respuestas.count);
   });
 }
@@ -13107,6 +13107,26 @@ function respuestasTemplate(id) {
 function template_respuesta(respuesta) {
   var item = '<div class="item" id="item-question" style="width: 86.1% !important;">\n    <div class="top-details">\n      <div class="user">\n        <span class="avatar-discussion">\n          <img src="' + respuesta.avatar + '" alt="' + respuesta.name + '" height="20" width="20">\n        </span>\n        <a class="author-discussion">' + respuesta.name + '</a>\n      </div>\n    </div>\n    <div class="discussion-text">\n      <p class="btn-q" data-id="' + respuesta._id + '">' + respuesta.respuesta + '</p>\n    </div>\n  </div>';
   return item;
+}
+
+// Terminar Clase
+var terminar_clase = document.getElementById("terminar-clase");
+terminar_clase.addEventListener("click", onTerminarClase);
+
+function onTerminarClase(e) {
+  e.preventDefault();
+  var id = e.target.dataset.id;
+  var curso = document.getElementById("curso").value;
+  socket.emit("terminar::clase", { "id_clase": id, "curso": curso });
+}
+
+socket.on("term::class", onTermClass);
+
+function onTermClass(data) {
+  window.alert("okk");
+  window.alert(data.curso);
+  location.reload();
+  // location.pathName = `/course/${ data.curso }`
 }
 
 },{"./ahorcado":22,"./buscamina":23,"./calificar":24,"./calificar_leccion":25,"./cronometro":27,"./cursos-admin":28,"./delet-admin":29,"./grupos":30,"./leccion":32,"./opciones":33,"./pizarra":34,"./reportes":35,"./streaming":36,"./tarea":37,"./templates/box.hbs":38,"./templates/deber.hbs":39,"./templates/flagClass.hbs":40,"./templates/form.hbs":41,"./templates/games/ahorcado.hbs":42,"./templates/games/buscamina.hbs":43,"./templates/games/trestis.hbs":44,"./templates/item.hbs":45,"./templates/list.hbs":46,"./templates/pizarra.hbs":47,"./templates/respuestas.hbs":48,"./trestis":49,"./validate":50,"domify":1,"jquery":21}],32:[function(require,module,exports){

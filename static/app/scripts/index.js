@@ -106,6 +106,7 @@ function initialize(){
   socket.on("term::pizarra", function(data) {
     document.querySelector(".card-play").style = "display:none"
     $(".wrap-juego").empty()
+    $("#PizarraLayout").fadeOut()
   })
 
   socket.on("pizarra", function(data) {
@@ -116,7 +117,6 @@ function initialize(){
 
   document.querySelector("#agc").addEventListener("click", function(e) {
     alert("Se ha guardodo con exito.")
-    $("#PizarraLayout").fadeOut()
 
     var data = {
       tiempo: $("#minutos").html() + ":"+$("#segundos").html(),
@@ -180,15 +180,18 @@ function streamingCameraTeacher(){
   var pathName = loc.pathname.substring(0, loc.pathname.lastIndexOf('/') + 1)
   console.log("pathName", pathName)
 
+
   if(pathName === '/lessons/'){
     console.log("pathName cumplio", pathName)
-    // streamingT(socket)
+    streamingT(socket)
     chatPreguntasLoad()
     var deber = $(".deber_enviado").val()
-    if(deber.length  > 0){
+
+    if(deber.length  > 0 && deber !== "undefined"){
         $(".card_deber_card_name").html(deber)
         $(".card_deber_card").fadeIn()
     }
+
   }
   if(pathName.startsWith('/lessons/')){
 
@@ -375,8 +378,6 @@ function count__questions (id) {
   console.log(id)
   $.get(`/respuestas/count/${id}`)
     .done(function (respuestas){
-      console.log(respuestas)
-      console.log(id)
       $(`.count_repuesta span[data-id="${ id }"]`).html(respuestas.count)
     })
 }
@@ -442,4 +443,24 @@ function template_respuesta(respuesta) {
     </div>
   </div>`
   return item
+}
+
+// Terminar Clase
+const terminar_clase = document.getElementById("terminar-clase")
+terminar_clase.addEventListener("click", onTerminarClase)
+
+function onTerminarClase (e) {
+    e.preventDefault()
+    let id = e.target.dataset.id
+    var curso = document.getElementById("curso").value
+    socket.emit("terminar::clase", { "id_clase":id, "curso":curso })
+}
+
+socket.on("term::class", onTermClass)
+
+function onTermClass (data) {
+    window.alert("okk")
+    window.alert(data.curso)
+    location.reload()
+    // location.pathName = `/course/${ data.curso }`
 }
