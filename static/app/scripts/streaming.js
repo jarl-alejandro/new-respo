@@ -7,13 +7,14 @@ function streamingTeacher(socket){
     const pc_config = {"rtcpMuxPolicy":"require","bundlePolicy":"max-bundle","iceServers":[{"urls":["turn:64.233.177.127:19305?transport=udp","turn:64.233.177.127:19305?transport=tcp","turn:74.125.134.127:19305?transport=udp"],"username":"1466084271:CAAeb7CH","credential":"nXD4TYUK4+p9WN6o4Dkmr97JH/Y="},{"urls":["stun:stun.l.google.com:19302"]}]}
 
     let type_user = document.querySelector("#type_user").value
-    let tipo_usuario = null
+    let tipo_usuario = ""
 
     socket.emit("type::user", { "type_user":type_user })
     socket.emit("join::video::chat", { "channel":getChannel(), "type_user":type_user })
     socket.on("addPeer", start)
 
     socket.on("user::typo", function (data) {
+        tipo_usuario = ""
         tipo_usuario = data.type_user
     })
 
@@ -75,15 +76,22 @@ function streamingTeacher(socket){
             remote_media.attr("controls", "")
 
             peer_media_elements[peer_id] = remote_media
+            // if()
             if(tipo_usuario == "Student"){
                 remote_media.addClass("estudianteRemoteView")
                 $('.LayoutRemoteEstudiante').append(remote_media)
                 attachMediaStream(remote_media[0], event.stream)
-            }
-            else{
-                remote_media.addClass("profesorRemoteView")
-                $('.LayoutRemoteProfesor').append(remote_media)
-                attachMediaStream(remote_media[0], event.stream)
+            }else{
+                var foo = document.querySelector(".LayoutRemoteProfesor").childElementCount
+                if(foo == 0){
+                    remote_media.addClass("profesorRemoteView")
+                    $('.LayoutRemoteProfesor').append(remote_media)
+                    attachMediaStream(remote_media[0], event.stream)
+                }else{
+                    remote_media.addClass("estudianteRemoteView")
+                    $('.LayoutRemoteEstudiante').append(remote_media)
+                    attachMediaStream(remote_media[0], event.stream)
+                }
             }
         }
 

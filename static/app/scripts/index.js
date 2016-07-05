@@ -455,12 +455,3 @@ function onTerminarClase (e) {
     var curso = document.getElementById("curso").value
     socket.emit("terminar::clase", { "id_clase":id, "curso":curso })
 }
-
-socket.on("term::class", onTermClass)
-
-function onTermClass (data) {
-    window.alert("okk")
-    window.alert(data.curso)
-    location.reload()
-    // location.pathName = `/course/${ data.curso }`
-}

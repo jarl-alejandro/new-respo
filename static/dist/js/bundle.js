@@ -13120,15 +13120,6 @@ function onTerminarClase(e) {
   socket.emit("terminar::clase", { "id_clase": id, "curso": curso });
 }
 
-socket.on("term::class", onTermClass);
-
-function onTermClass(data) {
-  window.alert("okk");
-  window.alert(data.curso);
-  location.reload();
-  // location.pathName = `/course/${ data.curso }`
-}
-
 },{"./ahorcado":22,"./buscamina":23,"./calificar":24,"./calificar_leccion":25,"./cronometro":27,"./cursos-admin":28,"./delet-admin":29,"./grupos":30,"./leccion":32,"./opciones":33,"./pizarra":34,"./reportes":35,"./streaming":36,"./tarea":37,"./templates/box.hbs":38,"./templates/deber.hbs":39,"./templates/flagClass.hbs":40,"./templates/form.hbs":41,"./templates/games/ahorcado.hbs":42,"./templates/games/buscamina.hbs":43,"./templates/games/trestis.hbs":44,"./templates/item.hbs":45,"./templates/list.hbs":46,"./templates/pizarra.hbs":47,"./templates/respuestas.hbs":48,"./trestis":49,"./validate":50,"domify":1,"jquery":21}],32:[function(require,module,exports){
 'use strict';
 
@@ -13158,6 +13149,12 @@ function Leccion(socket) {
     onEvent();
 
     socket.on("emit::leccion", EmitLeccion);
+    socket.on("term::class", onTermClass);
+
+    function onTermClass(data) {
+        var type = document.getElementById("type_user").value;
+        if (type === "Teacher") location.pathname = "/teacher";else location.pathname = '/course/' + data.curso;
+    }
 
     function onEvent() {
         leccion.addEventListener("click", newLeccion, false);
@@ -13744,13 +13741,14 @@ function streamingTeacher(socket) {
     var pc_config = { "rtcpMuxPolicy": "require", "bundlePolicy": "max-bundle", "iceServers": [{ "urls": ["turn:64.233.177.127:19305?transport=udp", "turn:64.233.177.127:19305?transport=tcp", "turn:74.125.134.127:19305?transport=udp"], "username": "1466084271:CAAeb7CH", "credential": "nXD4TYUK4+p9WN6o4Dkmr97JH/Y=" }, { "urls": ["stun:stun.l.google.com:19302"] }] };
 
     var type_user = document.querySelector("#type_user").value;
-    var tipo_usuario = null;
+    var tipo_usuario = "";
 
     socket.emit("type::user", { "type_user": type_user });
     socket.emit("join::video::chat", { "channel": getChannel(), "type_user": type_user });
     socket.on("addPeer", start);
 
     socket.on("user::typo", function (data) {
+        tipo_usuario = "";
         tipo_usuario = data.type_user;
     });
 
@@ -13810,14 +13808,22 @@ function streamingTeacher(socket) {
             remote_media.attr("controls", "");
 
             peer_media_elements[peer_id] = remote_media;
+            // if()
             if (tipo_usuario == "Student") {
                 remote_media.addClass("estudianteRemoteView");
                 (0, _jquery2['default'])('.LayoutRemoteEstudiante').append(remote_media);
                 attachMediaStream(remote_media[0], event.stream);
             } else {
-                remote_media.addClass("profesorRemoteView");
-                (0, _jquery2['default'])('.LayoutRemoteProfesor').append(remote_media);
-                attachMediaStream(remote_media[0], event.stream);
+                var foo = document.querySelector(".LayoutRemoteProfesor").childElementCount;
+                if (foo == 0) {
+                    remote_media.addClass("profesorRemoteView");
+                    (0, _jquery2['default'])('.LayoutRemoteProfesor').append(remote_media);
+                    attachMediaStream(remote_media[0], event.stream);
+                } else {
+                    remote_media.addClass("estudianteRemoteView");
+                    (0, _jquery2['default'])('.LayoutRemoteEstudiante').append(remote_media);
+                    attachMediaStream(remote_media[0], event.stream);
+                }
             }
         };
 

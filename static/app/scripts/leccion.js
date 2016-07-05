@@ -18,6 +18,14 @@ function Leccion (socket){
     onEvent()
 
     socket.on("emit::leccion", EmitLeccion)
+    socket.on("term::class", onTermClass)
+
+    function onTermClass (data) {
+        var type = document.getElementById("type_user").value
+        if(type === "Teacher") location.pathname = "/teacher"
+        else location.pathname = `/course/${ data.curso }`
+    }
+
 
     function onEvent(){
       leccion.addEventListener("click", newLeccion, false)
