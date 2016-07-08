@@ -12989,14 +12989,69 @@ var lenPathName = pathName.length;
 
 if (pathName == '/course/') {
   (function () {
+    var countdown = function countdown(date_class) {
+      var fecha = date_class;
+      var hoy = new Date();
+      var dias = 0;
+      var horas = 0;
+      var minutos = 0;
+      var segundos = 0;
+
+      if (fecha > hoy) {
+        var diferencia = (fecha.getTime() - hoy.getTime()) / 1000;
+        dias = Math.floor(diferencia / 86400);
+        diferencia = diferencia - 86400 * dias;
+        horas = Math.floor(diferencia / 3600);
+        diferencia = diferencia - 3600 * horas;
+        minutos = Math.floor(diferencia / 60);
+        diferencia = diferencia - 60 * minutos;
+        segundos = Math.floor(diferencia);
+
+        if (dias < 10) dias = "0" + dias;
+        if (horas < 10) horas = "0" + horas;
+        if (minutos < 10) minutos = "0" + minutos;
+        if (segundos < 10) segundos = "0" + segundos;
+
+        (0, _jquery2['default'])(".count-day-number").html(dias);
+        (0, _jquery2['default'])(".count-hora-number").html(horas);
+        (0, _jquery2['default'])(".count-minuto-number").html(minutos);
+        (0, _jquery2['default'])(".count-segundo-number").html(segundos);
+      } else {
+        (0, _jquery2['default'])(".count-day-number").html(dias);
+        (0, _jquery2['default'])(".count-hora-number").html(horas);
+        (0, _jquery2['default'])(".count-minuto-number").html(minutos);
+        (0, _jquery2['default'])(".count-segundo-number").html(segundos);
+      }
+    };
+
     var aviso = document.getElementById("aviso");
 
     var nameRoom = window.location.pathname.substring(lenPathName);
     socket.emit("class::flag", nameRoom);
 
     socket.on("flag", function (lessons) {
-      var flagClassTpl = (0, _templatesFlagClassHbs2['default'])({ lessons: lessons });
+      console.log(lessons);
+      var datetime = "2016-07-09 19:03:00";
+      var fecha_clase = new Date(datetime);
+      var dias = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+      var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+      var dia = fecha_clase.getDate();
+      var dia_number = fecha_clase.getDay();
+      var dia_text = dias[dia_number];
+      var mes_number = fecha_clase.getMonth();
+      var mes = meses[mes_number];
+
+      if (dia < 10) dia = "0" + dia;
+
+      var fecha = { dia: dia, semana: dia_text, mes: mes };
+
+      var flagClassTpl = (0, _templatesFlagClassHbs2['default'])({ lessons: lessons, fecha: fecha });
       aviso.appendChild((0, _domify2['default'])(flagClassTpl));
+
+      setInterval(function () {
+        countdown(fecha_clase);
+      }, 1000);
     });
   })();
 }
@@ -13987,15 +14042,15 @@ var templater = require("handlebars/runtime")["default"].template;module.exports
 var templater = require("handlebars/runtime")["default"].template;module.exports = templater({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "<div class=\"card aviso\">\n  <a href=\"/lessons/"
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.lessons : depth0)) != null ? stack1._id : stack1), depth0))
-    + "\">\n    <h2>\n      Ingresa hay clase ahora de "
-    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? depth0.lessons : depth0)) != null ? stack1.subject : stack1)) != null ? stack1.subject : stack1), depth0))
-    + " sobre "
+  return "<div class=\"card aviso\">\n    <article class=\"aviso-falta--clase\">\n        <div class=\"aviso-title\">\n            <h3>Clase de  "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.lessons : depth0)) != null ? stack1.nameClass : stack1), depth0))
-    + "\n    </h2>\n    <h3>\n      "
-    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? depth0.lessons : depth0)) != null ? stack1.teacher : stack1)) != null ? stack1.name : stack1), depth0))
-    + " va a dar la clase\n    </h3>\n  </a>\n</div>\n";
+    + "</h3>\n        </div>\n        <div class=\"aviso-calendar\">\n            <div class=\"calendar-spiral\">\n                <span class=\"espiral-circle\"></span>\n                <span class=\"espiral-circle\"></span>\n            </div>\n            <div class=\"calendar-mes\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.fecha : depth0)) != null ? stack1.mes : stack1), depth0))
+    + "</div>\n            <div class=\"calendar-day\">\n                <span class=\"day-numer\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.fecha : depth0)) != null ? stack1.dia : stack1), depth0))
+    + "</span>\n                <span class=\"day-text\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.fecha : depth0)) != null ? stack1.semana : stack1), depth0))
+    + "</span>\n            </div>\n        </div>\n        <div class=\"aviso-reloj\">\n            <div class=\"reloj-count-day\">\n                <span class=\"count-day-number\"></span>\n                <span class=\"count-day-text\">días</span>\n            </div>\n            <div class=\"reloj-count-hora\">\n                <span class=\"count-hora-number\"></span>\n                <span class=\"count-hora-text\">horas</span>\n            </div>\n            <div class=\"reloj-count-minuto\">\n                <span class=\"count-minuto-number\"></span>\n                <span class=\"count-minuto-text\">min</span>\n            </div>\n            <div class=\"reloj-count-segundo\">\n                <span class=\"count-segundo-number\"></span>\n                <span class=\"count-segundo-text\">seg</span>\n            </div>\n        </div>\n    </article>\n</div>\n\n";
 },"useData":true});
 },{"handlebars/runtime":20}],41:[function(require,module,exports){
 var templater = require("handlebars/runtime")["default"].template;module.exports = templater({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

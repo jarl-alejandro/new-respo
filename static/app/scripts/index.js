@@ -312,9 +312,66 @@ if(pathName == '/course/'){
   let nameRoom = window.location.pathname.substring(lenPathName)
   socket.emit("class::flag", nameRoom)
 
+  function countdown(date_class){
+    var fecha = date_class
+    var hoy = new Date()
+    var dias = 0
+    var horas = 0
+    var minutos = 0
+    var segundos = 0
+
+    if (fecha > hoy) {
+        let diferencia = (fecha.getTime() - hoy.getTime()) / 1000
+        dias = Math.floor(diferencia / 86400)
+        diferencia = diferencia - (86400 * dias)
+        horas = Math.floor(diferencia / 3600)
+        diferencia = diferencia - (3600 * horas)
+        minutos = Math.floor(diferencia / 60)
+        diferencia = diferencia - (60 * minutos)
+        segundos = Math.floor(diferencia)
+
+        if(dias < 10) dias = "0" + dias
+        if(horas < 10) horas = "0" + horas
+        if(minutos < 10) minutos = "0" + minutos
+        if(segundos < 10) segundos = "0" + segundos
+
+        $(".count-day-number").html(dias)
+        $(".count-hora-number").html(horas)
+        $(".count-minuto-number").html(minutos)
+        $(".count-segundo-number").html(segundos)
+
+    } else {
+        $(".count-day-number").html(dias)
+        $(".count-hora-number").html(horas)
+        $(".count-minuto-number").html(minutos)
+        $(".count-segundo-number").html(segundos)
+    }
+  }
+
   socket.on("flag", function(lessons){
-    const flagClassTpl = flagClassTemplate({ lessons:lessons })
+    console.log(lessons);
+    const datetime = "2016-07-09 19:03:00"
+    const fecha_clase = new Date(datetime)
+    const dias = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"]
+    const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+
+    let dia = fecha_clase.getDate()
+    let dia_number = fecha_clase.getDay()
+    let dia_text = dias[dia_number]
+    let mes_number = fecha_clase.getMonth()
+    let mes = meses[mes_number]
+
+    if(dia < 10) dia = "0" + dia
+
+    let fecha = { dia:dia, semana:dia_text, mes:mes }
+
+    const flagClassTpl = flagClassTemplate({ lessons:lessons, fecha })
     aviso.appendChild(domify(flagClassTpl))
+
+    setInterval(function() {
+        countdown(fecha_clase)
+    }, 1000)
+
   })
 
 }

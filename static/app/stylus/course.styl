@@ -1,3 +1,71 @@
+.aviso-falta--clase
+    display flex
+    flex-wrap wrap
+    justify-content center
+    align-items center
+.aviso-title
+    width 100%
+.aviso-reloj
+    display flex
+    margin-left 1em
+.reloj-count-day
+.reloj-count-hora
+.reloj-count-minuto
+.reloj-count-segundo
+    width 3.5em
+    text-align center
+    color #4d4d4d
+    font-weight bold
+    display flex
+    flex-wrap wrap
+    justify-content center
+
+.count-day-number
+.count-hora-number
+.count-minuto-number
+    font-size 2em
+    position relative
+    &:after
+        content ":"
+        position absolute
+        left 1.3em
+.count-segundo-number
+    position relative
+    font-size 2em
+.count-day-text
+.count-hora-text
+.count-minuto-text
+.count-segundo-text
+    font-size 14px
+.aviso-calendar
+    width 65px
+    font-size 11px
+    color #fff
+    text-transform uppercase
+    text-align center
+    font-weight 700
+.calendar-spiral
+    display flex
+    justify-content space-around
+.espiral-circle
+    border-radius 50% 50% 0 0
+    background #db5656
+    width 8px
+    height 8px
+.calendar-mes
+    background #db5656
+    padding 2px
+    font-size 12px
+.calendar-day
+    background white
+    color black
+    border-radius 0 0 2px 4px
+    box-shadow 0px 1.5px 1px rgba(0,0,0,0.5)
+    padding 2px
+.day-numer
+    font-size 24px
+.day-text
+    font-weight normal
 .BoletinLayout
     display flex
     justify-content space-between
@@ -102,23 +170,23 @@
 .no-margin
     margin 0
 .aviso
-  background color_red
+  background-image url(../img/meeting_09.jpg)
+  background-position center
+  background-size cover
   padding .3em
   border-radius 5px
   margin-bottom 1.5em
-  h2
-    font-size 20px
-    text-align center
   h3
     text-align center
-
+    margin 0
+    color #E91E63
+    font-size 3em
+    text-shadow 0px 1px 1.5px black
   a
-    color white
+    color #444444
     text-decoration none
     &:hover
       text-decoration underline
-  &:hover
-    background #F4413B
 
 .bitacora-title
   text-align center

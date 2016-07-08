@@ -1,10 +1,45 @@
 <div class="card aviso">
-  <a href="/lessons/{{ lessons._id }}">
+    <article class="aviso-falta--clase">
+        <div class="aviso-title">
+            <h3>Clase de  {{ lessons.nameClass }}</h3>
+        </div>
+        <div class="aviso-calendar">
+            <div class="calendar-spiral">
+                <span class="espiral-circle"></span>
+                <span class="espiral-circle"></span>
+            </div>
+            <div class="calendar-mes">{{ fecha.mes }}</div>
+            <div class="calendar-day">
+                <span class="day-numer">{{ fecha.dia }}</span>
+                <span class="day-text">{{ fecha.semana }}</span>
+            </div>
+        </div>
+        <div class="aviso-reloj">
+            <div class="reloj-count-day">
+                <span class="count-day-number"></span>
+                <span class="count-day-text">días</span>
+            </div>
+            <div class="reloj-count-hora">
+                <span class="count-hora-number"></span>
+                <span class="count-hora-text">horas</span>
+            </div>
+            <div class="reloj-count-minuto">
+                <span class="count-minuto-number"></span>
+                <span class="count-minuto-text">min</span>
+            </div>
+            <div class="reloj-count-segundo">
+                <span class="count-segundo-number"></span>
+                <span class="count-segundo-text">seg</span>
+            </div>
+        </div>
+    </article>
+</div>
+
+{{!-- <a href="/lessons/{{ lessons._id }}">
     <h2>
-      Ingresa hay clase ahora de {{ lessons.subject.subject }} sobre {{ lessons.nameClass }}
+        Ingresa hay clase ahora de {{ lessons.subject.subject }} sobre {{ lessons.nameClass }}
     </h2>
     <h3>
-      {{ lessons.teacher.name }} va a dar la clase
+        {{ lessons.teacher.name }} va a dar la clase
     </h3>
-  </a>
-</div>
+</a> --}}
