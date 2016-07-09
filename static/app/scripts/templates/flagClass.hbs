@@ -16,21 +16,24 @@
         </div>
         <div class="aviso-reloj">
             <div class="reloj-count-day">
-                <span class="count-day-number"></span>
+                <span class="count-day-number dia-{{ id_leccion }}-reloj"></span>
                 <span class="count-day-text">días</span>
             </div>
             <div class="reloj-count-hora">
-                <span class="count-hora-number"></span>
+                <span class="count-hora-number hora-{{ id_leccion }}-reloj"></span>
                 <span class="count-hora-text">horas</span>
             </div>
             <div class="reloj-count-minuto">
-                <span class="count-minuto-number"></span>
+                <span class="count-minuto-number minuto-{{ id_leccion }}-reloj"></span>
                 <span class="count-minuto-text">min</span>
             </div>
             <div class="reloj-count-segundo">
-                <span class="count-segundo-number"></span>
+                <span class="count-segundo-number segundo-{{ id_leccion }}-reloj"></span>
                 <span class="count-segundo-text">seg</span>
             </div>
+        </div>
+        <div class="aviso-ingresar none">
+            <a href="/lessons/{{ lessons._id }}">Ingresar a clase</a>
         </div>
     </article>
 </div>

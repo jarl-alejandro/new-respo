@@ -12953,7 +12953,7 @@ socket.on("question::recieve", addQuestion);
 //< menor que || > mayor que
 function addQuestion(question) {
   console.log(question);
-  var q = (0, _templatesItemHbs2['default'])({ question: question });
+  var q = (0, _templatesItemHbs2['default'])({ question: question, count: 0 });
   listQuestion.appendChild((0, _domify2['default'])(q));
 
   var like = document.querySelectorAll(".like");
@@ -12983,55 +12983,64 @@ function minus(e) {
   this.textContent = m;
 }
 
+function countdown(date_class, id) {
+  var fecha = date_class;
+  var hoy = new Date();
+  var dias = 0;
+  var horas = 0;
+  var minutos = 0;
+  var segundos = 0;
+
+  if (fecha > hoy) {
+    var diferencia = (fecha.getTime() - hoy.getTime()) / 1000;
+    dias = Math.floor(diferencia / 86400);
+    diferencia = diferencia - 86400 * dias;
+    horas = Math.floor(diferencia / 3600);
+    diferencia = diferencia - 3600 * horas;
+    minutos = Math.floor(diferencia / 60);
+    diferencia = diferencia - 60 * minutos;
+    segundos = Math.floor(diferencia);
+
+    if (dias < 10) dias = "0" + dias;
+    if (horas < 10) horas = "0" + horas;
+    if (minutos < 10) minutos = "0" + minutos;
+    if (segundos < 10) segundos = "0" + segundos;
+
+    document.querySelector('.dia-' + id + '-reloj').innerHTML = dias;
+    document.querySelector('.hora-' + id + '-reloj').innerHTML = horas;
+    document.querySelector('.minuto-' + id + '-reloj').innerHTML = minutos;
+    document.querySelector('.segundo-' + id + '-reloj').innerHTML = segundos;
+
+    if (dias > 0 || horas > 0 || minutos > 0 || segundos > 0) {
+      setTimeout(function () {
+        countdown(date_class, id);
+      }, 1000);
+    } else {
+      (0, _jquery2['default'])(".aviso-ingresar").fadeIn();
+    }
+  } else {
+    (0, _jquery2['default'])(".aviso-ingresar").fadeIn();
+    document.querySelector('.dia-' + id + '-reloj').innerHTML = "00";
+    document.querySelector('.hora-' + id + '-reloj').innerHTML = "00";
+    document.querySelector('.minuto-' + id + '-reloj').innerHTML = "00";
+    document.querySelector('.segundo-' + id + '-reloj').innerHTML = "00";
+  }
+}
+
 var loc = window.location;
 var pathName = loc.pathname.substring(0, loc.pathname.lastIndexOf('/') + 1);
 var lenPathName = pathName.length;
 
 if (pathName == '/course/') {
   (function () {
-    var countdown = function countdown(date_class) {
-      var fecha = date_class;
-      var hoy = new Date();
-      var dias = 0;
-      var horas = 0;
-      var minutos = 0;
-      var segundos = 0;
-
-      if (fecha > hoy) {
-        var diferencia = (fecha.getTime() - hoy.getTime()) / 1000;
-        dias = Math.floor(diferencia / 86400);
-        diferencia = diferencia - 86400 * dias;
-        horas = Math.floor(diferencia / 3600);
-        diferencia = diferencia - 3600 * horas;
-        minutos = Math.floor(diferencia / 60);
-        diferencia = diferencia - 60 * minutos;
-        segundos = Math.floor(diferencia);
-
-        if (dias < 10) dias = "0" + dias;
-        if (horas < 10) horas = "0" + horas;
-        if (minutos < 10) minutos = "0" + minutos;
-        if (segundos < 10) segundos = "0" + segundos;
-
-        (0, _jquery2['default'])(".count-day-number").html(dias);
-        (0, _jquery2['default'])(".count-hora-number").html(horas);
-        (0, _jquery2['default'])(".count-minuto-number").html(minutos);
-        (0, _jquery2['default'])(".count-segundo-number").html(segundos);
-      } else {
-        (0, _jquery2['default'])(".count-day-number").html(dias);
-        (0, _jquery2['default'])(".count-hora-number").html(horas);
-        (0, _jquery2['default'])(".count-minuto-number").html(minutos);
-        (0, _jquery2['default'])(".count-segundo-number").html(segundos);
-      }
-    };
-
     var aviso = document.getElementById("aviso");
 
     var nameRoom = window.location.pathname.substring(lenPathName);
     socket.emit("class::flag", nameRoom);
 
     socket.on("flag", function (lessons) {
-      console.log(lessons);
-      var datetime = "2016-07-09 19:03:00";
+      var datetime = lessons.dateStart;
+      var id_leccion = lessons._id;
       var fecha_clase = new Date(datetime);
       var dias = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
       var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
@@ -13045,15 +13054,39 @@ if (pathName == '/course/') {
       if (dia < 10) dia = "0" + dia;
 
       var fecha = { dia: dia, semana: dia_text, mes: mes };
-
-      var flagClassTpl = (0, _templatesFlagClassHbs2['default'])({ lessons: lessons, fecha: fecha });
+      var flagClassTpl = (0, _templatesFlagClassHbs2['default'])({ lessons: lessons, fecha: fecha, id_leccion: id_leccion });
       aviso.appendChild((0, _domify2['default'])(flagClassTpl));
 
-      setInterval(function () {
-        countdown(fecha_clase);
-      }, 1000);
+      countdown(fecha_clase, id_leccion);
     });
   })();
+}
+
+if (location.pathname == "/teacher" || location.pathname == "/teacher/") {
+  var aviso_teacher = document.getElementById("aviso_teacher");
+  _jquery2['default'].get("/api/clases/teacher").done(function (clases) {
+    for (var clase in clases) {
+      var lessons = clases[clase];
+      var id_leccion = lessons._id;
+      var datetime = lessons.dateStart;
+      var fecha_clase = new Date(datetime);
+      var dias = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+      var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+      var dia = fecha_clase.getDate();
+      var dia_number = fecha_clase.getDay();
+      var dia_text = dias[dia_number];
+      var mes_number = fecha_clase.getMonth();
+      var mes = meses[mes_number];
+
+      if (dia < 10) dia = "0" + dia;
+
+      var fecha = { dia: dia, semana: dia_text, mes: mes };
+      var flagClassTpl = (0, _templatesFlagClassHbs2['default'])({ lessons: lessons, fecha: fecha, id_leccion: id_leccion });
+      aviso_teacher.appendChild((0, _domify2['default'])(flagClassTpl));
+      countdown(fecha_clase, id_leccion);
+    }
+  });
 }
 
 function bloquear() {
@@ -14040,7 +14073,7 @@ var templater = require("handlebars/runtime")["default"].template;module.exports
 },"useData":true});
 },{"handlebars/runtime":20}],40:[function(require,module,exports){
 var templater = require("handlebars/runtime")["default"].template;module.exports = templater({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+    var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : {}, alias4=helpers.helperMissing, alias5="function";
 
   return "<div class=\"card aviso\">\n    <article class=\"aviso-falta--clase\">\n        <div class=\"aviso-title\">\n            <h3>Clase de  "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.lessons : depth0)) != null ? stack1.nameClass : stack1), depth0))
@@ -14050,7 +14083,17 @@ var templater = require("handlebars/runtime")["default"].template;module.exports
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.fecha : depth0)) != null ? stack1.dia : stack1), depth0))
     + "</span>\n                <span class=\"day-text\">"
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.fecha : depth0)) != null ? stack1.semana : stack1), depth0))
-    + "</span>\n            </div>\n        </div>\n        <div class=\"aviso-reloj\">\n            <div class=\"reloj-count-day\">\n                <span class=\"count-day-number\"></span>\n                <span class=\"count-day-text\">días</span>\n            </div>\n            <div class=\"reloj-count-hora\">\n                <span class=\"count-hora-number\"></span>\n                <span class=\"count-hora-text\">horas</span>\n            </div>\n            <div class=\"reloj-count-minuto\">\n                <span class=\"count-minuto-number\"></span>\n                <span class=\"count-minuto-text\">min</span>\n            </div>\n            <div class=\"reloj-count-segundo\">\n                <span class=\"count-segundo-number\"></span>\n                <span class=\"count-segundo-text\">seg</span>\n            </div>\n        </div>\n    </article>\n</div>\n\n";
+    + "</span>\n            </div>\n        </div>\n        <div class=\"aviso-reloj\">\n            <div class=\"reloj-count-day\">\n                <span class=\"count-day-number dia-"
+    + alias2(((helper = (helper = helpers.id_leccion || (depth0 != null ? depth0.id_leccion : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"id_leccion","hash":{},"data":data}) : helper)))
+    + "-reloj\"></span>\n                <span class=\"count-day-text\">días</span>\n            </div>\n            <div class=\"reloj-count-hora\">\n                <span class=\"count-hora-number hora-"
+    + alias2(((helper = (helper = helpers.id_leccion || (depth0 != null ? depth0.id_leccion : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"id_leccion","hash":{},"data":data}) : helper)))
+    + "-reloj\"></span>\n                <span class=\"count-hora-text\">horas</span>\n            </div>\n            <div class=\"reloj-count-minuto\">\n                <span class=\"count-minuto-number minuto-"
+    + alias2(((helper = (helper = helpers.id_leccion || (depth0 != null ? depth0.id_leccion : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"id_leccion","hash":{},"data":data}) : helper)))
+    + "-reloj\"></span>\n                <span class=\"count-minuto-text\">min</span>\n            </div>\n            <div class=\"reloj-count-segundo\">\n                <span class=\"count-segundo-number segundo-"
+    + alias2(((helper = (helper = helpers.id_leccion || (depth0 != null ? depth0.id_leccion : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"id_leccion","hash":{},"data":data}) : helper)))
+    + "-reloj\"></span>\n                <span class=\"count-segundo-text\">seg</span>\n            </div>\n        </div>\n        <div class=\"aviso-ingresar none\">\n            <a href=\"/lessons/"
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.lessons : depth0)) != null ? stack1._id : stack1), depth0))
+    + "\">Ingresar a clase</a>\n        </div>\n    </article>\n</div>\n\n";
 },"useData":true});
 },{"handlebars/runtime":20}],41:[function(require,module,exports){
 var templater = require("handlebars/runtime")["default"].template;module.exports = templater({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

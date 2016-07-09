@@ -271,7 +271,7 @@ socket.on("question::recieve", addQuestion)
 //< menor que || > mayor que
 function addQuestion(question){
   console.log(question)
-  const q = itemTemplate({ question:question })
+  const q = itemTemplate({ question:question, count:0 })
   listQuestion.appendChild(domify(q))
 
   const like = document.querySelectorAll(".like")
@@ -302,6 +302,51 @@ function minus(e){
   this.textContent = m
 }
 
+function countdown(date_class, id){
+  var fecha = date_class
+  var hoy = new Date()
+  var dias = 0
+  var horas = 0
+  var minutos = 0
+  var segundos = 0
+
+  if (fecha > hoy) {
+      let diferencia = (fecha.getTime() - hoy.getTime()) / 1000
+      dias = Math.floor(diferencia / 86400)
+      diferencia = diferencia - (86400 * dias)
+      horas = Math.floor(diferencia / 3600)
+      diferencia = diferencia - (3600 * horas)
+      minutos = Math.floor(diferencia / 60)
+      diferencia = diferencia - (60 * minutos)
+      segundos = Math.floor(diferencia)
+
+      if(dias < 10) dias = "0" + dias
+      if(horas < 10) horas = "0" + horas
+      if(minutos < 10) minutos = "0" + minutos
+      if(segundos < 10) segundos = "0" + segundos
+
+      document.querySelector(`.dia-${ id }-reloj`).innerHTML = dias
+      document.querySelector(`.hora-${ id }-reloj`).innerHTML = horas
+      document.querySelector(`.minuto-${ id }-reloj`).innerHTML = minutos
+      document.querySelector(`.segundo-${ id }-reloj`).innerHTML = segundos
+
+      if (dias>0 || horas>0 || minutos>0 || segundos>0){
+          setTimeout(function () {
+              countdown(date_class, id)
+          }, 1000)
+      } else {
+          $(".aviso-ingresar").fadeIn()
+      }
+
+  } else {
+      $(".aviso-ingresar").fadeIn()
+      document.querySelector(`.dia-${ id }-reloj`).innerHTML = "00"
+      document.querySelector(`.hora-${ id }-reloj`).innerHTML = "00"
+      document.querySelector(`.minuto-${ id }-reloj`).innerHTML = "00"
+      document.querySelector(`.segundo-${ id }-reloj`).innerHTML = "00"
+  }
+}
+
 const loc = window.location;
 const pathName = loc.pathname.substring(0, loc.pathname.lastIndexOf('/') + 1)
 let lenPathName = pathName.length
@@ -312,45 +357,9 @@ if(pathName == '/course/'){
   let nameRoom = window.location.pathname.substring(lenPathName)
   socket.emit("class::flag", nameRoom)
 
-  function countdown(date_class){
-    var fecha = date_class
-    var hoy = new Date()
-    var dias = 0
-    var horas = 0
-    var minutos = 0
-    var segundos = 0
-
-    if (fecha > hoy) {
-        let diferencia = (fecha.getTime() - hoy.getTime()) / 1000
-        dias = Math.floor(diferencia / 86400)
-        diferencia = diferencia - (86400 * dias)
-        horas = Math.floor(diferencia / 3600)
-        diferencia = diferencia - (3600 * horas)
-        minutos = Math.floor(diferencia / 60)
-        diferencia = diferencia - (60 * minutos)
-        segundos = Math.floor(diferencia)
-
-        if(dias < 10) dias = "0" + dias
-        if(horas < 10) horas = "0" + horas
-        if(minutos < 10) minutos = "0" + minutos
-        if(segundos < 10) segundos = "0" + segundos
-
-        $(".count-day-number").html(dias)
-        $(".count-hora-number").html(horas)
-        $(".count-minuto-number").html(minutos)
-        $(".count-segundo-number").html(segundos)
-
-    } else {
-        $(".count-day-number").html(dias)
-        $(".count-hora-number").html(horas)
-        $(".count-minuto-number").html(minutos)
-        $(".count-segundo-number").html(segundos)
-    }
-  }
-
   socket.on("flag", function(lessons){
-    console.log(lessons);
-    const datetime = "2016-07-09 19:03:00"
+    const datetime = lessons.dateStart
+    let id_leccion = lessons._id
     const fecha_clase = new Date(datetime)
     const dias = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"]
     const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
@@ -364,16 +373,40 @@ if(pathName == '/course/'){
     if(dia < 10) dia = "0" + dia
 
     let fecha = { dia:dia, semana:dia_text, mes:mes }
-
-    const flagClassTpl = flagClassTemplate({ lessons:lessons, fecha })
+    const flagClassTpl = flagClassTemplate({ lessons:lessons, fecha:fecha, id_leccion:id_leccion })
     aviso.appendChild(domify(flagClassTpl))
 
-    setInterval(function() {
-        countdown(fecha_clase)
-    }, 1000)
-
+    countdown(fecha_clase, id_leccion)
   })
 
+}
+
+if(location.pathname == "/teacher" || location.pathname == "/teacher/"){
+    var aviso_teacher = document.getElementById("aviso_teacher")
+    $.get("/api/clases/teacher")
+    .done(function (clases) {
+        for(var clase in clases){
+            var lessons = clases[clase]
+            let id_leccion = lessons._id
+            const datetime = lessons.dateStart
+            const fecha_clase = new Date(datetime)
+            const dias = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"]
+            const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+
+            let dia = fecha_clase.getDate()
+            let dia_number = fecha_clase.getDay()
+            let dia_text = dias[dia_number]
+            let mes_number = fecha_clase.getMonth()
+            let mes = meses[mes_number]
+
+            if(dia < 10) dia = "0" + dia
+
+            let fecha = { dia:dia, semana:dia_text, mes:mes }
+            const flagClassTpl = flagClassTemplate({ lessons:lessons, fecha:fecha, id_leccion:id_leccion })
+            aviso_teacher.appendChild(domify(flagClassTpl))
+            countdown(fecha_clase, id_leccion)
+        }
+    })
 }
 
 function bloquear () {

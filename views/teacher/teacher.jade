@@ -19,6 +19,7 @@ block content
 
   section(class="TeacherLayout")
     section(class="bitacora-box")
+        div(id="aviso_teacher")
         div(class="card bitacora-title")
             h2 Actividad Realizada por el docente -- #{ user.name } --
         each bitacora in bitacoras
@@ -68,7 +69,3 @@ block content
               li(class="margin-bottom")
                 span(class="icon-library")
                 a(class="padding-left" href="/course/#{ course._id }") #{ course.course.name } #{ course.parallel.name }
-        if clase != null
-          aside(class="card card-padding")
-            h2.title-have-class
-              a(href="/lessons/#{ clase._id }") Tienes Clase

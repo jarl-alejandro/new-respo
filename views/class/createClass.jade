@@ -38,3 +38,5 @@ block content
                 option(value="#{ course._id }") #{ course.course.name } #{ course.parallel.name }
           div(class="margin-top")
             input(type="submit" value="Crear clase" class="register-btn")
+  if info && info != ""
+      div.toas__info #{ info }
