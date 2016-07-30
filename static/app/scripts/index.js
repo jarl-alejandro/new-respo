@@ -183,7 +183,7 @@ function streamingCameraTeacher(){
 
   if(pathName === '/lessons/'){
     console.log("pathName cumplio", pathName)
-    streamingT(socket)
+    // streamingT(socket)
     chatPreguntasLoad()
     var deber = $(".deber_enviado").val()
 

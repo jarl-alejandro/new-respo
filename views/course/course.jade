@@ -67,17 +67,17 @@ block content
     section(class="card", id="notas-paper")
         h2(class="no-margin center-text") Mis Notas
         article(class="BoletinLayout")
-            p.boletin-grid tretis
-                span.tretis-boletin 0
-            p.boletin-grid buscamina
+            p.boletin-grid(data-type="tretis" data-id="#{ user._id }") tretis
+                span.tetris-boletin 0
+            p.boletin-grid(data-type="buscamina" data-id="#{ user._id }") buscamina
                 span.buscamina-boletin 0
-            p.boletin-grid ahorcado
+            p.boletin-grid(data-type="ahorcado" data-id="#{ user._id }") ahorcado
                 span.ahorcado-boletin 0
-            p.boletin-grid TAI
-                span.buscamina-boletin 0
-            p.boletin-grid pizarra
+            p.boletin-grid(data-type="tai" data-id="#{ user._id }") TAI
+                span.tai-boletin 0
+            p.boletin-grid(data-type="pizarra" data-id="#{ user._id }") pizarra
                 span.pizarra-boletin 0
-            p.boletin-grid lecciones
+            p.boletin-grid(data-type="lecciones" data-id="#{ user._id }") lecciones
                 span.lecciones-boletin 0
         div.notas-paper__actions
             button(class="cerrar-notas") Cerrar

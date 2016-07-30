@@ -12464,12 +12464,20 @@ var CursoAdmin = function CursoAdmin() {
     var $misNotas = (0, _jquery2['default'])("#mis__notas-btn");
     var $cerrarNotas = (0, _jquery2['default'])(".cerrar-notas");
     var $cerrarListado = (0, _jquery2['default'])(".cerrar_listado");
+    var $boletin_grid = (0, _jquery2['default'])(".boletin-grid");
 
     $listaEstudiantes.on("click", listaEstudiantes);
     $misNotas.on("click", misNotas);
     $cerrarNotas.on("click", cerrarNotas);
     $cerrarListado.on("click", cerrarListado);
+    $boletin_grid.on("click", boletinGrid);
 };
+
+function boletinGrid(e) {
+    var type = e.target.dataset.type;
+
+    alert(type);
+}
 
 function listaEstudiantes(e) {
     var id = e.target.dataset.id;
@@ -12487,13 +12495,17 @@ function misNotas(e) {
     var id = e.target.dataset.id;
     (0, _jquery2['default'])("#notas-paper").fadeIn();
 
-    alert(id);
-    console.log(e);
+    _jquery2['default'].get('/bolentin/count/' + id).done(function (data) {
+        console.log(data);
+        for (var j in data) {
+            (0, _jquery2['default'])('.' + j + '-boletin').html(data[j]);
+        }
+    });
 }
 
 function cerrarNotas() {
     (0, _jquery2['default'])("#notas-paper").fadeOut();
-    (0, _jquery2['default'])(".BoletinLayout").empty();
+    // $(".BoletinLayout").empty()
 }
 
 function cerrarListado() {
@@ -12867,7 +12879,7 @@ function streamingCameraTeacher() {
 
   if (pathName === '/lessons/') {
     console.log("pathName cumplio", pathName);
-    (0, _streaming2['default'])(socket);
+    // streamingT(socket)
     chatPreguntasLoad();
     var deber = (0, _jquery2['default'])(".deber_enviado").val();
 

@@ -8,11 +8,20 @@ var CursoAdmin = function() {
     var $misNotas = $("#mis__notas-btn")
     var $cerrarNotas = $(".cerrar-notas")
     var $cerrarListado = $(".cerrar_listado")
+    var $boletin_grid = $(".boletin-grid")
 
     $listaEstudiantes.on("click", listaEstudiantes)
     $misNotas.on("click", misNotas)
     $cerrarNotas.on("click", cerrarNotas)
     $cerrarListado.on("click", cerrarListado)
+    $boletin_grid.on("click", boletinGrid)
+}
+
+function boletinGrid (e) {
+  let type = e.target.dataset.type
+  let id = e.target.dataset.id
+
+  alert(type)
 }
 
 function listaEstudiantes (e) {
@@ -33,13 +42,18 @@ function misNotas (e) {
     let id = e.target.dataset.id
     $("#notas-paper").fadeIn()
 
-    alert(id)
-    console.log(e);
+    $.get(`/bolentin/count/${ id }`)
+    .done(function (data) {
+      console.log(data);
+      for(var j in data){
+        $(`.${j}-boletin`).html(data[j])
+      }
+    })
 }
 
 function cerrarNotas () {
     $("#notas-paper").fadeOut()
-    $(".BoletinLayout").empty()
+    // $(".BoletinLayout").empty()
 }
 
 function cerrarListado () {
