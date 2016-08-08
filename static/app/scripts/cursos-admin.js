@@ -21,7 +21,11 @@ function boletinGrid (e) {
   let type = e.target.dataset.type
   let id = e.target.dataset.id
 
-  alert(type)
+  $.get(`/listado/trabajos/${ type }/${ id }`)
+  .done(function (data) {
+    console.log(data)
+    alert(JSON.stringify(data))
+  })
 }
 
 function listaEstudiantes (e) {
@@ -64,8 +68,8 @@ function cerrarListado () {
 function TemplateEstudiante (estudiante) {
     let tpl = `<div class="ListadoEstudiante">
         <img src="${  estudiante.avatar }" width="40" height="40" class="ListadoEstudiantes-avatar" />
-        <p class="class="ListadoEstudiantes-name">${ estudiante.name }</p>
-        <p class="class="ListadoEstudiantes-cedula">${ estudiante.cedula }</p>
+        <p class="ListadoEstudiantes-name">${ estudiante.name }</p>
+        <p class="ListadoEstudiantes-cedula">${ estudiante.cedula }</p>
     </div>`
     return tpl
 }

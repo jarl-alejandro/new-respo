@@ -12475,8 +12475,12 @@ var CursoAdmin = function CursoAdmin() {
 
 function boletinGrid(e) {
     var type = e.target.dataset.type;
+    var id = e.target.dataset.id;
 
-    alert(type);
+    _jquery2['default'].get('/listado/trabajos/' + type + '/' + id).done(function (data) {
+        console.log(data);
+        alert(JSON.stringify(data));
+    });
 }
 
 function listaEstudiantes(e) {
@@ -12514,7 +12518,7 @@ function cerrarListado() {
 }
 
 function TemplateEstudiante(estudiante) {
-    var tpl = '<div class="ListadoEstudiante">\n        <img src="' + estudiante.avatar + '" width="40" height="40" class="ListadoEstudiantes-avatar" />\n        <p class="class="ListadoEstudiantes-name">' + estudiante.name + '</p>\n        <p class="class="ListadoEstudiantes-cedula">' + estudiante.cedula + '</p>\n    </div>';
+    var tpl = '<div class="ListadoEstudiante">\n        <img src="' + estudiante.avatar + '" width="40" height="40" class="ListadoEstudiantes-avatar" />\n        <p class="ListadoEstudiantes-name">' + estudiante.name + '</p>\n        <p class="ListadoEstudiantes-cedula">' + estudiante.cedula + '</p>\n    </div>';
     return tpl;
 }
 
