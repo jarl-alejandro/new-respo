@@ -24,8 +24,93 @@ function boletinGrid (e) {
   $.get(`/listado/trabajos/${ type }/${ id }`)
   .done(function (data) {
     console.log(data)
-    alert(JSON.stringify(data))
+    var template = `<article class="BoletinDescriptionTask">
+        <h2>${ type }</h2>
+        <button class="BoletinDescriptionTask-close">
+            <i class="">X</i>
+        </button>
+        <table class="bolentin-listable">
+            <thead class="table-thead-bole">
+                <tr>
+                    <th>Clase</th>
+                    <th>Materia</th>
+                    <th>Tiempo</th>
+                    <th>Nota</th>
+                </tr>
+            </thead>
+            <tbody class="tbody-list"></tbody>
+        </table>
+    </article>`
+    $("body").append(template)
+
+    $(".BoletinDescriptionTask-close").on("click", ()=>{
+        $(".BoletinDescriptionTask").remove()        
+    })
+
+    if (type == "tai") {
+        var theadl = `<tr>
+            <th>Clase</th><th>Materia</th><th>Deber</th><th>Nota</th><th>Accion</th>
+        </tr>`
+        $('.table-thead-bole').html(theadl)
+        $(".tbody-list").append(templateDeber(data))
+    }
+    else if (type == "lecciones") {
+        var theadl = `<tr>
+            <th>Clase</th><th>Recomendacion</th><th>Nota</th><th>Accion</th>
+        </tr>`
+        $('.table-thead-bole').html(theadl)
+        $(".tbody-list").append(templateLecciones(data))
+    }
+    else {
+        $(".tbody-list").append(templateTask(data))
+    }
+
   })
+}
+
+function templateTask (data) {
+    let li = "" 
+    for (let i in data) {
+        let item = data[i]
+        li += `<tr class="item-boletin-task">
+            <td>${ item.rel_clase.nameClass }</td>
+            <td>${ item.rel_materia.subject }</td>
+            <td>${ item.tiempo }</td>
+            <td>${ item.nota }</td>
+        </tr>`
+    }
+    return li
+}
+
+function templateDeber (data) {
+    let li = "" 
+    for (let i in data) {
+        let item = data[i]
+        li += `<tr class="item-boletin-task">
+            <td>${ item.rel_clase.nameClass }</td>
+            <td>${ item.rel_materia.subject }</td>
+            <td>${ item.name_task }</td>
+            <td>${ item.nota }</td>
+            <td><a class="descragar-item" href="/descargar/${ item.file }">Descagar</a></td>
+        </tr>`
+    }
+    return li
+}
+
+function templateLecciones (data) {
+    let li = "" 
+    for (let i in data) {
+        let item = data[i]
+        li += `<tr class="item-boletin-task">
+            <td>${ item.rel_leccion.rel_clase.nameClass }</td>
+            <td>${ item.recomendacion }</td>
+            <td>${ item.nota }</td>
+            <td>
+                <button>Ver</button>
+            </td>
+        </tr>`
+    }
+    return li
 }
 
 function listaEstudiantes (e) {

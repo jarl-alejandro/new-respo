@@ -12479,8 +12479,52 @@ function boletinGrid(e) {
 
     _jquery2['default'].get('/listado/trabajos/' + type + '/' + id).done(function (data) {
         console.log(data);
-        alert(JSON.stringify(data));
+        var template = '<article class="BoletinDescriptionTask">\n        <h2>' + type + '</h2>\n        <button class="BoletinDescriptionTask-close">\n            <i class="">X</i>\n        </button>\n        <table class="bolentin-listable">\n            <thead class="table-thead-bole">\n                <tr>\n                    <th>Clase</th>\n                    <th>Materia</th>\n                    <th>Tiempo</th>\n                    <th>Nota</th>\n                </tr>\n            </thead>\n            <tbody class="tbody-list"></tbody>\n        </table>\n    </article>';
+        (0, _jquery2['default'])("body").append(template);
+
+        (0, _jquery2['default'])(".BoletinDescriptionTask-close").on("click", function () {
+            (0, _jquery2['default'])(".BoletinDescriptionTask").remove();
+        });
+
+        if (type == "tai") {
+            var theadl = '<tr>\n            <th>Clase</th><th>Materia</th><th>Deber</th><th>Nota</th><th>Accion</th>\n        </tr>';
+            (0, _jquery2['default'])('.table-thead-bole').html(theadl);
+            (0, _jquery2['default'])(".tbody-list").append(templateDeber(data));
+        } else if (type == "lecciones") {
+            var theadl = '<tr>\n            <th>Clase</th><th>Recomendacion</th><th>Nota</th><th>Accion</th>\n        </tr>';
+            (0, _jquery2['default'])('.table-thead-bole').html(theadl);
+            (0, _jquery2['default'])(".tbody-list").append(templateLecciones(data));
+        } else {
+            (0, _jquery2['default'])(".tbody-list").append(templateTask(data));
+        }
     });
+}
+
+function templateTask(data) {
+    var li = "";
+    for (var i in data) {
+        var item = data[i];
+        li += '<tr class="item-boletin-task">\n            <td>' + item.rel_clase.nameClass + '</td>\n            <td>' + item.rel_materia.subject + '</td>\n            <td>' + item.tiempo + '</td>\n            <td>' + item.nota + '</td>\n        </tr>';
+    }
+    return li;
+}
+
+function templateDeber(data) {
+    var li = "";
+    for (var i in data) {
+        var item = data[i];
+        li += '<tr class="item-boletin-task">\n            <td>' + item.rel_clase.nameClass + '</td>\n            <td>' + item.rel_materia.subject + '</td>\n            <td>' + item.name_task + '</td>\n            <td>' + item.nota + '</td>\n            <td><a class="descragar-item" href="/descargar/' + item.file + '">Descagar</a></td>\n        </tr>';
+    }
+    return li;
+}
+
+function templateLecciones(data) {
+    var li = "";
+    for (var i in data) {
+        var item = data[i];
+        li += '<tr class="item-boletin-task">\n            <td>' + item.rel_leccion.rel_clase.nameClass + '</td>\n            <td>' + item.recomendacion + '</td>\n            <td>' + item.nota + '</td>\n            <td>\n                <button>Ver</button>\n            </td>\n        </tr>';
+    }
+    return li;
 }
 
 function listaEstudiantes(e) {
