@@ -119,7 +119,7 @@ function initialize(){
     alert("Se ha guardodo con exito.")
 
     var data = {
-      tiempo: $("#minutos").html() + ":"+$("#segundos").html(),
+      tiempo: $(".cronometro-pizarra--minutos").html() + ":"+$(".cronometro-pizarra--segundo").html(),
       curso: $("#curso").val(),
       materia: $("#materia").val(),
       profesor: $("#profesor").val(),
@@ -183,7 +183,7 @@ function streamingCameraTeacher(){
 
   if(pathName === '/lessons/'){
     console.log("pathName cumplio", pathName)
-    // streamingT(socket)
+    streamingT(socket)
     chatPreguntasLoad()
     var deber = $(".deber_enviado").val()
 

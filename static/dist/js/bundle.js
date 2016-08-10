@@ -12119,17 +12119,21 @@ function onCerrar() {
 
 function seeLeccion() {
     (0, _jquery2['default'])("#ListaEstudiantesLeccion").fadeIn();
-    var clase = (0, _jquery2['default'])("#clase_id").val();
+    var clase = (0, _jquery2['default'])("#clase_id_us").val();
 
     _jquery2['default'].get('/listado/estudiantes/leccion/' + clase).done(function (estudiantes) {
-        console.log(estudiantes);
-
         estudiantes.map(function (e, i) {
             var tpl = TemplateItemEstudiante(e);
             (0, _jquery2['default'])(".ListaEstudiantesLeccionBody-list").append(tpl);
             (0, _jquery2['default'])(".md-lesson").on("click", calificarLesson);
         });
     });
+    setTimeout(function () {
+        var testls = document.querySelector(".ListaEstudiantesLeccionBody-list");
+        if (testls.childElementCount == 0) {
+            (0, _jquery2['default'])(".ListaEstudiantesLeccionBody-list").html("<h3>No Hay lecciones para calificar.<h3>");
+        }
+    }, 2000);
 }
 
 function TemplateItemEstudiante(estudiante) {
@@ -12956,7 +12960,7 @@ function initialize() {
     alert("Se ha guardodo con exito.");
 
     var data = {
-      tiempo: (0, _jquery2['default'])("#minutos").html() + ":" + (0, _jquery2['default'])("#segundos").html(),
+      tiempo: (0, _jquery2['default'])(".cronometro-pizarra--minutos").html() + ":" + (0, _jquery2['default'])(".cronometro-pizarra--segundo").html(),
       curso: (0, _jquery2['default'])("#curso").val(),
       materia: (0, _jquery2['default'])("#materia").val(),
       profesor: (0, _jquery2['default'])("#profesor").val(),
@@ -13016,7 +13020,7 @@ function streamingCameraTeacher() {
 
   if (pathName === '/lessons/') {
     console.log("pathName cumplio", pathName);
-    // streamingT(socket)
+    (0, _streaming2['default'])(socket);
     chatPreguntasLoad();
     var deber = (0, _jquery2['default'])(".deber_enviado").val();
 
@@ -13825,7 +13829,6 @@ function pizarra(socket) {
 	(0, _jquery2['default'])("#PizarraLayout").fadeIn();
 	var type_user = (0, _jquery2['default'])("#type_user").val();
 	if (type_user == "Teacher") (0, _jquery2['default'])("#agc").fadeIn();
-	console.log(type_user);
 
 	// cache de objetos de jQuery
 	var doc = (0, _jquery2['default'])(".PizarraLayoutCanvas");
@@ -13835,6 +13838,8 @@ function pizarra(socket) {
 	var connections = (0, _jquery2['default'])('#connections');
 	var ctx = canvas[0].getContext('2d');
 
+	//cronometro
+	cronometroPizarra();
 	// id único para la session
 	var id = Math.round(_jquery2['default'].now() * Math.random());
 
@@ -13953,6 +13958,38 @@ function pizarra(socket) {
 		}
 	}, 10000);
 }
+
+function cronometroPizarra() {
+	carga();
+	var cronometro;
+
+	function detenerse() {
+		clearInterval(cronometro);
+	}
+
+	function carga() {
+		var contador_s_pizarra = 0;
+		var contador_m_pizarra = 0;
+		var m = document.querySelector(".cronometro-pizarra--minutos");
+		var s = document.querySelector(".cronometro-pizarra--segundo");
+
+		cronometro = setInterval(function () {
+			if (contador_s_pizarra == 60) {
+				contador_s_pizarra = 0;
+				contador_m_pizarra++;
+				m.innerHTML = contador_m_pizarra;
+
+				if (contador_m_pizarra == 60) {
+					contador_m_pizarra = 0;
+				}
+			}
+
+			s.innerHTML = contador_s_pizarra;
+			contador_s_pizarra++;
+		}, 1000);
+	}
+}
+
 exports['default'] = pizarra;
 module.exports = exports['default'];
 

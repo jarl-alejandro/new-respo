@@ -11,7 +11,8 @@ block content
       article(class="card subjects")
         h2(class="title-subjects") 
             span Materias
-            button(id="MateriaBtn" onclick="materia_reporte()") Imprimier
+            button(id="MateriaBtn" onclick="materia_reporte()")
+              i.icon-printer
         ul(style="padding:0")
           each subject in subjects
             li(class="list-materias", id="#{ subject._id }")
@@ -21,7 +22,10 @@ block content
               button(data-id="#{ subject._id }" class="eliminar-subject delete-materia") Eliminar
 
       article(class="card courses")
-        h2(class="title-course") Cursos
+        h2(class="title-course") 
+          span Cursos
+          button(id="CursoImpBtn" onclick="materia_reporte()")
+            i.icon-printer
         ul(style="padding:0")
           each course in courses
             li(class="list-materias" id="#{ course._id }")
@@ -32,7 +36,10 @@ block content
               button(data-id="#{ course._id }" class="eliminar-curso delete-materia") Eliminar
 
     article(class="card teacher" style="z-index: -1;padding-bottom: .5em;")
-      h2(class="title-teacher") Profesores
+      h2(class="title-teacher") 
+        span Profesores
+        button(id="ProfesorBtn" onclick="materia_reporte()")
+          i.icon-printer
       ul
         each teacher in teachers
           li(class="list-materias" id="#{ teacher._id }")

@@ -10,7 +10,6 @@ function pizarra(socket) {
 	  var type_user = $("#type_user").val()
 	  if(type_user == "Teacher")
 		  $("#agc").fadeIn()
-	  console.log(type_user);
 
 	  // cache de objetos de jQuery
 	  var doc = $(".PizarraLayoutCanvas");
@@ -20,6 +19,8 @@ function pizarra(socket) {
 	  var connections = $('#connections');
 	  var ctx = canvas[0].getContext('2d');
 
+	  //cronometro
+	  cronometroPizarra()
 	  // id único para la session
 	  var id = Math.round($.now()*Math.random());
 
@@ -137,4 +138,44 @@ function pizarra(socket) {
 	    }
 	  },10000);
 }
+
+function cronometroPizarra() {
+	carga()
+	var cronometro;
+
+	function detenerse()
+	{
+		clearInterval(cronometro);
+	}
+
+	function carga() {
+		var contador_s_pizarra =0;
+		var contador_m_pizarra =0;
+		var m = document.querySelector(".cronometro-pizarra--minutos");
+		var s = document.querySelector(".cronometro-pizarra--segundo");
+
+		cronometro = setInterval(
+			function(){
+				if(contador_s_pizarra==60)
+				{
+					contador_s_pizarra=0;
+					contador_m_pizarra++;
+					m.innerHTML = contador_m_pizarra;
+
+					if(contador_m_pizarra==60)
+					{
+						contador_m_pizarra=0;
+					}
+				}
+
+				s.innerHTML = contador_s_pizarra;
+				contador_s_pizarra++;
+
+			}
+			,1000);
+
+	}
+
+}
+
 export default pizarra

@@ -55,19 +55,22 @@ function onCerrar() {
 
 function seeLeccion() {
     $("#ListaEstudiantesLeccion").fadeIn()
-    let clase = $("#clase_id").val()
+    let clase = $("#clase_id_us").val()
 
     $.get(`/listado/estudiantes/leccion/${clase}`)
     .done(function(estudiantes){
-        console.log(estudiantes);
-
         estudiantes.map((e, i)=>{
             let tpl = TemplateItemEstudiante(e)
             $(".ListaEstudiantesLeccionBody-list").append(tpl)
             $(".md-lesson").on("click", calificarLesson)
         })
-
     })
+    setTimeout(function () {
+        var testls = document.querySelector(".ListaEstudiantesLeccionBody-list")
+        if (testls.childElementCount == 0) {
+            $(".ListaEstudiantesLeccionBody-list").html("<h3>No Hay lecciones para calificar.<h3>")
+        }        
+    }, 2000)
 }
 
 function TemplateItemEstudiante(estudiante) {

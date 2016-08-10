@@ -4,6 +4,8 @@ block content
     ul.list-menu
       if user.type == "Colegio"
           include ../templates/menu.jade
+      if user.type == "Teacher"
+        include ../templates/menu_teacher.jade
       else
           li(class="item-menu top-menu ")
             a(href="/course/#{ course._id }")
@@ -60,7 +62,10 @@ block content
             if user.type == "Student"
                 button(data-id="#{ user._id }" id="mis__notas-btn") Mis Notas
     section(class="card", id="lista-estudiantes")
-        h2(class="no-margin center-text") Listado de Estudiantes del #{ course.course.name } #{ course.parallel.name }
+        h2(class="no-margin center-text") 
+          span Listado de Estudiantes del #{ course.course.name } #{ course.parallel.name }
+           button(id="EstPrimBtn")
+            i.icon-printer
         article(class="ListadoEstudiantesLayout")
         div.lista-estudiantes__actions
             button(class="cerrar_listado") Cerrar
