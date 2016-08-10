@@ -12155,6 +12155,7 @@ function calificarLesson(e) {
     (0, _jquery2['default'])("#LeccionCalificarHeader-nota").val(nota);
     (0, _jquery2['default'])(".leccion_recomendacion").val(recomendacion);
     (0, _jquery2['default'])(".id_estudiante_leccion").val(id_alumno);
+
     _jquery2['default'].get('/prueba/' + prueba).done(function (prueba) {
         console.log(prueba);
         for (var i = 0; i < prueba.length; i++) {
@@ -12458,6 +12459,10 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _calificar_leccion = require('./calificar_leccion');
+
+var _calificar_leccion2 = _interopRequireDefault(_calificar_leccion);
+
 var CursoAdmin = function CursoAdmin() {
 
     var $listaEstudiantes = (0, _jquery2['default'])("#lista__estudinate-btn");
@@ -12497,7 +12502,91 @@ function boletinGrid(e) {
         } else {
             (0, _jquery2['default'])(".tbody-list").append(templateTask(data));
         }
+
+        (0, _jquery2['default'])(".ver-leccion-course").on("click", onSeeLeccion);
     });
+}
+
+function onCloseLecc() {
+    (0, _jquery2['default'])(".LeccionLayoutCourse").fadeOut();
+    setTimeout(function () {
+        (0, _jquery2['default'])(".LeccionLayoutCourse").remove();
+    }, 1000);
+}
+
+function onSeeLeccion(ev) {
+    var leccion = ev.currentTarget.dataset;
+    (0, _jquery2['default'])("body").append(templateLeccionHTML(leccion));
+    (0, _jquery2['default'])(".LeccionLayoutCourse-cerrar").on("click", onCloseLecc);
+    console.log(leccion);
+
+    _jquery2['default'].get('/prueba/' + leccion.prueba).done(function (prueba) {
+
+        console.log(prueba);
+        for (var i = 0; i < prueba.length; i++) {
+            var type = selectTypeCour(prueba[i]);
+            var tpl = TemplatePruebaCour(prueba[i], type);
+            (0, _jquery2['default'])(".LeccionBodyQuestions").append(tpl);
+            if (prueba[i].type == "C") completarCur(prueba[i]._id, prueba[i].numero, leccion.id_alumno);
+            if (prueba[i].type != "C") selecionarCour(prueba[i]._id, prueba[i].numero, leccion.id_alumno);
+        }
+
+        (0, _jquery2['default'])(".LeccionLayoutCourse").fadeIn();
+    });
+}
+
+// Leccion Preguntas
+function selectTypeCour(data) {
+    var type = "";
+
+    if (data.type == "C") type = "DE COMPLETAR";else if (data.type == "S") type = "DE SELECCION SIMPLE";else if (data.type == "M") type = "DE SELECCION MULTIPLE";
+
+    return type;
+}
+function TemplatePruebaCour(data, type) {
+    var tpl = '<div>\n        <p class="de_completar">' + type + '</p>\n        <p>\n            <span class="count__leccion">' + data.numero + '</span>\n            <span class="pregunta_leccion_text">' + data.descripcion + '</span>\n            <input type="hidden" value="' + data._id + '" />\n        </p>\n        <div class="respuesta-container-' + data.numero + ' form-checks"></div>\n    </div>';
+    return tpl;
+}
+function completarCur(id, count, alumno) {
+    _jquery2['default'].get('/respuesta/' + id + '/' + alumno).done(function (respuesta) {
+
+        for (var i = 0; i < respuesta.length; i++) {
+            var tpl = '<p class="md-respuesta">' + respuesta[i].descripcion + '</p>';
+            (0, _jquery2['default'])('.respuesta-container-' + count).append(tpl);
+        }
+    });
+}
+function selecionarCour(id, count, alumno) {
+    _jquery2['default'].get('/posibilidades/' + id).done(function (posibilidades) {
+        (0, _jquery2['default'])('.respuesta-container-' + count).append('<ul class="lista-posibi-' + count + '"></ul>');
+
+        for (var i = 0; i < posibilidades.length; i++) {
+            if (posibilidades[i].type == "S") templateCheckTypeCour(posibilidades[i], count, "radio", alumno);
+            if (posibilidades[i].type == "M") templateCheckTypeCour(posibilidades[i], count, "checkbox", alumno);
+        }
+    });
+}
+function templateCheckTypeCour(data, count, type, alumno) {
+    var item = '<li style="margin-bottom:.1em;list-style:none">\n        <input type=' + type + ' name="simple' + count + '" value="' + data.descripcion + '"\n            disabled="true"  style="float:none" id="' + data._id + '" />\n        <label for="' + data._id + '">' + data.descripcion + '</label>\n    </li>';
+    (0, _jquery2['default'])('.lista-posibi-' + count).append(item);
+    selectRespuestasCour(data.rel_pregunta, data._id, alumno);
+}
+
+function selectRespuestasCour(id, idItem, alumno) {
+    _jquery2['default'].get('/respuesta/' + id + '/' + alumno).done(function (respuestas) {
+
+        for (var i = 0; i < respuestas.length; i++) {
+            if (idItem == respuestas[i].descripcion) {
+                console.log("cuantos");
+                document.getElementById('' + idItem).checked = true;
+            }
+        }
+    });
+}
+// Fin Leccion Preguntas
+
+function templateLeccionHTML(leccion) {
+    return '<section class=\'LeccionLayoutCourse\'>\n        <header>\n            <div class="header-info">\n                <h3>Leccion de ' + leccion.mate + '</h3>\n                <h4>Clase de ' + leccion.clase + '</h4>\n            </div>\n            <div class="header-estud">\n                <p class="header-estud--label">Estudiante:</p>\n                <p class="header-estud--name">' + leccion.alum + '</p>\n            </div>\n             <div class="header-nota">\n                <p class="header-nota--label">Nota:</p>\n                <p class="header-nota--name">' + leccion.nota + '</p>\n            </div>\n            <div class="header-recome">\n                <p class="header-recome--label">Recomendacion:</p>\n                <p class="header-recome--name">' + leccion.recom + '</p>\n            </div>\n        </header>\n        <article class="LeccionBodyQuestions"></article>\n        <div class="center-flex">\n            <button class="LeccionLayoutCourse-cerrar">Cerrar</button>\n        </div>\n    </section>';
 }
 
 function templateTask(data) {
@@ -12522,7 +12611,7 @@ function templateLecciones(data) {
     var li = "";
     for (var i in data) {
         var item = data[i];
-        li += '<tr class="item-boletin-task">\n            <td>' + item.rel_leccion.rel_clase.nameClass + '</td>\n            <td>' + item.recomendacion + '</td>\n            <td>' + item.nota + '</td>\n            <td>\n                <button>Ver</button>\n            </td>\n        </tr>';
+        li += '<tr class="item-boletin-task">\n            <td>' + item.rel_leccion.rel_clase.nameClass + '</td>\n            <td>' + item.recomendacion + '</td>\n            <td>' + item.nota + '</td>\n            <td>\n                <button class="ver-leccion-course" data-nota="' + item.nota + '" data-prueba="' + item.rel_leccion._id + '"\n                 data-recom="' + item.recomendacion + '" data-alum="' + item.rel_alumno.name + '" data-id_alumno="' + item.rel_alumno._id + '"\n                 data-clase="' + item.rel_leccion.rel_clase.nameClass + '" data-mate="' + item.rel_leccion.rel_materia.subject + '">\n                Ver</button>\n            </td>\n        </tr>';
     }
     return li;
 }
@@ -12569,7 +12658,7 @@ function TemplateEstudiante(estudiante) {
 exports['default'] = CursoAdmin;
 module.exports = exports['default'];
 
-},{"jquery":21}],29:[function(require,module,exports){
+},{"./calificar_leccion":25,"jquery":21}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {

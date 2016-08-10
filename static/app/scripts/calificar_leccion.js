@@ -105,6 +105,7 @@ function calificarLesson(e) {
     $("#LeccionCalificarHeader-nota").val(nota)
     $(".leccion_recomendacion").val(recomendacion)
     $(".id_estudiante_leccion").val(id_alumno)
+    
     $.get(`/prueba/${ prueba }`)
     .done(function(prueba) {
         console.log(prueba);
