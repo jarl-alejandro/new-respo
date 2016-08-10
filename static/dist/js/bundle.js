@@ -13021,8 +13021,15 @@ function streamingCameraTeacher() {
     var deber = (0, _jquery2['default'])(".deber_enviado").val();
 
     if (deber.length > 0 && deber !== "undefined") {
-      (0, _jquery2['default'])(".card_deber_card_name").html(deber);
-      (0, _jquery2['default'])(".card_deber_card").fadeIn();
+      var id_user = (0, _jquery2['default'])("#estudiante_id").val();
+      var id_clase = (0, _jquery2['default'])("#clase_id_us").val();
+
+      _jquery2['default'].get('/envie/deber/' + id_user + '/' + id_clase).done(function (data) {
+        if (data == 0) {
+          (0, _jquery2['default'])(".card_deber_card_name").html(deber);
+          (0, _jquery2['default'])(".card_deber_card").fadeIn();
+        }
+      });
     }
   }
   if (pathName.startsWith('/lessons/')) {

@@ -188,8 +188,16 @@ function streamingCameraTeacher(){
     var deber = $(".deber_enviado").val()
 
     if(deber.length  > 0 && deber !== "undefined"){
-        $(".card_deber_card_name").html(deber)
-        $(".card_deber_card").fadeIn()
+        var id_user = $("#estudiante_id").val()
+        var id_clase = $("#clase_id_us").val()
+        
+        $.get(`/envie/deber/${ id_user }/${ id_clase }`)
+        .done(function (data) {
+          if(data == 0){
+            $(".card_deber_card_name").html(deber)
+            $(".card_deber_card").fadeIn()
+          }
+        })
     }
 
   }

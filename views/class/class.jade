@@ -25,6 +25,7 @@ block content
             span.title-menu Cerrar sesión
   div(class="card title-lesson")
     h2 Clase de #{ lessons.nameClass }
+    input(type="hidden" value="#{ lessons._id }" id="clase_id_us")
     input(type="hidden" value="#{ lessons.subject._id }" id="materia")
     input(type="hidden" value="#{ lessons.teacher._id }" id="profesor")    
   section#webrtc
