@@ -12,6 +12,8 @@ var app = require('./lib')
 var sessionMiddleware = session({
   key:"KEY",
   secret:"SECRET",
+  resave: false,
+  saveUninitialized: true,
 })
 
 // const db = "mongodb://localhost/schoolBook"

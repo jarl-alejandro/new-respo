@@ -6,6 +6,8 @@ html
     link(rel="shortcut icon", href="/dist/img/school.png")
     link(rel="stylesheet", href="/dist/css/style.css")
     link(rel="stylesheet", href="/dist/css/video.css")
+    link(rel="stylesheet", href="/dist/css/default.css")
+    link(rel="stylesheet", href="/dist/css/default.date.css")
   body
     header(class="header paper-shadow")
       .logo
@@ -25,7 +27,8 @@ html
             span.title-bvn Bienvenido : 
             | #{ user.name }
     block content
-    block scripts
+    block scripts    
     script(type="text/javascript", src="/socket.io/socket.io.js")
     script(type="text/javascript", src="/dist/js/adapter.js")
     script(type="text/javascript", src="/dist/js/bundle.js")
+    

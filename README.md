@@ -6,3 +6,4 @@ Ingreso todas las materias al colegio y cuando cree el curos[Group] introduzco q
 cuando cree el estudiante introduzco a que curso pertenece
 
 Autor -> Alejandro Rivas
+Email -> jarlalejor@gmail.com

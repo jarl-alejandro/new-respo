@@ -289,6 +289,10 @@ function TemplateEstudiante (estudiante) {
         <img src="${  estudiante.avatar }" width="40" height="40" class="ListadoEstudiantes-avatar" />
         <p class="ListadoEstudiantes-name">${ estudiante.name }</p>
         <p class="ListadoEstudiantes-cedula">${ estudiante.cedula }</p>
+        <div>
+            <a href="/estudiante/editar/${ estudiante._id }" class="edit-estudiante">Editar</a>
+            <button data-id="${ estudiante._id }" class="eliminar-estudiante">Eliminar</button>
+        </div>
     </div>`
     return tpl
 }
