@@ -20,6 +20,8 @@ var sessionMiddleware = session({
 // mongo.exe ds025429.mlab.com:25429/schoolbook -u jarl -p jarl
 const db = "mongodb://jarl:jarl@ds025429.mlab.com:25429/schoolbook"
 mongoose.connect(db, onListenDB)
+mongoose.Promise = Promise
+
 
 var schoolBook = new app({ session:sessionMiddleware })
 var server = http.createServer(schoolBook.app)
