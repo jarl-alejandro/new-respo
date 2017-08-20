@@ -64,7 +64,7 @@ block content
     section(class="card", id="lista-estudiantes")
         h2(class="no-margin center-text") 
           span Listado de Estudiantes del #{ course.course.name } #{ course.parallel.name }
-           button(id="EstPrimBtn")
+           a(id="EstPrimBtn" href="/alumnos/reporte/#{ course._id }" target="_blank" style="color:#666666;text-decoration:none;")
             i.icon-printer
         article(class="ListadoEstudiantesLayout")
         div.lista-estudiantes__actions
