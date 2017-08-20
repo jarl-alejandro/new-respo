@@ -21,7 +21,7 @@ gulp.task('build', function(){
 
 gulp.task('watch', function(){
   gulp.watch('./static/app/scripts/*.js', ['build'])
-  gulp.watch('./static/app/stylus/**/*.styl', './static/scripts/components/**/*.styl', ['stylus'])
 })
+  //gulp.watch('./static/app/stylus/**/*.styl', './static/scripts/components/**/*.styl', ['stylus'])
 
 gulp.task('default', ['watch'])

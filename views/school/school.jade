@@ -11,7 +11,7 @@ block content
       article(class="card subjects")
         h2(class="title-subjects") 
             span Materias
-            button(id="MateriaBtn" onclick="materia_reporte()")
+            a(id="ProfesorBtn" href="/materias/reporte" target="_blank" style="color:white;text-decoration:none;margin: 0 10px 0 0")
               i.icon-printer
         ul(style="padding:0")
           each subject in subjects
@@ -24,7 +24,7 @@ block content
       article(class="card courses")
         h2(class="title-course") 
           span Cursos
-          button(id="CursoImpBtn" onclick="materia_reporte()")
+          a(id="ProfesorBtn" href="/cursos/reporte" target="_blank" style="color:white;text-decoration:none;margin: 0 10px 0 0")
             i.icon-printer
         ul(style="padding:0")
           each course in courses
@@ -38,7 +38,7 @@ block content
     article(class="card teacher" style="z-index: -1;padding-bottom: .5em;")
       h2(class="title-teacher") 
         span Profesores
-        button(id="ProfesorBtn" onclick="materia_reporte()")
+        a(id="ProfesorBtn" href="/teachers/reporte" target="_blank" style="color:white;text-decoration:none;margin: 0 10px 0 0")
           i.icon-printer
       ul
         each teacher in teachers

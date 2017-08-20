@@ -19,7 +19,7 @@ var sessionMiddleware = session({
 // const db = "mongodb://localhost/schoolBook"
 // mongo.exe ds025429.mlab.com:25429/schoolbook -u jarl -p jarl
 const db = "mongodb://jarl:jarl@ds025429.mlab.com:25429/schoolbook"
-mongoose.connect(db, onListenDB)
+mongoose.connect(db, { useMongoClient: true }, onListenDB)
 mongoose.Promise = Promise
 
 
